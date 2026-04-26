@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abhinaw Kumar Chaubey — BIM Information Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #faf8f4;
+  --warm-white: #f5f2ed;
+  --parchment: #ede8df;
+  --sage: #7a9e8e;
+  --sage-light: #a8c5b8;
+  --sage-dark: #4d7a6a;
+  --terracotta: #c47a5a;
+  --terracotta-light: #e8c4b0;
+  --slate: #3d4f5c;
+  --slate-mid: #6b7f8c;
+  --slate-light: #a0b0bc;
+  --ink: #2a3035;
+  --dust: #b8afa4;
+  --line: rgba(122,158,142,0.2);
+  --shadow: rgba(61,79,92,0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── TEXTURE OVERLAY ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.6;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1.4rem 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(250,248,244,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  transition: box-shadow 0.3s;
+}
+
+nav.scrolled {
+  box-shadow: 0 4px 30px var(--shadow);
+}
+
+.nav-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.nav-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
+
+.nav-sub {
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--sage);
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate-mid);
+  text-decoration: none;
+  transition: color 0.3s;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -3px; left: 0;
+  width: 0; height: 1px;
+  background: var(--sage);
+  transition: width 0.3s;
+}
+
+.nav-links a:hover { color: var(--sage-dark); }
+.nav-links a:hover::after { width: 100%; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 55% 45%;
+  padding-top: 5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Soft background shapes */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  right: -5%;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(168,197,184,0.18) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 20%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(196,122,90,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5rem 4rem 5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: gentleUp 0.9s 0.2s ease forwards;
+}
+
+.eyebrow-line {
+  width: 40px; height: 1px;
+  background: var(--sage);
+}
+
+.eyebrow-text {
+  font-size: 0.65rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--sage-dark);
+  font-weight: 400;
+}
+
+.hero-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 5.5vw, 5.5rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  opacity: 0;
+  animation: gentleUp 0.9s 0.4s ease forwards;
+}
+
+.hero-name .first { display: block; }
+.hero-name .last {
+  display: block;
+  font-style: italic;
+  color: var(--sage-dark);
+}
+
+.hero-role {
+  margin-top: 1.5rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  font-weight: 400;
+  opacity: 0;
+  animation: gentleUp 0.9s 0.6s ease forwards;
+}
+
+.hero-bio {
+  margin-top: 2rem;
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.15rem;
+  line-height: 1.85;
+  color: var(--slate-mid);
+  max-width: 480px;
+  opacity: 0;
+  animation: gentleUp 0.9s 0.8s ease forwards;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1.2rem;
+  margin-top: 3rem;
+  opacity: 0;
+  animation: gentleUp 0.9s 1s ease forwards;
+}
+
+.btn-sage {
+  padding: 0.9rem 2.2rem;
+  background: var(--sage-dark);
+  color: white;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: all 0.35s;
+  box-shadow: 0 4px 20px rgba(77,122,106,0.25);
+}
+
+.btn-sage:hover {
+  background: var(--sage);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(77,122,106,0.3);
+}
+
+.btn-outline {
+  padding: 0.9rem 2.2rem;
+  border: 1px solid var(--parchment);
+  color: var(--slate-mid);
+  font-family: 'Jost', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: all 0.35s;
+}
+
+.btn-outline:hover {
+  border-color: var(--sage);
+  color: var(--sage-dark);
+  background: rgba(122,158,142,0.06);
+}
+
+/* Hero right — stat panel */
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5rem 3rem 5rem 2rem;
+  position: relative;
+  z-index: 2;
+  gap: 1.5rem;
+  opacity: 0;
+  animation: gentleFade 1.2s 1.2s ease forwards;
+}
+
+.stat-card {
+  background: white;
+  border: 1px solid var(--parchment);
+  border-radius: 8px;
+  padding: 1.8rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.8rem;
+  box-shadow: 0 2px 20px var(--shadow);
+  transition: transform 0.35s, box-shadow 0.35s;
+}
+
+.stat-card:hover {
+  transform: translateX(6px);
+  box-shadow: 0 6px 35px rgba(61,79,92,0.12);
+}
+
+.stat-icon {
+  width: 48px; height: 48px;
+  background: var(--warm-white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.2rem;
+}
+
+.stat-body {}
+
+.stat-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--dust);
+  margin-top: 0.25rem;
+}
+
+/* ── SECTION STYLES ── */
+.section {
+  padding: 7rem 4rem;
+  position: relative;
+}
+
+.section-header {
+  margin-bottom: 4rem;
+}
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--sage-dark);
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.section-tag::before {
+  content: '';
+  display: block;
+  width: 28px; height: 1px;
+  background: var(--sage);
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.section-title em {
+  font-style: italic;
+  color: var(--sage-dark);
+}
+
+.section-subtitle {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.1rem;
+  color: var(--slate-mid);
+  margin-top: 1rem;
+  max-width: 560px;
+  line-height: 1.75;
+}
+
+/* ── ABOUT / PROFILE ── */
+.about {
+  background: white;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+.about-text {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.12rem;
+  line-height: 1.9;
+  color: var(--slate);
+}
+
+.about-text p { margin-bottom: 1.5rem; }
+
+.about-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.highlight-item {
+  display: flex;
+  gap: 1.2rem;
+  padding: 1.5rem;
+  background: var(--warm-white);
+  border-radius: 8px;
+  border-left: 3px solid var(--sage);
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.highlight-item:hover {
+  border-color: var(--terracotta);
+  transform: translateX(4px);
+}
+
+.hi-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.hi-body {}
+
+.hi-title {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+}
+
+.hi-desc {
+  font-size: 0.82rem;
+  color: var(--slate-mid);
+  line-height: 1.6;
+}
+
+/* ── CREDENTIALS ── */
+.credentials {
+  background: var(--warm-white);
+}
+
+.cred-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.cred-card {
+  background: white;
+  border-radius: 10px;
+  padding: 2rem 1.8rem;
+  border: 1px solid var(--parchment);
+  box-shadow: 0 2px 16px var(--shadow);
+  transition: all 0.35s;
+  position: relative;
+  overflow: hidden;
+}
+
+.cred-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--sage), var(--sage-light));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s;
+}
+
+.cred-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(61,79,92,0.12);
+}
+
+.cred-card:hover::before { transform: scaleX(1); }
+
+.cred-org {
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--sage-dark);
+  font-weight: 500;
+  margin-bottom: 1rem;
+  background: rgba(122,158,142,0.1);
+  padding: 0.3rem 0.7rem;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.cred-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+
+.cred-level {
+  font-size: 0.65rem;
+  color: var(--dust);
+  letter-spacing: 0.1em;
+}
+
+/* ── EXPERTISE ── */
+.expertise-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+}
+
+.skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+
+.skill-item {}
+
+.skill-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+
+.skill-name {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--slate);
+  font-weight: 400;
+}
+
+.skill-pct {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.9rem;
+  color: var(--sage-dark);
+}
+
+.skill-track {
+  height: 3px;
+  background: var(--parchment);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.skill-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--sage-dark), var(--sage-light));
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.4s cubic-bezier(0.4,0,0.2,1);
+}
+
+.skill-bar.animated { transform: scaleX(1); }
+
+/* Tool tags */
+.tools-section { margin-top: 1rem; }
+
+.tools-title {
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--sage-dark);
+  margin-bottom: 1.2rem;
+  font-weight: 500;
+}
+
+.tags-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.tag {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  padding: 0.45rem 1rem;
+  border-radius: 20px;
+  transition: all 0.3s;
+  cursor: default;
+}
+
+.tag-sage {
+  background: rgba(122,158,142,0.1);
+  color: var(--sage-dark);
+  border: 1px solid rgba(122,158,142,0.25);
+}
+
+.tag-sage:hover {
+  background: rgba(122,158,142,0.2);
+  border-color: var(--sage);
+}
+
+.tag-terra {
+  background: rgba(196,122,90,0.08);
+  color: var(--terracotta);
+  border: 1px solid rgba(196,122,90,0.2);
+}
+
+.tag-terra:hover {
+  background: rgba(196,122,90,0.15);
+}
+
+.tag-slate {
+  background: rgba(61,79,92,0.06);
+  color: var(--slate-mid);
+  border: 1px solid rgba(61,79,92,0.12);
+}
+
+/* ── PROJECTS ── */
+.projects {
+  background: white;
+}
+
+.projects-intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: end;
+  margin-bottom: 4rem;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.project-card {
+  background: var(--warm-white);
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  border: 1px solid var(--parchment);
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--sage-dark), var(--terracotta));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s;
+}
+
+.project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(61,79,92,0.1);
+  background: white;
+}
+
+.project-card:hover::after { transform: scaleX(1); }
+
+.project-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  font-weight: 500;
+  margin-bottom: 1.2rem;
+}
+
+.project-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.5rem;
+  font-weight: 400;
+  color: var(--parchment);
+  line-height: 1;
+  float: right;
+  margin-top: -0.5rem;
+}
+
+.project-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--ink);
+  margin-bottom: 0.4rem;
+  clear: both;
+}
+
+.project-employer {
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--sage-dark);
+  margin-bottom: 1.2rem;
+  font-weight: 500;
+}
+
+.project-desc {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--slate-mid);
+  margin-bottom: 1.8rem;
+}
+
+.project-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pill {
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  padding: 0.3rem 0.8rem;
+  background: rgba(122,158,142,0.1);
+  color: var(--sage-dark);
+  border-radius: 20px;
+  border: 1px solid rgba(122,158,142,0.2);
+}
+
+/* ── TIMELINE ── */
+.timeline-section {
+  background: var(--warm-white);
+}
+
+.timeline-wrap {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 6rem;
+  align-items: start;
+}
+
+.tl-list {
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.tl-spine {
+  position: absolute;
+  left: 0; top: 0.5rem; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--sage), transparent);
+}
+
+.tl-item {
+  position: relative;
+  margin-bottom: 3rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.tl-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tl-dot {
+  position: absolute;
+  left: -1.85rem;
+  top: 0.35rem;
+  width: 10px; height: 10px;
+  background: white;
+  border: 2px solid var(--sage);
+  border-radius: 50%;
+  transition: background 0.3s;
+}
+
+.tl-item:hover .tl-dot {
+  background: var(--sage);
+}
+
+.tl-year {
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--sage-dark);
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+}
+
+.tl-role {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 0.2rem;
+}
+
+.tl-company {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--slate-mid);
+  text-transform: uppercase;
+}
+
+/* Key achievements panel */
+.achievements {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.achieve-card {
+  background: white;
+  border-radius: 10px;
+  padding: 1.8rem 2rem;
+  border: 1px solid var(--parchment);
+  box-shadow: 0 2px 16px var(--shadow);
+  transition: transform 0.3s;
+}
+
+.achieve-card:hover { transform: translateX(6px); }
+
+.achieve-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  font-weight: 500;
+  margin-bottom: 0.6rem;
+}
+
+.achieve-text {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--slate);
+}
+
+/* ── CONTACT ── */
+.contact {
+  background: linear-gradient(135deg, #f0ede6 0%, var(--cream) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.contact::before {
+  content: '';
+  position: absolute;
+  top: -100px; right: -100px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(168,197,184,0.2) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: center;
+}
+
+.contact-left {}
+
+.contact-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 2rem;
+}
+
+.contact-heading em {
+  font-style: italic;
+  color: var(--sage-dark);
+}
+
+.contact-para {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.1rem;
+  line-height: 1.85;
+  color: var(--slate-mid);
+  margin-bottom: 2.5rem;
+}
+
+.target-firms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+}
+
+.contact-right {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.contact-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1.8rem 0;
+  border-bottom: 1px solid var(--parchment);
+  transition: padding-left 0.3s;
+}
+
+.contact-row:hover { padding-left: 0.5rem; }
+.contact-row:first-child { padding-top: 0; }
+.contact-row:last-child { border-bottom: none; }
+
+.cr-label {
+  font-size: 0.58rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--sage-dark);
+  font-weight: 500;
+}
+
+.cr-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--ink);
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--ink);
+  color: rgba(250,248,244,0.6);
+  padding: 2rem 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+footer span {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+}
+
+.footer-mid {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: rgba(168,197,184,0.7);
+}
+
+/* ── REVEAL ANIMATIONS ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@keyframes gentleUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes gentleFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 960px) {
+  nav { padding: 1.2rem 1.5rem; }
+  .nav-links { display: none; }
+  .hero { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .hero-left { padding: 7rem 1.5rem 4rem; }
+  .section { padding: 5rem 1.5rem; }
+  .about-grid, .expertise-grid, .projects-intro,
+  .timeline-wrap, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .cred-grid { grid-template-columns: 1fr 1fr; }
+  .project-grid { grid-template-columns: 1fr; }
+  footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="nav-brand">
+    <span class="nav-name">Abhinaw Kumar Chaubey</span>
+    <span class="nav-sub">BIM Information Manager</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#credentials">Credentials</a></li>
+    <li><a href="#expertise">Expertise</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">BIM · ISO 19650 · Digital Delivery</span>
+    </div>
+    <h1 class="hero-name">
+      <span class="first">Abhinaw Kumar</span>
+      <span class="last">Chaubey</span>
+    </h1>
+    <p class="hero-role">Senior BIM Information Manager</p>
+    <p class="hero-bio">
+      A decade of shaping how information flows across complex construction programmes. From Heathrow to Lusail Stadium — delivering governance, clarity, and digital certainty at every scale.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-sage">Explore Work</a>
+      <a href="#contact" class="btn-outline">Get In Touch</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="stat-card">
+      <div class="stat-icon">🏗️</div>
+      <div class="stat-body">
+        <div class="stat-number">10+</div>
+        <div class="stat-label">Years of Experience</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🌍</div>
+      <div class="stat-body">
+        <div class="stat-number">5</div>
+        <div class="stat-label">Countries · UK, UAE, Qatar, Germany, India</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">📋</div>
+      <div class="stat-body">
+        <div class="stat-number">12+</div>
+        <div class="stat-label">Major Projects Delivered</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🎓</div>
+      <div class="stat-body">
+        <div class="stat-number">4</div>
+        <div class="stat-label">BSI Professional Accreditations</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">👥</div>
+      <div class="stat-body">
+        <div class="stat-number">12+</div>
+        <div class="stat-label">Sub-consultants Coordinated</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section about" id="about">
+  <div class="section-header reveal">
+    <div class="section-tag">Profile</div>
+    <h2 class="section-title">The <em>Person</em> Behind the BIM</h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal-left">
+      <p>
+        I am a Strategic BIM and Information Management professional with over 10 years of hands-on experience leading digital governance across complex, large-scale construction programmes in the UK, Middle East, and South Asia.
+      </p>
+      <p>
+        My work sits at the intersection of technical rigour and human collaboration — translating complex information requirements into clear, enforceable governance frameworks that enable teams to deliver with confidence and predictability.
+      </p>
+      <p>
+        Holding BSI's highest dual professional designation — both Asset Information Professional (AIP) and Project Information Professional (PIP) — I bring a full lifecycle perspective to every engagement, from strategic planning through to asset handover and operation.
+      </p>
+      <p>
+        Whether defining BIM Execution Plans for a FIFA World Cup stadium in Qatar, coordinating 12 sub-consultants on a luxury Abu Dhabi development, or implementing ISO 19650-5 security protocols for Heathrow Airport — I focus on building systems that outlast the project.
+      </p>
+    </div>
+    <div class="about-highlights reveal">
+      <div class="highlight-item">
+        <div class="hi-icon">🏛️</div>
+        <div class="hi-body">
+          <div class="hi-title">Lead Appointed Party</div>
+          <div class="hi-desc">Experienced in acting as Lead AP / Project Information Manager, defining EIRs, AIRs, and managing the full ISO 19650 information delivery cycle.</div>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <div class="hi-icon">⚙️</div>
+        <div class="hi-body">
+          <div class="hi-title">Computational BIM & Automation</div>
+          <div class="hi-desc">Developed custom Dynamo scripts and automated QA/QC workflows that significantly reduce manual effort and ensure consistent model compliance.</div>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <div class="hi-icon">📊</div>
+        <div class="hi-body">
+          <div class="hi-title">Data-Driven Governance</div>
+          <div class="hi-desc">Integrated Power BI with Autodesk Construction Cloud to deliver live dashboards tracking issue trends, BIM maturity, and delivery performance.</div>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <div class="hi-icon">🤝</div>
+        <div class="hi-body">
+          <div class="hi-title">Team Builder & Mentor</div>
+          <div class="hi-desc">Proven track record of building high-performing BIM teams, standardising workflows, and running knowledge-sharing sessions across project stakeholders.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CREDENTIALS -->
+<section class="section credentials" id="credentials">
+  <div class="section-header reveal">
+    <div class="section-tag">Accreditations</div>
+    <h2 class="section-title">Professional <em>Credentials</em></h2>
+    <p class="section-subtitle">Industry-recognised certifications spanning BSI's highest professional designations in information management, ISO 19650, and digital collaboration platforms.</p>
+  </div>
+  <div class="cred-grid">
+    <div class="cred-card reveal">
+      <span class="cred-org">BSI · Professional</span>
+      <div class="cred-title">Certified Asset Information Professional</div>
+      <div class="cred-level">AIP Designation — Highest Level</div>
+    </div>
+    <div class="cred-card reveal">
+      <span class="cred-org">BSI · Professional</span>
+      <div class="cred-title">Certified Project Information Professional</div>
+      <div class="cred-level">PIP Designation — Highest Level</div>
+    </div>
+    <div class="cred-card reveal">
+      <span class="cred-org">BSI · Practitioner</span>
+      <div class="cred-title">Certified Asset Information Practitioner</div>
+      <div class="cred-level">AIPrac Designation</div>
+    </div>
+    <div class="cred-card reveal">
+      <span class="cred-org">BSI · Practitioner</span>
+      <div class="cred-title">Certified Project Information Practitioner</div>
+      <div class="cred-level">PIPrac Designation</div>
+    </div>
+    <div class="cred-card reveal">
+      <span class="cred-org">KnowledgeSmart</span>
+      <div class="cred-title">Certified ISO 19650 Parts 1 & 2</div>
+      <div class="cred-level">Information Management Standard</div>
+    </div>
+    <div class="cred-card reveal">
+      <span class="cred-org">Revizto · Elite</span>
+      <div class="cred-title">Elite Expert Level 3</div>
+      <div class="cred-level">Also Levels 1 & 2 Certified</div>
+    </div>
+    <div class="cred-card reveal">
+      <span class="cred-org">Plannerly</span>
+      <div class="cred-title">Certified Information Manager</div>
+      <div class="cred-level">Basic & Expert Level</div>
+    </div>
+    <div class="cred-card reveal">
+      <span class="cred-org">IEI · India</span>
+      <div class="cred-title">Member, Institution of Engineers</div>
+      <div class="cred-level">B. Tech Mechanical Engineering</div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERTISE -->
+<section class="section" id="expertise">
+  <div class="section-header reveal">
+    <div class="section-tag">Capabilities</div>
+    <h2 class="section-title">Core <em>Expertise</em></h2>
+  </div>
+  <div class="expertise-grid">
+    <div class="skills-list reveal-left">
+      <div class="skill-item">
+        <div class="skill-top"><span class="skill-name">ISO 19650 Information Governance</span><span class="skill-pct">98</span></div>
+        <div class="skill-track"><div class="skill-bar" data-w="0.98"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-top"><span class="skill-name">BIM Execution Planning (BEP / MIDP / TIDP)</span><span class="skill-pct">96</span></div>
+        <div class="skill-track"><div class="skill-bar" data-w="0.96"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-top"><span class="skill-name">MEPF BIM Coordination & Clash Management</span><span class="skill-pct">95</span></div>
+        <div class="skill-track"><div class="skill-bar" data-w="0.95"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-top"><span class="skill-name">Digital Delivery Strategy</span><span class="skill-pct">93</span></div>
+        <div class="skill-track"><div class="skill-bar" data-w="0.93"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-top"><span class="skill-name">Model Federation & QA/QC Governance</span><span class="skill-pct">95</span></div>
+        <div class="skill-track"><div class="skill-bar" data-w="0.95"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-top"><span class="skill-name">Computational BIM & Dynamo Automation</span><span class="skill-pct">88</span></div>
+        <div class="skill-track"><div class="skill-bar" data-w="0.88"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-top"><span class="skill-name">Power BI Dashboard Reporting</span><span class="skill-pct">85</span></div>
+        <div class="skill-track"><div class="skill-bar" data-w="0.85"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-top"><span class="skill-name">Team Leadership & BIM Training</span><span class="skill-pct">92</span></div>
+        <div class="skill-track"><div class="skill-bar" data-w="0.92"></div></div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="tools-section">
+        <div class="tools-title">Software & Platforms</div>
+        <div class="tags-wrap">
+          <span class="tag tag-sage">Autodesk Revit</span>
+          <span class="tag tag-sage">Navisworks</span>
+          <span class="tag tag-sage">Revizto</span>
+          <span class="tag tag-sage">ACC / BIM 360</span>
+          <span class="tag tag-sage">Dynamo</span>
+          <span class="tag tag-sage">Civil 3D</span>
+          <span class="tag tag-sage">Power BI</span>
+          <span class="tag tag-sage">BIM Track</span>
+          <span class="tag tag-sage">Plannerly</span>
+          <span class="tag tag-sage">PyRevit</span>
+          <span class="tag tag-sage">Di Roots</span>
+          <span class="tag tag-sage">MS Project</span>
+        </div>
+      </div>
+      <div class="tools-section" style="margin-top:2.5rem">
+        <div class="tools-title">Standards & Frameworks</div>
+        <div class="tags-wrap">
+          <span class="tag tag-slate">ISO 19650 Parts 1–5</span>
+          <span class="tag tag-slate">PAS 1192</span>
+          <span class="tag tag-slate">CIC BIM Protocol</span>
+          <span class="tag tag-slate">ISO 27001</span>
+          <span class="tag tag-slate">UK BIM Framework</span>
+          <span class="tag tag-slate">IFC / OpenBIM</span>
+        </div>
+      </div>
+      <div class="tools-section" style="margin-top:2.5rem">
+        <div class="tools-title">Sectors</div>
+        <div class="tags-wrap">
+          <span class="tag tag-terra">Aviation</span>
+          <span class="tag tag-terra">Infrastructure</span>
+          <span class="tag tag-terra">Luxury Residential</span>
+          <span class="tag tag-terra">Data Centres</span>
+          <span class="tag tag-terra">Sports Venues</span>
+          <span class="tag tag-terra">Government / Embassy</span>
+          <span class="tag tag-terra">Mixed-Use</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="section projects" id="projects">
+  <div class="projects-intro">
+    <div class="reveal">
+      <div class="section-tag">Selected Work</div>
+      <h2 class="section-title">Featured <em>Projects</em></h2>
+    </div>
+    <div class="reveal">
+      <p class="section-subtitle">A curated selection of programmes spanning aviation, infrastructure, luxury residential, data centres and iconic sports venues across five countries.</p>
+    </div>
+  </div>
+  <div class="project-grid">
+
+    <div class="project-card reveal">
+      <div class="project-num">01</div>
+      <div class="project-flag">🇬🇧 United Kingdom</div>
+      <div class="project-name">Heathrow Airport Modernisation</div>
+      <div class="project-employer">AtkinsRéalis</div>
+      <p class="project-desc">Defined and implemented robust QA/QC governance frameworks, integrated Power BI with ACC for live issue trend visualisation, and applied ISO 19650-5 security principles including data classification and role-based access management aligned to ISO 27001.</p>
+      <div class="project-pills">
+        <span class="pill">ISO 19650-5</span>
+        <span class="pill">Power BI</span>
+        <span class="pill">ACC</span>
+        <span class="pill">Civil Infrastructure</span>
+        <span class="pill">Security</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">02</div>
+      <div class="project-flag">🇦🇪 Abu Dhabi, UAE</div>
+      <div class="project-name">Saadiyat Island — The Grove</div>
+      <div class="project-employer">AtkinsRéalis</div>
+      <p class="project-desc">Directed BIM coordination across 12+ sub-consultants covering architectural, structural, MEP and specialist works. Led MIDP/TIDP development, automated model checks via Dynamo, and standardised version control across BIM 360 and ACC.</p>
+      <div class="project-pills">
+        <span class="pill">12+ Sub-consultants</span>
+        <span class="pill">Dynamo</span>
+        <span class="pill">BIM Track</span>
+        <span class="pill">Luxury Mixed-Use</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">03</div>
+      <div class="project-flag">🇸🇦 Saudi Arabia</div>
+      <div class="project-name">Bada Al Jubail Villas</div>
+      <div class="project-employer">AtkinsRéalis</div>
+      <p class="project-desc">Led as Lead Appointed Party and Project Information Manager. Configured Revizto OCRA workflows, established coordinated BIM environments with accurate grids and alignments, developed BEPs, MIDPs, and risk management frameworks.</p>
+      <div class="project-pills">
+        <span class="pill">Lead AP / PIM</span>
+        <span class="pill">Revizto OCRA</span>
+        <span class="pill">BEP</span>
+        <span class="pill">ISO 19650</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">04</div>
+      <div class="project-flag">🇬🇧 United Kingdom</div>
+      <div class="project-name">NESST & NEAIT</div>
+      <div class="project-employer">Black & White Engineering</div>
+      <p class="project-desc">Led cross-disciplinary BIM collaboration, standardised Revit families and model libraries, implemented automated QA/QC using BIM Interoperability Tools, and developed custom Dynamo scripts to streamline repetitive modelling tasks.</p>
+      <div class="project-pills">
+        <span class="pill">Revit</span>
+        <span class="pill">BIM Interop Tools</span>
+        <span class="pill">Automation</span>
+        <span class="pill">QA/QC</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">05</div>
+      <div class="project-flag">🇩🇪 Germany</div>
+      <div class="project-name">FRA Data Center, Frankfurt</div>
+      <div class="project-employer">Black & White Engineering</div>
+      <p class="project-desc">Extracted real-time data from ACC Insights to generate interactive coordination dashboards, tracked package revisions using Model Compare, and monitored approval statuses and bottlenecks across a hyperscale data centre programme.</p>
+      <div class="project-pills">
+        <span class="pill">ACC Insights</span>
+        <span class="pill">Model Compare</span>
+        <span class="pill">Dashboards</span>
+        <span class="pill">Data Centre</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">06</div>
+      <div class="project-flag">🇶🇦 Qatar</div>
+      <div class="project-name">Lusail Stadium — FIFA World Cup</div>
+      <div class="project-employer">Pinnacle Infotech Solutions</div>
+      <p class="project-desc">Led BIM execution and coordination for one of the FIFA 2022 World Cup's iconic venues, delivering LOD 400 MEPF models, conducting Navisworks clash resolution, performing QA/QC on shop drawings, and leading value engineering on MEPF systems.</p>
+      <div class="project-pills">
+        <span class="pill">LOD 400</span>
+        <span class="pill">FIFA WC 2022</span>
+        <span class="pill">MEPF</span>
+        <span class="pill">Navisworks</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">07</div>
+      <div class="project-flag">🇮🇳 New Delhi, India</div>
+      <div class="project-name">US Embassy — New Embassy Compound</div>
+      <div class="project-employer">B L Harbert International</div>
+      <p class="project-desc">Led MEPF model coordination to LOD 400 for a high-security facility. Provided onsite presence during installation, conducted as-built verification, developed asset tagging and metadata for post-construction facility management.</p>
+      <div class="project-pills">
+        <span class="pill">LOD 400</span>
+        <span class="pill">As-Built</span>
+        <span class="pill">Asset Tagging</span>
+        <span class="pill">Revizto</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">08</div>
+      <div class="project-flag">🇦🇪 Dubai, UAE</div>
+      <div class="project-name">Dubai Aviation Engineering Project</div>
+      <div class="project-employer">Pinnacle Infotech Solutions</div>
+      <p class="project-desc">Led a Scan-to-BIM project managing a team of 10, creating a detailed execution plan, interpreting project specifications, and producing high-accuracy BIM models from laser scan data for a major aviation infrastructure asset.</p>
+      <div class="project-pills">
+        <span class="pill">Scan-to-BIM</span>
+        <span class="pill">Team of 10</span>
+        <span class="pill">Aviation</span>
+        <span class="pill">Laser Scan</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">09</div>
+      <div class="project-flag">🇺🇸 Hawaii, USA</div>
+      <div class="project-name">The Central Ala Moana</div>
+      <div class="project-employer">Pinnacle Infotech Solutions</div>
+      <p class="project-desc">Developed LOD 400+ 3D models ensuring precision across architectural, structural and MEPF disciplines. Conducted QA/QC reviews of shop drawings and managed clash coordination via BIM 360 Glue for seamless multi-disciplinary integration.</p>
+      <div class="project-pills">
+        <span class="pill">LOD 400+</span>
+        <span class="pill">BIM 360 Glue</span>
+        <span class="pill">Retail / Mixed-Use</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE / TIMELINE -->
+<section class="section timeline-section" id="experience">
+  <div class="timeline-wrap">
+    <div>
+      <div class="section-tag reveal">Career Journey</div>
+      <h2 class="section-title reveal">Professional <em>Experience</em></h2>
+      <p class="section-subtitle reveal" style="margin-top:1.5rem">A progressive career built on technical depth, growing leadership, and an unwavering commitment to digital delivery excellence.</p>
+      <div class="tl-list" style="margin-top:4rem">
+        <div class="tl-spine"></div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-year">April 2025 — Present</div>
+          <div class="tl-role">Digital Engineer II</div>
+          <div class="tl-company">AtkinsRéalis</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2022 — 2025</div>
+          <div class="tl-role">Assistant BIM Manager</div>
+          <div class="tl-company">Black & White Engineering</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2021 — 2022</div>
+          <div class="tl-role">Mechanical BIM Coordinator</div>
+          <div class="tl-company">B L Harbert International</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2020 — 2021</div>
+          <div class="tl-role">Team Lead</div>
+          <div class="tl-company">VDC Technologies</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2016 — 2020</div>
+          <div class="tl-role">Senior BIM Engineer</div>
+          <div class="tl-company">Pinnacle Infotech Solutions</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="achievements reveal">
+      <div class="achieve-card">
+        <div class="achieve-label">Information Governance</div>
+        <div class="achieve-text">Established ISO 19650-compliant information management frameworks across multiple projects, enabling consistency, transparency, and informed decision-making at both project and portfolio levels.</div>
+      </div>
+      <div class="achieve-card">
+        <div class="achieve-label">Multi-disciplinary Leadership</div>
+        <div class="achieve-text">Coordinated 12+ sub-consultants on Saadiyat Island's The Grove development, ensuring seamless model integration across architectural, structural, MEP and specialist disciplines with zero major coordination failures at construction stage.</div>
+      </div>
+      <div class="achieve-card">
+        <div class="achieve-label">Automation & Efficiency</div>
+        <div class="achieve-text">Developed custom Dynamo scripts and rule-based clash filtering systems that significantly reduced manual model checking effort and false positive rates, freeing teams to focus on critical coordination decisions.</div>
+      </div>
+      <div class="achieve-card">
+        <div class="achieve-label">Global Programme Experience</div>
+        <div class="achieve-text">Delivered BIM governance on programmes ranging from a FIFA World Cup stadium in Qatar to a US Embassy compound in New Delhi to Heathrow Airport modernisation — spanning five countries and multiple sectors over a 10-year career.</div>
+      </div>
+      <div class="achieve-card">
+        <div class="achieve-label">Security-Minded Information Management</div>
+        <div class="achieve-text">Applied ISO 19650-5 principles on Heathrow Airport, undertaking data classification, information risk assessments, and role-based access management in line with ISO 27001 practices for sensitive infrastructure assets.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section contact" id="contact">
+  <div class="contact-grid">
+    <div class="reveal-left">
+      <div class="section-tag">Let's Connect</div>
+      <h2 class="contact-heading">Open to new <em>opportunities</em></h2>
+      <p class="contact-para">
+        Actively seeking senior-level BIM Information Management roles at leading consultancies and contractors. Open to UK, Middle East, and international programmes where digital governance makes a real difference.
+      </p>
+      <div class="tools-title">Target Organisations</div>
+      <div class="target-firms">
+        <span class="tag tag-sage">Mace</span>
+        <span class="tag tag-sage">Laing O'Rourke</span>
+        <span class="tag tag-sage">Turner & Townsend</span>
+        <span class="tag tag-sage">AECOM</span>
+        <span class="tag tag-sage">WSP</span>
+        <span class="tag tag-sage">Arup</span>
+        <span class="tag tag-sage">Jacobs</span>
+        <span class="tag tag-terra">NEOM</span>
+        <span class="tag tag-terra">Middle East Clients</span>
+      </div>
+    </div>
+    <div class="contact-right reveal">
+      <div class="contact-row">
+        <span class="cr-label">Location</span>
+        <span class="cr-value">Noida, India</span>
+      </div>
+      <div class="contact-row">
+        <span class="cr-label">Current Employer</span>
+        <span class="cr-value">AtkinsRéalis</span>
+      </div>
+      <div class="contact-row">
+        <span class="cr-label">BSI Credentials</span>
+        <span class="cr-value">AIP · PIP · AIPrac · PIPrac</span>
+      </div>
+      <div class="contact-row">
+        <span class="cr-label">Target Markets</span>
+        <span class="cr-value">UK · UAE · Saudi Arabia · India</span>
+      </div>
+      <div class="contact-row">
+        <span class="cr-label">Portfolio</span>
+        <span class="cr-value">abhinawchaubey.github.io</span>
+      </div>
+      <div class="contact-row">
+        <span class="cr-label">Availability</span>
+        <span class="cr-value">Open to Opportunities</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Abhinaw Kumar Chaubey</span>
+  <span class="footer-mid">Building certainty through information</span>
+  <span>BSI AIP · PIP · ISO 19650 Certified</span>
+</footer>
+
+<script>
+  // Nav shadow on scroll
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Intersection Observer — reveal elements
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        // Skill bars
+        entry.target.querySelectorAll('.skill-bar').forEach(bar => {
+          const w = parseFloat(bar.dataset.w);
+          setTimeout(() => { bar.style.transform = `scaleX(${w})`; }, 200);
+        });
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal, .reveal-left, .tl-item').forEach(el => observer.observe(el));
+
+  // Skill bar observer (for expertise section)
+  const skillObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.skill-bar').forEach((bar, i) => {
+          const w = parseFloat(bar.dataset.w);
+          setTimeout(() => {
+            bar.style.transform = `scaleX(${w})`;
+            bar.classList.add('animated');
+          }, i * 100 + 200);
+        });
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.skills-list').forEach(el => skillObs.observe(el));
+</script>
+</body>
+</html>
