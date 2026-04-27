@@ -376,6 +376,26 @@ footer span { font-size: 0.62rem; letter-spacing: 0.12em; }
 @keyframes gentleUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes gentleFade { from { opacity: 0; } to { opacity: 1; } }
 
+
+.cred-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--sage-dark);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(77,122,106,0.3);
+  padding-bottom: 0.15rem;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+.cred-link:hover {
+  color: var(--terracotta);
+  border-color: var(--terracotta);
+}
 /* RESPONSIVE */
 @media (max-width: 960px) {
   nav { padding: 1.2rem 1.5rem; }
@@ -495,10 +515,10 @@ footer span { font-size: 0.62rem; letter-spacing: 0.12em; }
     <p class="section-subtitle">Industry-recognised certifications spanning BSI's highest professional designations in information management, ISO 19650, and digital collaboration platforms.</p>
   </div>
   <div class="cred-grid">
-    <div class="cred-card reveal"><span class="cred-org">BSI · Professional</span><div class="cred-title">Certified Asset Information Professional</div><div class="cred-level">AIP Designation — Highest Level</div></div>
-    <div class="cred-card reveal"><span class="cred-org">BSI · Professional</span><div class="cred-title">Certified Project Information Professional</div><div class="cred-level">PIP Designation — Highest Level</div></div>
-    <div class="cred-card reveal"><span class="cred-org">BSI · Practitioner</span><div class="cred-title">Certified Asset Information Practitioner</div><div class="cred-level">AIPrac Designation</div></div>
-    <div class="cred-card reveal"><span class="cred-org">BSI · Practitioner</span><div class="cred-title">Certified Project Information Practitioner</div><div class="cred-level">PIPrac Designation</div></div>
+    <div class="cred-card reveal"><span class="cred-org">BSI · Professional</span><div class="cred-title">Certified Asset Information Professional</div><div class="cred-level">AIP Designation — Highest Level</div><a href="https://beyabhi.github.io/abhinawchaubey/cert-aip.pdf" target="_blank" class="cred-link">↗ View Certificate</a></div>
+    <div class="cred-card reveal"><span class="cred-org">BSI · Professional</span><div class="cred-title">Certified Project Information Professional</div><div class="cred-level">PIP Designation — Highest Level</div><a href="https://beyabhi.github.io/abhinawchaubey/cert-pip.pdf" target="_blank" class="cred-link">↗ View Certificate</a></div>
+    <div class="cred-card reveal"><span class="cred-org">BSI · Practitioner</span><div class="cred-title">Certified Asset Information Practitioner</div><div class="cred-level">AIPrac Designation</div><a href="https://beyabhi.github.io/abhinawchaubey/cert-aiprac.pdf" target="_blank" class="cred-link">↗ View Certificate</a></div>
+    <div class="cred-card reveal"><span class="cred-org">BSI · Practitioner</span><div class="cred-title">Certified Project Information Practitioner</div><div class="cred-level">PIPrac Designation</div><a href="https://beyabhi.github.io/abhinawchaubey/cert-piprac.pdf" target="_blank" class="cred-link">↗ View Certificate</a></div>
     <div class="cred-card reveal"><span class="cred-org">KnowledgeSmart</span><div class="cred-title">Certified ISO 19650 Parts 1 & 2</div><div class="cred-level">Information Management Standard</div></div>
     <div class="cred-card reveal"><span class="cred-org">Revizto · Elite</span><div class="cred-title">Elite Expert Level 3</div><div class="cred-level">Also Levels 1 & 2 Certified</div></div>
     <div class="cred-card reveal"><span class="cred-org">Plannerly</span><div class="cred-title">Certified Information Manager</div><div class="cred-level">Basic & Expert Level</div></div>
