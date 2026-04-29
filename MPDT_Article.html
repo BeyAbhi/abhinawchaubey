@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Model Production & Delivery Table — A Professional Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; }
+:root {
+  --black: #0f0f0f;
+  --ink: #1c1c1c;
+  --dark: #2d2d2d;
+  --mid: #555;
+  --muted: #888;
+  --light: #bbb;
+  --border: #e0e0e0;
+  --bg: #f4f4f0;
+  --paper: #fafaf8;
+  --white: #ffffff;
+  --accent: #1a6b5a;
+  --accent-light: #e8f4f1;
+  --accent2: #c47a3a;
+  --accent2-light: #fdf3e8;
+  --red: #b03030;
+  --red-light: #fdeaea;
+}
+body { background: var(--bg); font-family: 'Outfit', sans-serif; font-weight: 300; color: var(--ink); padding: 2.5rem 1.5rem; }
+
+.page { background: var(--white); max-width: 860px; margin: 0 auto 3rem; position: relative; box-shadow: 0 2px 40px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04); }
+.page::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); }
+.page-inner { padding: 3rem 3.5rem 2.5rem; }
+
+.page-topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+.pt-subject { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+.pt-page { font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--light); letter-spacing: 0.12em; }
+
+.title-block { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: end; }
+.article-kicker { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; }
+.article-title { font-family: 'Cormorant Garamond', serif; font-size: 3.2rem; font-weight: 700; line-height: 1.05; color: var(--black); letter-spacing: -0.02em; }
+.article-title span { font-style: italic; font-weight: 300; color: var(--accent); }
+.article-desc { margin-top: 1rem; font-size: 0.85rem; line-height: 1.75; color: var(--mid); max-width: 500px; font-weight: 300; }
+.title-meta { text-align: right; display: flex; flex-direction: column; gap: 0.8rem; align-items: flex-end; }
+.meta-pill { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.3rem 0.8rem; border: 1px solid var(--border); color: var(--muted); border-radius: 2px; }
+
+.sec-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+.sec-heading { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: var(--black); margin-bottom: 1rem; letter-spacing: -0.01em; }
+hr.rule { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+.def-strip { background: var(--ink); color: white; padding: 1.4rem 2rem; margin-bottom: 1.5rem; display: grid; grid-template-columns: auto 1fr; gap: 2rem; align-items: center; }
+.def-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.4); writing-mode: vertical-rl; transform: rotate(180deg); }
+.def-text { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 300; line-height: 1.6; color: rgba(255,255,255,0.9); }
+.def-text strong { color: #7dd3c0; font-weight: 400; }
+
+.pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; }
+.pillar { padding: 1.2rem 1rem; border-right: 1px solid var(--border); position: relative; }
+.pillar:last-child { border-right: none; }
+.pillar::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.p1::before { background: var(--accent); } .p2::before { background: var(--accent2); } .p3::before { background: #3b6bab; } .p4::before { background: #8b4bab; }
+.pillar-q { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 700; font-style: italic; line-height: 1; margin-bottom: 0.4rem; }
+.p1 .pillar-q { color: var(--accent); } .p2 .pillar-q { color: var(--accent2); } .p3 .pillar-q { color: #3b6bab; } .p4 .pillar-q { color: #8b4bab; }
+.pillar-title { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dark); margin-bottom: 0.35rem; }
+.pillar-desc { font-size: 0.72rem; color: var(--mid); line-height: 1.5; }
+
+.mpdt-wrap { border: 1px solid var(--border); margin-bottom: 1.5rem; overflow: hidden; }
+.mpdt-title-bar { background: var(--ink); padding: 0.7rem 1.2rem; display: flex; justify-content: space-between; align-items: center; }
+.mpdt-title-bar span { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+.mpdt-title-bar strong { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: rgba(255,255,255,0.85); letter-spacing: 0.08em; }
+.mpdt-table { width: 100%; border-collapse: collapse; font-size: 0.68rem; }
+.mpdt-table thead tr { background: #f8f8f6; border-bottom: 2px solid var(--border); }
+.mpdt-table th { padding: 0.55rem 0.7rem; text-align: left; font-family: 'DM Mono', monospace; font-size: 0.54rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); font-weight: 400; white-space: nowrap; }
+.mpdt-table td { padding: 0.55rem 0.7rem; border-bottom: 1px solid #f0f0ee; color: var(--dark); vertical-align: middle; }
+.mpdt-table tr:last-child td { border-bottom: none; }
+.mpdt-table tr:hover td { background: #fafaf8; }
+.mpdt-table tr.hl-row td { background: var(--accent-light); }
+.mpdt-table tr.hl-row:hover td { background: #ddf0eb; }
+
+.badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.56rem; font-weight: 500; letter-spacing: 0.06em; }
+.b-id { background: #f0f0ee; color: var(--dark); }
+.b-lod1 { background: #e8f0f8; color: #2a5a9a; }
+.b-lod2 { background: #e8f4f1; color: var(--accent); }
+.b-lod3 { background: var(--accent); color: white; }
+.b-active { background: var(--accent-light); color: var(--accent); border: 1px solid rgba(26,107,90,0.2); }
+.b-pending { background: var(--accent2-light); color: var(--accent2); border: 1px solid rgba(196,122,58,0.2); }
+.b-not { background: var(--red-light); color: var(--red); border: 1px solid rgba(176,48,48,0.2); }
+
+.lod-section { margin-bottom: 1.5rem; }
+.lod-track { display: grid; grid-template-columns: repeat(6, 1fr); height: 56px; border: 1px solid var(--border); overflow: hidden; }
+.lod-step { display: flex; flex-direction: column; align-items: center; justify-content: center; border-right: 1px solid rgba(255,255,255,0.15); cursor: default; transition: filter 0.2s; }
+.lod-step:last-child { border-right: none; }
+.lod-step:hover { filter: brightness(1.08); }
+.ls0 { background: #d1d5db; } .ls1 { background: #9ca3af; } .ls2 { background: #6b7280; } .ls3 { background: #374151; } .ls4 { background: var(--accent); } .ls5 { background: var(--ink); }
+.lod-num { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; color: white; line-height: 1; }
+.lod-tag { font-size: 0.5rem; color: rgba(255,255,255,0.75); margin-top: 0.2rem; letter-spacing: 0.05em; }
+.lod-descs { display: grid; grid-template-columns: repeat(6, 1fr); margin-top: 0.5rem; }
+.lod-desc { font-size: 0.57rem; color: var(--muted); text-align: center; padding: 0 0.2rem; line-height: 1.4; }
+
+.col-map { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 1rem; }
+.cm-col { padding: 1rem 0.8rem; border-right: 1px solid var(--border); text-align: center; }
+.cm-col:last-child { border-right: none; }
+.cm-num { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 700; line-height: 1; color: var(--border); margin-bottom: 0.5rem; }
+.cm-name { font-size: 0.62rem; font-weight: 600; color: var(--dark); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.25rem; }
+.cm-eg { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--muted); }
+.cm-important .cm-num { color: var(--accent); }
+.cm-important .cm-name { color: var(--accent); }
+
+.hierarchy { display: flex; align-items: stretch; gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; overflow: hidden; }
+.h-step { flex: 1; padding: 1.2rem 0.8rem; border-right: 1px solid var(--border); text-align: center; position: relative; transition: background 0.2s; }
+.h-step:last-child { border-right: none; }
+.h-step:hover { background: #fafaf8; }
+.h-step.h-active { background: var(--accent-light); border-top: 2px solid var(--accent); }
+.h-arrow { position: absolute; right: -10px; top: 50%; transform: translateY(-50%); font-size: 0.7rem; color: var(--light); z-index: 2; }
+.h-icon { font-size: 1.3rem; margin-bottom: 0.5rem; }
+.h-title { font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; color: var(--dark); margin-bottom: 0.2rem; letter-spacing: 0.06em; }
+.h-active .h-title { color: var(--accent); font-weight: 600; }
+.h-sub { font-size: 0.57rem; color: var(--muted); line-height: 1.4; }
+
+.resp-grid { width: 100%; border-collapse: collapse; font-size: 0.7rem; margin-bottom: 1.5rem; }
+.resp-grid th { padding: 0.6rem 0.8rem; text-align: left; font-size: 0.58rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); background: var(--dark); }
+.resp-grid th:first-child { width: 38%; }
+.resp-grid td { padding: 0.55rem 0.8rem; border-bottom: 1px solid #f0f0ee; color: var(--mid); vertical-align: middle; }
+.resp-grid tr:nth-child(even) td { background: #fafaf8; }
+.resp-grid tr:hover td { background: var(--accent-light); }
+
+.dot { display: inline-flex; width: 24px; height: 24px; border-radius: 50%; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 0.58rem; font-weight: 500; }
+.d-l { background: var(--accent); color: white; }
+.d-s { background: var(--accent-light); color: var(--accent); border: 1px solid rgba(26,107,90,0.2); }
+.d-r { background: var(--accent2-light); color: var(--accent2); border: 1px solid rgba(196,122,58,0.2); }
+.d-n { background: #f4f4f0; color: var(--light); }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+
+.checklist { border: 1px solid var(--border); }
+.cl-header { background: var(--dark); padding: 0.6rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+.cl-item { display: flex; align-items: center; gap: 0.8rem; padding: 0.55rem 1rem; border-bottom: 1px solid #f0f0ee; font-size: 0.7rem; color: var(--mid); }
+.cl-item:last-child { border-bottom: none; }
+.cl-box { width: 16px; height: 16px; background: var(--accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: white; font-size: 0.55rem; }
+
+.mistakes { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); }
+.mistake { display: grid; grid-template-columns: 28px 1fr; gap: 0.8rem; padding: 0.8rem 1rem; border-bottom: 1px solid #f0f0ee; align-items: start; }
+.mistake:last-child { border-bottom: none; }
+.m-num { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 700; color: var(--border); line-height: 1.2; }
+.m-title { font-size: 0.72rem; font-weight: 600; color: var(--dark); margin-bottom: 0.2rem; }
+.m-title.accent { color: var(--accent); }
+.m-desc { font-size: 0.67rem; color: var(--mid); line-height: 1.55; }
+
+.stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; }
+.stat-cell { padding: 1.2rem 1rem; border-right: 1px solid var(--border); text-align: center; }
+.stat-cell:last-child { border-right: none; }
+.stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 700; line-height: 1; color: var(--black); margin-bottom: 0.3rem; }
+.stat-num.accent { color: var(--accent); }
+.stat-num.accent2 { color: var(--accent2); }
+.stat-label { font-size: 0.6rem; color: var(--muted); line-height: 1.4; }
+
+.page-foot { margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.pf-left { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--light); letter-spacing: 0.1em; }
+.pf-links { display: flex; gap: 1.8rem; align-items: center; }
+.pf-link { font-family: 'Outfit', sans-serif; font-size: 0.6rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.25s; position: relative; }
+.pf-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.25s; }
+.pf-link:hover { color: var(--accent); }
+.pf-link:hover::after { width: 100%; }
+
+@media (max-width: 700px) {
+  body { padding: 0.5rem; }
+  .page-inner { padding: 2rem 1.5rem; }
+  .title-block { grid-template-columns: 1fr; }
+  .pillars { grid-template-columns: 1fr 1fr; }
+  .col-map { grid-template-columns: repeat(3, 1fr); }
+  .lod-track { height: 44px; }
+  .two-col { grid-template-columns: 1fr; }
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .hierarchy { flex-direction: column; }
+  .article-title { font-size: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<div class="page">
+<div class="page-inner">
+  <div class="page-topbar">
+    <span class="pt-subject">Model Production & Delivery Table — MPDT</span>
+    <span class="pt-page">01 / 02</span>
+  </div>
+  <div class="title-block">
+    <div>
+      <div class="article-kicker">BIM Information Management · ISO 19650</div>
+      <h1 class="article-title">Model Production<br>& <span>Delivery Table</span></h1>
+      <p class="article-desc">A focused guide to understanding, structuring, and governing the MPDT — the primary schedule that defines what BIM models are produced, by whom, to what level, and when.</p>
+    </div>
+    <div class="title-meta">
+      <span class="meta-pill">ISO 19650-2</span>
+      <span class="meta-pill">BEP Component</span>
+      <span class="meta-pill">2026 Edition</span>
+    </div>
+  </div>
+
+  <div class="def-strip">
+    <div class="def-label">Definition</div>
+    <div class="def-text">The MPDT is a <strong>structured schedule within the BEP</strong> that lists every model file to be produced — specifying the <strong>responsible party</strong>, <strong>authoring software</strong>, <strong>Level of Development per stage</strong>, and <strong>delivery milestone</strong>. It is the single source of truth for model delivery accountability.</div>
+  </div>
+
+  <div class="pillars">
+    <div class="pillar p1">
+      <div class="pillar-q">What?</div>
+      <div class="pillar-title">Models to Produce</div>
+      <div class="pillar-desc">Every model file listed with a unique ID, discipline, and scope — no ambiguity on what is in or out.</div>
+    </div>
+    <div class="pillar p2">
+      <div class="pillar-q">Who?</div>
+      <div class="pillar-title">Responsible Party</div>
+      <div class="pillar-desc">Each model file assigned to a named Appointed Party — clear authorship and accountability from day one.</div>
+    </div>
+    <div class="pillar p3">
+      <div class="pillar-q">How?</div>
+      <div class="pillar-title">LOD & LOI per Stage</div>
+      <div class="pillar-desc">Level of Detail (geometry) and Level of Information (data) defined per stage — not just a final target.</div>
+    </div>
+    <div class="pillar p4">
+      <div class="pillar-q">When?</div>
+      <div class="pillar-title">Delivery Milestone</div>
+      <div class="pillar-desc">Each model tied to a programme milestone — a binding delivery schedule, not a wish list.</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+  <div class="sec-eyebrow">Structure</div>
+  <div class="sec-heading">The 6 Essential MPDT Columns</div>
+  <div class="col-map">
+    <div class="cm-col cm-important"><div class="cm-num">01</div><div class="cm-name">Model ID</div><div class="cm-eg">ARCH-M-001</div></div>
+    <div class="cm-col cm-important"><div class="cm-num">02</div><div class="cm-name">Discipline</div><div class="cm-eg">Arch / MEP / Struct</div></div>
+    <div class="cm-col cm-important"><div class="cm-num">03</div><div class="cm-name">Author</div><div class="cm-eg">Appointed Party</div></div>
+    <div class="cm-col cm-important"><div class="cm-num">04</div><div class="cm-name">Software</div><div class="cm-eg">Revit / IFC</div></div>
+    <div class="cm-col cm-important"><div class="cm-num">05</div><div class="cm-name">LOD / LOI</div><div class="cm-eg">Per stage</div></div>
+    <div class="cm-col cm-important"><div class="cm-num">06</div><div class="cm-name">Milestone</div><div class="cm-eg">W12 / W24 / W36</div></div>
+  </div>
+
+  <hr class="rule">
+  <div class="sec-eyebrow">Live Example</div>
+  <div class="sec-heading">Sample MPDT — Multi-Discipline Project</div>
+  <div class="mpdt-wrap">
+    <div class="mpdt-title-bar">
+      <strong>MPDT — Project XYZ · Pre-Construction to Construction</strong>
+      <span>Rev 03 · Issued for Coordination</span>
+    </div>
+    <table class="mpdt-table">
+      <thead>
+        <tr>
+          <th>Model ID</th><th>Description</th><th>Discipline</th><th>Author</th><th>Software</th><th>Stage 2</th><th>Stage 3</th><th>Stage 4</th><th>Milestone</th><th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="hl-row">
+          <td><span class="badge b-id">ARCH-M-001</span></td><td>Architectural Shell & Core</td><td>Architecture</td><td>Lead Architect</td><td>Revit 2025</td><td><span class="badge b-lod1">LOD 200</span></td><td><span class="badge b-lod2">LOD 300</span></td><td><span class="badge b-lod3">LOD 400</span></td><td>W10 / W22</td><td><span class="badge b-active">Active</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge b-id">STR-M-001</span></td><td>Structural Frame & Foundations</td><td>Structure</td><td>Structural Engineer</td><td>Revit 2025</td><td><span class="badge b-lod1">LOD 200</span></td><td><span class="badge b-lod2">LOD 300</span></td><td><span class="badge b-lod3">LOD 400</span></td><td>W12 / W24</td><td><span class="badge b-active">Active</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge b-id">MEP-M-001</span></td><td>HVAC — Air Handling Systems</td><td>Mechanical</td><td>MEP Contractor</td><td>Revit MEP</td><td><span class="badge b-lod1">LOD 200</span></td><td><span class="badge b-lod2">LOD 300</span></td><td><span class="badge b-lod3">LOD 400</span></td><td>W16 / W28</td><td><span class="badge b-pending">Pending</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge b-id">MEP-M-002</span></td><td>Electrical & LV Distribution</td><td>Electrical</td><td>MEP Contractor</td><td>Revit MEP</td><td><span class="badge b-lod1">LOD 200</span></td><td><span class="badge b-lod2">LOD 300</span></td><td><span class="badge b-lod3">LOD 400</span></td><td>W16 / W28</td><td><span class="badge b-not">Not Started</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge b-id">MEP-M-003</span></td><td>Plumbing & Drainage</td><td>Plumbing</td><td>MEP Contractor</td><td>Revit MEP</td><td><span class="badge b-lod1">LOD 200</span></td><td><span class="badge b-lod2">LOD 300</span></td><td><span class="badge b-lod3">LOD 400</span></td><td>W18 / W30</td><td><span class="badge b-not">Not Started</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge b-id">CIV-M-001</span></td><td>Site & External Works</td><td>Civil</td><td>Civil Engineer</td><td>Civil 3D</td><td><span class="badge b-lod1">LOD 200</span></td><td><span class="badge b-lod2">LOD 300</span></td><td><span class="badge b-lod2">LOD 350</span></td><td>W14 / W26</td><td><span class="badge b-active">Active</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sec-eyebrow">Level of Development</div>
+  <div class="sec-heading">LOD Scale — Concept to As-Built</div>
+  <div class="lod-section">
+    <div class="lod-track">
+      <div class="lod-step ls0"><div class="lod-num">100</div><div class="lod-tag">Concept</div></div>
+      <div class="lod-step ls1"><div class="lod-num">200</div><div class="lod-tag">Schematic</div></div>
+      <div class="lod-step ls2"><div class="lod-num">300</div><div class="lod-tag">Detailed</div></div>
+      <div class="lod-step ls3"><div class="lod-num">350</div><div class="lod-tag">Coordinated</div></div>
+      <div class="lod-step ls4"><div class="lod-num">400</div><div class="lod-tag">Fabrication</div></div>
+      <div class="lod-step ls5"><div class="lod-num">500</div><div class="lod-tag">As-Built</div></div>
+    </div>
+    <div class="lod-descs">
+      <div class="lod-desc">Symbolic only, no dimensions</div>
+      <div class="lod-desc">Approximate size & location</div>
+      <div class="lod-desc">Specific size, shape & position</div>
+      <div class="lod-desc">Interfaces & connections defined</div>
+      <div class="lod-desc">Shop drawing–level accuracy</div>
+      <div class="lod-desc">Verified field conditions</div>
+    </div>
+  </div>
+
+  <div class="page-foot">
+    <span class="pf-left">BIM Information Management · MPDT Guide · 2026</span>
+    <div class="pf-links">
+      <a href="https://beyabhi.github.io/abhinawchaubey/" target="_blank" class="pf-link">About Me</a>
+      <a href="https://beyabhi.github.io/abhinawchaubey/articles.html" target="_blank" class="pf-link">My Articles</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page">
+<div class="page-inner">
+  <div class="page-topbar">
+    <span class="pt-subject">Model Production & Delivery Table — MPDT</span>
+    <span class="pt-page">02 / 02</span>
+  </div>
+
+  <div class="sec-eyebrow">Context</div>
+  <div class="sec-heading">Where the MPDT Sits in the BIM Delivery Hierarchy</div>
+  <div class="hierarchy">
+    <div class="h-step"><div class="h-icon">📄</div><div class="h-title">EIR</div><div class="h-sub">Client defines information requirements</div><div class="h-arrow">›</div></div>
+    <div class="h-step"><div class="h-icon">📋</div><div class="h-title">BEP</div><div class="h-sub">How the team will meet the EIR</div><div class="h-arrow">›</div></div>
+    <div class="h-step h-active"><div class="h-icon">📊</div><div class="h-title">MPDT</div><div class="h-sub">Model files, authors, LOD & milestones</div><div class="h-arrow">›</div></div>
+    <div class="h-step"><div class="h-icon">🗂️</div><div class="h-title">TIDP</div><div class="h-sub">Task-level schedule per party</div><div class="h-arrow">›</div></div>
+    <div class="h-step"><div class="h-icon">📅</div><div class="h-title">MIDP</div><div class="h-sub">Master consolidated schedule</div><div class="h-arrow">›</div></div>
+    <div class="h-step"><div class="h-icon">☁️</div><div class="h-title">CDE</div><div class="h-sub">Model published, reviewed & approved</div></div>
+  </div>
+
+  <hr class="rule">
+  <div class="sec-eyebrow">Accountability</div>
+  <div class="sec-heading">MPDT Responsibility Matrix</div>
+  <table class="resp-grid">
+    <thead>
+      <tr><th>Task</th><th>Information Manager</th><th>BIM Lead</th><th>Model Author</th><th>Client / EIR Owner</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Create & issue MPDT template</td><td><span class="dot d-l">L</span></td><td><span class="dot d-s">S</span></td><td><span class="dot d-n">–</span></td><td><span class="dot d-r">R</span></td></tr>
+      <tr><td>Define LOD & LOI per project stage</td><td><span class="dot d-l">L</span></td><td><span class="dot d-l">L</span></td><td><span class="dot d-s">S</span></td><td><span class="dot d-r">R</span></td></tr>
+      <tr><td>Populate model file details</td><td><span class="dot d-s">S</span></td><td><span class="dot d-r">R</span></td><td><span class="dot d-l">L</span></td><td><span class="dot d-n">–</span></td></tr>
+      <tr><td>Review, approve & issue MPDT</td><td><span class="dot d-l">L</span></td><td><span class="dot d-s">S</span></td><td><span class="dot d-n">–</span></td><td><span class="dot d-l">L</span></td></tr>
+      <tr><td>Update MPDT during project lifecycle</td><td><span class="dot d-l">L</span></td><td><span class="dot d-s">S</span></td><td><span class="dot d-s">S</span></td><td><span class="dot d-n">–</span></td></tr>
+      <tr><td>Monitor delivery compliance</td><td><span class="dot d-l">L</span></td><td><span class="dot d-r">R</span></td><td><span class="dot d-n">–</span></td><td><span class="dot d-r">R</span></td></tr>
+      <tr><td>Validate suitability codes on CDE</td><td><span class="dot d-l">L</span></td><td><span class="dot d-l">L</span></td><td><span class="dot d-s">S</span></td><td><span class="dot d-n">–</span></td></tr>
+    </tbody>
+  </table>
+  <div style="display:flex;gap:1.5rem;margin-bottom:1.5rem;">
+    <span style="display:flex;align-items:center;gap:0.4rem;font-size:0.6rem;color:var(--muted)"><span class="dot d-l" style="width:16px;height:16px;font-size:0.5rem">L</span> Lead</span>
+    <span style="display:flex;align-items:center;gap:0.4rem;font-size:0.6rem;color:var(--muted)"><span class="dot d-s" style="width:16px;height:16px;font-size:0.5rem">S</span> Support</span>
+    <span style="display:flex;align-items:center;gap:0.4rem;font-size:0.6rem;color:var(--muted)"><span class="dot d-r" style="width:16px;height:16px;font-size:0.5rem">R</span> Review</span>
+    <span style="display:flex;align-items:center;gap:0.4rem;font-size:0.6rem;color:var(--muted)"><span class="dot d-n" style="width:16px;height:16px;font-size:0.5rem">–</span> Not Involved</span>
+  </div>
+
+  <hr class="rule">
+  <div class="two-col">
+    <div>
+      <div class="sec-eyebrow">Quality Assurance</div>
+      <div class="sec-heading">MPDT Readiness Checklist</div>
+      <div class="checklist">
+        <div class="cl-header">Before issuing — verify all items</div>
+        <div class="cl-item"><div class="cl-box">✓</div>All model files assigned a unique ID</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Discipline & software defined per file</div>
+        <div class="cl-item"><div class="cl-box">✓</div>LOD specified per project stage</div>
+        <div class="cl-item"><div class="cl-box">✓</div>LOI (data richness) included alongside LOD</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Named author for every model file</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Milestones tied to programme dates</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Suitability codes assigned (S0 → S4)</div>
+        <div class="cl-item"><div class="cl-box">✓</div>CDE folder structure referenced</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Reviewed & signed off within BEP</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Version-controlled with issue date</div>
+      </div>
+    </div>
+    <div>
+      <div class="sec-eyebrow">Common Errors</div>
+      <div class="sec-heading">5 MPDT Mistakes to Avoid</div>
+      <div class="mistakes">
+        <div class="mistake"><div class="m-num">1</div><div><div class="m-title accent">LOI missing — only LOD defined</div><div class="m-desc">LOD defines geometry. LOI defines data. Without LOI, models arrive empty of parameters — useless for FM and asset management.</div></div></div>
+        <div class="mistake"><div class="m-num">2</div><div><div class="m-title">Created once, never updated</div><div class="m-desc">The MPDT is a living document. Every scope, team or programme change must trigger a new revision.</div></div></div>
+        <div class="mistake"><div class="m-num">3</div><div><div class="m-title">Unrealistic LOD targets per stage</div><div class="m-desc">LOD 400 at Stage 2 wastes resources. Calibrate LOD to decisions needed at each milestone, not the final product.</div></div></div>
+        <div class="mistake"><div class="m-num">4</div><div><div class="m-title">No milestones — just LOD targets</div><div class="m-desc">Without delivery dates tied to the programme, the MPDT is a list, not a contract. Every row needs a when.</div></div></div>
+        <div class="mistake"><div class="m-num">5</div><div><div class="m-title">Authored by BIM Manager alone</div><div class="m-desc">Each Appointed Party must validate their own entries. A solo-authored MPDT always has scope, software, or timeline errors.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="rule">
+  <div class="sec-eyebrow">Key Numbers</div>
+  <div class="stat-row">
+    <div class="stat-cell"><div class="stat-num accent">6</div><div class="stat-label">Minimum essential columns every MPDT must contain</div></div>
+    <div class="stat-cell"><div class="stat-num">5</div><div class="stat-label">Project stages where LOD must be defined (S1–S5)</div></div>
+    <div class="stat-cell"><div class="stat-num accent2">↓30%</div><div class="stat-label">Typical rework reduction with a governed MPDT</div></div>
+    <div class="stat-cell"><div class="stat-num">1</div><div class="stat-label">Source of truth for all model delivery accountability</div></div>
+  </div>
+
+  <div class="page-foot">
+    <span class="pf-left">BIM Information Management · MPDT Guide · 2026</span>
+    <div class="pf-links">
+      <a href="https://beyabhi.github.io/abhinawchaubey/" target="_blank" class="pf-link">About Me</a>
+      <a href="https://beyabhi.github.io/abhinawchaubey/articles.html" target="_blank" class="pf-link">My Articles</a>
+    </div>
+  </div>
+</div>
+</div>
+
+</body>
+</html>
