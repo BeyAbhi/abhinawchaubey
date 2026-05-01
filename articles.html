@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Articles & Publications — Abhinaw Kumar Chaubey</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --black: #0f0f0f; --ink: #1c1c1c; --dark: #2d2d2d; --mid: #555;
+  --muted: #888; --light: #bbb; --border: #e0e0e0;
+  --bg: #f4f4f0; --white: #ffffff;
+  --accent: #1a6b5a; --accent-light: #e8f4f1;
+  --accent2: #c47a3a; --accent2-light: #fdf3e8;
+  --blue: #2a5a9a; --blue-light: #e8f0f8;
+  --red: #b03030; --red-light: #fdeaea;
+  --purple: #6b3a9a; --purple-light: #f0eafd;
+}
+body { background: var(--bg); font-family: 'Outfit', sans-serif; font-weight: 300; color: var(--ink); }
+
+/* NAV */
+nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); padding: 0.9rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 600; color: var(--ink); text-decoration: none; }
+.nav-logo span { font-style: italic; color: var(--accent); }
+.nav-links { display: flex; gap: 2rem; align-items: center; }
+.nav-link { font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(71,85,105,0.55); text-decoration: none; transition: color 0.25s; }
+.nav-link:hover { color: var(--accent); }
+.nav-btn { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); text-decoration: none; border: 1px solid rgba(26,107,90,0.35); padding: 0.4rem 1rem; border-radius: 2px; transition: all 0.3s; }
+.nav-btn:hover { background: rgba(26,107,90,0.08); }
+
+/* HERO */
+.hero { background: var(--ink); padding: 4rem 3.5rem 3rem; max-width: 980px; margin: 2rem auto 0; position: relative; }
+.hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); }
+.hero-kicker { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 0.8rem; }
+.hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; color: white; }
+.hero-title span { font-style: italic; font-weight: 300; color: #7dd3c0; }
+.hero-sub { font-size: 0.82rem; line-height: 1.8; color: rgba(255,255,255,0.5); max-width: 600px; margin-top: 1rem; font-weight: 300; }
+.hero-stats { display: flex; gap: 0; margin-top: 2rem; border: 1px solid rgba(255,255,255,0.1); }
+.h-stat { flex: 1; padding: 1rem 1.5rem; border-right: 1px solid rgba(255,255,255,0.1); }
+.h-stat:last-child { border-right: none; }
+.hs-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; color: white; line-height: 1; }
+.hs-num.accent { color: #7dd3c0; }
+.hs-label { font-size: 0.6rem; color: rgba(255,255,255,0.35); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.2rem; }
+
+/* PAGE WRAP */
+.page-wrap { max-width: 980px; margin: 0 auto 4rem; }
+
+/* CATEGORY BLOCK */
+.cat-block { background: var(--white); margin-top: 1.5rem; box-shadow: 0 1px 20px rgba(0,0,0,0.05); position: relative; overflow: hidden; }
+.cat-block::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; }
+.cb-teal::before { background: var(--accent); }
+.cb-blue::before { background: var(--blue); }
+.cb-amber::before { background: var(--accent2); }
+.cb-red::before { background: var(--red); }
+.cb-purple::before { background: var(--purple); }
+.cb-dark::before { background: var(--dark); }
+
+/* CATEGORY HEADER */
+.cat-header { padding: 1.4rem 2rem 1.2rem 2.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 1.5rem; }
+.cat-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; line-height: 1; flex-shrink: 0; width: 2.5rem; }
+.cb-teal .cat-num { color: rgba(26,107,90,0.18); }
+.cb-blue .cat-num { color: rgba(42,90,154,0.18); }
+.cb-amber .cat-num { color: rgba(196,122,58,0.18); }
+.cb-red .cat-num { color: rgba(176,48,48,0.18); }
+.cb-purple .cat-num { color: rgba(107,58,154,0.18); }
+.cb-dark .cat-num { color: rgba(45,45,45,0.12); }
+
+.cat-info { flex: 1; }
+.cat-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.54rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.2rem; }
+.cat-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; color: var(--black); }
+.cat-count { font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--light); margin-left: auto; flex-shrink: 0; }
+
+/* ARTICLE ROWS */
+.article-row {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  border-bottom: 1px solid #f4f4f2;
+  transition: background 0.2s;
+  align-items: stretch;
+}
+.article-row:last-child { border-bottom: none; }
+.article-row:hover { background: #fafaf8; }
+
+.art-num {
+  padding: 1.1rem 0.6rem;
+  font-family: 'DM Mono', monospace; font-size: 0.62rem; font-weight: 500;
+  color: var(--light); border-right: 1px solid #f0f0ee;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+}
+
+.art-body { padding: 1.1rem 1.5rem; }
+.art-title { font-size: 0.82rem; font-weight: 500; color: var(--dark); margin-bottom: 0.2rem; line-height: 1.35; }
+.art-subtitle { font-size: 0.68rem; color: var(--muted); line-height: 1.5; }
+
+.art-action { padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: flex-end; min-width: 130px; }
+
+/* Status badges */
+.badge-live {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  font-family: 'DM Mono', monospace; font-size: 0.54rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--accent); text-decoration: none;
+  background: var(--accent-light); padding: 0.3rem 0.7rem; border-radius: 2px;
+  border: 1px solid rgba(26,107,90,0.25); transition: all 0.25s; white-space: nowrap;
+}
+.badge-live::before { content: '●'; font-size: 0.45rem; }
+.badge-live:hover { background: var(--accent); color: white; }
+
+.badge-soon {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  font-family: 'DM Mono', monospace; font-size: 0.54rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--light); background: #f8f8f6;
+  padding: 0.3rem 0.7rem; border-radius: 2px;
+  border: 1px solid var(--border); white-space: nowrap; cursor: default;
+}
+.badge-soon::before { content: '○'; font-size: 0.45rem; }
+
+/* CLOSING */
+.closing { background: var(--white); margin-top: 1.5rem; box-shadow: 0 1px 20px rgba(0,0,0,0.05); }
+.closing-inner { padding: 2.5rem 3rem; display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: center; background: var(--ink); }
+.cl-kicker { font-family: 'DM Mono', monospace; font-size: 0.56rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 0.5rem; }
+.cl-title { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: white; margin-bottom: 0.6rem; }
+.cl-title em { font-style: italic; color: #7dd3c0; }
+.cl-text { font-size: 0.75rem; color: rgba(255,255,255,0.45); line-height: 1.75; max-width: 480px; }
+.cl-actions { display: flex; flex-direction: column; gap: 0.8rem; align-items: flex-end; }
+.cl-btn { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; padding: 0.6rem 1.4rem; border-radius: 2px; transition: all 0.25s; white-space: nowrap; text-align: center; }
+.cl-primary { background: var(--accent); color: white; }
+.cl-primary:hover { background: #1d7a68; }
+.cl-secondary { border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.55); }
+.cl-secondary:hover { border-color: rgba(255,255,255,0.5); color: white; }
+.closing-note { padding: 1.2rem 3rem; border-top: 1px solid var(--border); font-size: 0.68rem; color: var(--muted); line-height: 1.6; }
+
+/* PAGE FOOTER */
+.page-footer { max-width: 980px; margin: 0 auto 2rem; padding: 1.2rem 0; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.pf-left { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--light); }
+.pf-links { display: flex; gap: 1.8rem; }
+.pf-link { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.25s; }
+.pf-link:hover { color: var(--accent); }
+
+@media (max-width: 720px) {
+  nav { padding: 1rem 1.5rem; }
+  .hero { padding: 2.5rem 1.5rem 2rem; margin: 0; }
+  .hero-stats { flex-wrap: wrap; }
+  .h-stat { min-width: 50%; }
+  .article-row { grid-template-columns: 48px 1fr; }
+  .art-action { display: none; }
+  .closing-inner { grid-template-columns: 1fr; }
+  .cl-actions { align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://beyabhi.github.io/abhinawchaubey/" class="nav-logo">Abhinaw <span>Chaubey</span></a>
+  <div class="nav-links">
+    <a href="https://beyabhi.github.io/abhinawchaubey/" class="nav-link">About Me</a>
+    <a href="https://beyabhi.github.io/abhinawchaubey/IM_SOP.html" class="nav-link">IM Suite SOP</a>
+    <a href="https://beyabhi.github.io/abhinawchaubey/" class="nav-btn">Portfolio ↗</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-kicker">BIM Information Management · Knowledge Series · ISO 19650</div>
+  <h1 class="hero-title">Articles <span>& Publications</span></h1>
+  <p class="hero-sub">A growing series of practical, in-depth articles covering every document in the ISO 19650-aligned Information Management Suite — written from direct project experience across the UK, UAE, Saudi Arabia, Qatar, Germany, and India.</p>
+  <div class="hero-stats">
+    <div class="h-stat">
+      <div class="hs-num accent">2</div>
+      <div class="hs-label">Published</div>
+    </div>
+    <div class="h-stat">
+      <div class="hs-num">22</div>
+      <div class="hs-label">In Progress</div>
+    </div>
+    <div class="h-stat">
+      <div class="hs-num">24</div>
+      <div class="hs-label">Total Planned</div>
+    </div>
+    <div class="h-stat">
+      <div class="hs-num">6</div>
+      <div class="hs-label">Categories</div>
+    </div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- CATEGORY 1 — GOVERNANCE -->
+  <div class="cat-block cb-teal">
+    <div class="cat-header">
+      <div class="cat-num">§3</div>
+      <div class="cat-info">
+        <div class="cat-eyebrow">Section 3 — Governance & Access Control</div>
+        <div class="cat-title">Access, Ownership & Team Structure</div>
+      </div>
+      <div class="cat-count">5 Articles</div>
+    </div>
+
+    <div class="article-row">
+      <div class="art-num">3.1</div>
+      <div class="art-body">
+        <div class="art-title">CDE Access Control — How to Build a Robust ACC Access Request Process</div>
+        <div class="art-subtitle">Governing who can see, upload, and approve information in the Common Data Environment — and why it matters for ISO 19650 compliance.</div>
+      </div>
+      <div class="art-action"><span class="badge-soon">Coming Soon</span></div>
+    </div>
+    <div class="article-row">
+      <div class="art-num">3.2</div>
+      <div class="art-body">
+        <div class="art-title">OCRA Matrix — Ownership, Creation, Review & Approval Explained</div>
+        <div class="art-subtitle">A practical guide to building the OCRA Matrix and applying it across all information containers on a live project.</div>
+      </div>
+      <div class="art-action"><span class="badge-soon">Coming Soon</span></div>
+    </div>
+    <div class="article-row">
+      <div class="art-num">3.3</div>
+      <div class="art-body">
+        <div class="art-title">Responsibility Matrix — Discipline-Wise Role Allocation in BIM Projects</div>
+        <div class="art-subtitle">Mapping specific deliverables to specific teams — eliminating the grey zones that cause coordination failures.</div>
+      </div>
+      <div class="art-action"><span class="badge-soon">Coming Soon</span></div>
+    </div>
+    <div class="article-row">
+      <div class="art-num">3.4</div>
+      <div class="art-body">
+        <div class="art-title">RACI Matrix for BIM — Making Accountability Visible on Complex Programmes</div>
+        <div class="art-subtitle">Applying the Responsible, Accountable, Consulted and Informed framework to BIM workflows, clash management, and CDE operations.</div>
+      </div>
+      <div class="art-action"><span class="badge-soon">Coming Soon</span></div>
+    </div>
+    <div class="article-row">
+      <div class="art-num">3.5</div>
+      <div class="art-body">
+        <div class="art-title">Organisation Chart for BIM Teams — Reporting Lines, Escalation & Governance</div>
+        <div class="art-subtitle">Structuring the project team for information management — covering Lead AP, Appointed Parties, and client-side roles.</div>
+      </div>
+      <div class="art-action"><span class="badge-soon">Coming Soon</span></div>
+    </div>
+  </div>
+
+  <!-- CATEGORY 2 — PLANNING -->
+  <div class="cat-block cb-blue">
+    <div class="cat-header">
+      <div class="cat-num">§4</div>
+      <div class="cat-info">
+        <div class="cat-eyebrow">Section 4 — Planning & Information Delivery Management</div>
+        <div class="cat-title">BEP, MIDP, TIDP & Model Delivery Planning</div>
+      </div>
+      <div class="cat-count">6 Articles</div>
+    </div>
+
+    <div class="article-row">
+      <div class="art-num">4.1</div>
+      <div class="art-body">
+        <div class="art-title">BIM Execution Plan (BEP) — A Complete Practical Guide</div>
+        <div class="art-subtitle">From pre-appointment BEP to post-contract update — what every section must contain and how to make it a working governance document, not a filing exercise.</div>
+      </div>
+      <div class="art-action"><span class="badge-soon">Coming Soon</span></div>
+    </div>
+    <div class="article-row">
+      <div class="art-num">4.2</div>
+      <div class="art-body">
+        <div class="art-title">Master Information Delivery Plan (MIDP) — Building the Project Delivery Schedule</div>
+        <div class="art-subtitle">Consolidating TIDPs into a single master schedule — and maintaining it as a live, binding contract across all disciplines and stages.</div>
+      </div>
+      <div class="art-action"><span class="badge-soon">Coming Soon</span></div>
+    </div>
+    <div class="article-row">
+      <div class="art-num">4.3</div>
+      <div class="art-body">
+        <div class="art-title">Task Information Delivery Plans (TIDP) — Discipline-Level Planning in Practice</div>
+        <div class="art-subtitle">How each Appointed Party should build, own, and maintain their TIDP — and how it feeds the MIDP.</div>
+      </div>
+      <div class="art-action"><span class="badge-soon">Coming Soon</span></div>
+    </div>
+    <div class="article-row">
+      <div class="art-num">4.4</div>
+      <div class="art-body">
+        <div class="art-title">Model Production & Delivery Table (MPDT) — A Professional Guide</div>
+        <div class="art-subtitle">The structured schedule that defines what models are produced, by whom, to what level, and when — the single source of truth for model delivery accountability.</div>
+      </div>
+      <div class="art-action">
+        <a href="https://beyabhi.github.io/abhinawchaubey/MPDT_Article.html" target="_blank" class="badge-live">Read Now</a>
+      </div>
+    </div>
+    <div class="article-row">
+      <div class="art-num">4.5</div>
+      <div class="art-body">
+        <div class="art-title">Project Management Plan (PMP) for BIM — Scope, Risk & Change Control</div>
+        <div class="art-subtitle">Aligning BIM delivery governance with the broader PMP — covering scope management, change control, and stakeholder reporting.</div>
+      </div>
+      <div class="art-action"><span class="badge-soon">Coming Soon</span></div>
+    </div>
+    <div class="article-row">
+      <div class="art-num">4.6</div>
+      <div class="art-body">
+        <div class="art-title">Resource Planning in BIM — Forecasting Manpower Across Project Stages</div>
+        <div class="art-subtitle">How to build a resource planning register that anticipates gaps before they become delivery risks.</div>
+      </div>
+      <div class="art-action"><span class="badge-soon">Coming Soon</span></div>
+    </div>
+  </div>
+
+  <!-- CATEGORY 3 — QUALITY -->
+  <div class="cat-block cb-amber">
+    <div class="cat-header">
+      <div class="cat-num">§5</div>
+      <div class="cat-info">
+        <div class="cat-eyebrow">Section 5 — Quality, Audit & Compliance</div>
+        <div class="cat-title">Model Quality, Audit & OCRA Compliance</div>
+      </div>
+      <div class="cat-count">3 Articles</div>
+    </div>
+
+    <div class="article-row">
+      <div class="art-num">5.1</div>
+      <div class="art-body">
+        <div class="art-title">Model Quality Checklist — What to Verify Before Every Information Exchange</div>
+        <div class="art-subtitle">The author's pre-submission checklist — covering naming, parameters, geometry, file structure, and CDE metadata compliance.</div>
+      </div>
+      <div class="art-action"><span class="badge-soon">Coming Soon</span></div>
+    </div>
+    <div class="article-row">
+      <div class="art-num">5.2</div>
+      <div class="art-body">
+        <div class="art-title">Model Audit Checklist — Governing BIM Quality at Stage Gates</div>
+        <div class="art-subtitle">How the Information Manager conducts a formal model audit — and how to structure the acceptance or rejection decision.</div>
+      </div>
+      <div class="art-action"><span class="badge-soon">Coming Soon</span></div>
+    </div>
+    <div class="article-row">
+      <div class="art-num">5.3</div>
+      <div class="art-body">
+        <div class="art-title">OCRA Review Dashboard — Visualising Compliance and Closing Ownership Gaps</div>
+        <div class="art-subtitle">Building a live OCRA compliance dashboard that flags overdue reviews and accountability gaps before they affect milestones.</div>
+      </div>
+      <div class="art-action"><span class="badge-soon">Coming Soon</span></div>
+    </div>
+  </div>
+
+  <!-- CATEGORY 4 — COORDINATION -->
+  <div class="cat-block cb-red">
+    <div class="cat-header">
+      <div class="cat-num">§6</div>
+      <div class="cat-info">
+        <div class="cat-eyebrow">Section 6 — Coordination, Review & Issue Resolution</div>
+        <div class="cat-title">Clash Management, Issue Tracking & Comment Resolution</div>
+      </div>
+      <div class="cat-count">4 Articles</div>
+    </div>
+
+    <div class="article-row">
+      <div class="art-num">6.1</div>
+      <div class="art-body">
+        <div class="art-title">Coordination Matrix — Who Coordinates with Whom, How Often, and Through What</div>
+        <div class="art-subtitle">Formalising inter-discipline coordination obligations — covering meeting cadence, platform, and deliverable expectations at each interface.</div>
+      </div>
+      <div class="art-action"><span class="badge-soon">Coming Soon</span></div>
+    </div>
+    <div class="article-row">
+      <div class="art-num">6.2</div>
+      <div class="art-body">
+        <div class="art-title">Clash Detection Matrix — Tolerance, Stage Gates & Resolution Workflow</div>
+        <div class="art-subtitle">Building a structured clash detection matrix calibrated to Middle East project stages (SD, DD, CD, IFC) — with discipline pair tests, tolerances, and resolution ownership.</div>
+      </div>
+      <div class="art-action">
+        <a href="https://beyabhi.github.io/abhinawchaubey/Clash_Detection_Matrix.html" target="_blank" class="badge-live">Read Now</a>
+      </div>
+    </div>
+    <div class="article-row">
+      <div class="art-num">6.3</div>
+      <div class="art-body">
+        <div class="art-title">Issues Tracker Dashboard — Centralised Issue Management in BIM Projects</div>
+        <div class="art-subtitle">Building an auditable, real-time issues log that covers design, coordination, and construction issues from identification to closure.</div>
+      </div>
+      <div class="art-action"><span class="badge-soon">Coming Soon</span></div>
+    </div>
+    <div class="article-row">
+      <div class="art-num">6.4</div>
+      <div class="art-body">
+        <div class="art-title">Comment Resolution Sheet — Auditable Design Review Response Management</div>
+        <div class="art-subtitle">How to structure the comment resolution process — capturing comments, responses, closure evidence, and approvals in a way that satisfies ISO 19650 acceptance requirements.</div>
+      </div>
+      <div class="art-action"><span class="badge-soon">Coming Soon</span></div>
+    </div>
+  </div>
+
+  <!-- CATEGORY 5 — INFORMATION EXCHANGE -->
+  <div class="cat-block cb-purple">
+    <div class="cat-header">
+      <div class="cat-num">§7</div>
+      <div class="cat-info">
+        <div class="cat-eyebrow">Section 7 — Information Exchange & Reporting</div>
+        <div class="cat-title">CDE Monitoring, Project Directory & Templates</div>
+      </div>
+      <div class="cat-count">3 Articles</div>
+    </div>
+
+    <div class="article-row">
+      <div class="art-num">7.1</div>
+      <div class="art-body">
+        <div class="art-title">Information Exchange Dashboard — Monitoring CDE Submissions, Approvals & Rejections</div>
+        <div class="art-subtitle">How to build a live dashboard that tracks every information exchange against MIDP milestones — and surfaces exceptions before they become delays.</div>
+      </div>
+      <div class="art-action"><span class="badge-soon">Coming Soon</span></div>
+    </div>
+    <div class="article-row">
+      <div class="art-num">7.2</div>
+      <div class="art-body">
+        <div class="art-title">Project Directory — Building a Single Source of Truth for All Project Data</div>
+        <div class="art-subtitle">Structuring and maintaining the project directory so that every team member can always find what they need, where it lives, and who owns it.</div>
+      </div>
+      <div class="art-action"><span class="badge-soon">Coming Soon</span></div>
+    </div>
+    <div class="article-row">
+      <div class="art-num">7.3</div>
+      <div class="art-body">
+        <div class="art-title">CDE Templates — Standardising Data Exchange Across Disciplines and Stages</div>
+        <div class="art-subtitle">Designing Excel and CDE-native templates that reduce formatting errors, enforce consistency, and accelerate information review cycles.</div>
+      </div>
+      <div class="art-action"><span class="badge-soon">Coming Soon</span></div>
+    </div>
+  </div>
+
+  <!-- CATEGORY 6 — DOCUMENT MANAGEMENT -->
+  <div class="cat-block cb-dark">
+    <div class="cat-header">
+      <div class="cat-num">§8</div>
+      <div class="cat-info">
+        <div class="cat-eyebrow">Section 8 — Document & Data Management</div>
+        <div class="cat-title">DMP, Naming Convention & Risk Register</div>
+      </div>
+      <div class="cat-count">3 Articles</div>
+    </div>
+
+    <div class="article-row">
+      <div class="art-num">8.1</div>
+      <div class="art-body">
+        <div class="art-title">Document Management Plan (DMP) — Lifecycle, Status Codes & Archiving Policy</div>
+        <div class="art-subtitle">Governing every document from S0 draft to final acceptance — covering status codes, revision control, retention periods, and CDE archiving workflows.</div>
+      </div>
+      <div class="art-action"><span class="badge-soon">Coming Soon</span></div>
+    </div>
+    <div class="article-row">
+      <div class="art-num">8.2</div>
+      <div class="art-body">
+        <div class="art-title">ISO 19650 Naming Convention — A Practical Implementation Guide</div>
+        <div class="art-subtitle">Applying the full ISO 19650 container naming structure — field by field — across models, drawings, documents, and CDE submissions on a real project.</div>
+      </div>
+      <div class="art-action"><span class="badge-soon">Coming Soon</span></div>
+    </div>
+    <div class="article-row">
+      <div class="art-num">8.3</div>
+      <div class="art-body">
+        <div class="art-title">Risk Register for BIM — Identifying and Mitigating Information Management Risks</div>
+        <div class="art-subtitle">Building and maintaining a live risk register that captures CDE access risks, data security threats, coordination failures, and software incompatibilities across the project lifecycle.</div>
+      </div>
+      <div class="art-action"><span class="badge-soon">Coming Soon</span></div>
+    </div>
+  </div>
+
+  <!-- CLOSING -->
+  <div class="closing">
+    <div class="closing-inner">
+      <div>
+        <div class="cl-kicker">Series authored by Abhinaw Kumar Chaubey · Senior BIM Information Manager · AtkinsRéalis</div>
+        <div class="cl-title">Written from <em>project experience</em> — not theory</div>
+        <div class="cl-text">Every article in this series is drawn from direct experience managing information on live programmes in the UK, UAE, Saudi Arabia, Qatar, Germany, and India — including Heathrow Airport, Saadiyat Island, Bada Al Jubail, Lusail Stadium, and FRA Data Centre. Articles are published progressively as the series develops. Subscribe via LinkedIn to be notified of new publications.</div>
+      </div>
+      <div class="cl-actions">
+        <a href="https://www.linkedin.com/in/abhinawchaubeybimmanager" target="_blank" class="cl-btn cl-primary">Follow on LinkedIn ↗</a>
+        <a href="https://beyabhi.github.io/abhinawchaubey/IM_SOP.html" class="cl-btn cl-secondary">View Full IM SOP</a>
+      </div>
+    </div>
+    <div class="closing-note">
+      This articles index is part of the Information Management Document Suite — a standard operating procedure and reference handbook aligned to ISO 19650. Each article number corresponds directly to the document sections in the full SOP. New articles are added as they are published. All content reflects international best practice as applied on complex construction programmes across multiple geographies.
+    </div>
+  </div>
+
+</div>
+
+<div class="page-footer">
+  <span class="pf-left">Articles & Publications · BIM Information Management · 2026</span>
+  <div class="pf-links">
+    <a href="https://beyabhi.github.io/abhinawchaubey/" class="pf-link">About Me</a>
+    <a href="https://beyabhi.github.io/abhinawchaubey/IM_SOP.html" class="pf-link">IM Suite SOP</a>
+    <a href="https://beyabhi.github.io/abhinawchaubey/" class="pf-link">Portfolio</a>
+  </div>
+</div>
+
+</body>
+</html>
