@@ -48,14 +48,14 @@ nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93)
 .page-wrap { max-width: 980px; margin: 0 auto 4rem; }
 
 /* CATEGORY BLOCK */
-.cat-block { background: var(--white); margin-top: 1.5rem; box-shadow: 0 1px 20px rgba(0,0,0,0.05); position: relative; overflow: hidden; }
-.cat-block::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; }
-.cb-teal::before { background: var(--accent); }
-.cb-blue::before { background: var(--blue); }
-.cb-amber::before { background: var(--accent2); }
-.cb-red::before { background: var(--red); }
-.cb-purple::before { background: var(--purple); }
-.cb-dark::before { background: var(--dark); }
+.cat-block { background: var(--white); margin-top: 1.5rem; box-shadow: 0 1px 20px rgba(0,0,0,0.05); position: relative; overflow: visible; border-left: 3px solid transparent; }
+.cat-block::before { display: none; }
+.cb-teal { border-left-color: var(--accent); }
+.cb-blue { border-left-color: var(--blue); }
+.cb-amber { border-left-color: var(--accent2); }
+.cb-red { border-left-color: var(--red); }
+.cb-purple { border-left-color: var(--purple); }
+.cb-dark { border-left-color: var(--dark); }
 
 /* CATEGORY HEADER */
 .cat-header { padding: 1.4rem 2rem 1.2rem 2.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 1.5rem; }
@@ -95,7 +95,7 @@ nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93)
 .art-title { font-size: 0.82rem; font-weight: 500; color: var(--dark); margin-bottom: 0.2rem; line-height: 1.35; }
 .art-subtitle { font-size: 0.68rem; color: var(--muted); line-height: 1.5; }
 
-.art-action { padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: flex-end; min-width: 130px; }
+.art-action { padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: flex-end; min-width: 130px; position: relative; z-index: 10; }
 
 /* Status badges */
 .badge-live {
@@ -108,6 +108,10 @@ nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93)
 }
 .badge-live::before { content: '●'; font-size: 0.45rem; }
 .badge-live:hover { background: var(--accent); color: white; }
+.badge-live:visited { background: var(--accent-light); color: var(--accent); }
+.badge-live:visited:hover { background: var(--accent); color: white; }
+.art-title a:visited { color: var(--accent); }
+.art-title a:link { color: var(--accent); }
 
 .badge-soon {
   display: inline-flex; align-items: center; gap: 0.35rem;
@@ -205,7 +209,7 @@ nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93)
     <div class="article-row">
       <div class="art-num">3.1</div>
       <div class="art-body">
-        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-cde-access.html" target="_blank" style="color:var(--dark);text-decoration:none;cursor:not-allowed;pointer-events:none;">CDE Access Control — How to Build a Robust ACC Access Request Process</a></div>
+        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-cde-access.html" target="_blank" style="color:var(--dark);text-decoration:none;">CDE Access Control — How to Build a Robust ACC Access Request Process</a></div>
         <div class="art-subtitle">Governing who can see, upload, and approve information in the Common Data Environment — and why it matters for ISO 19650 compliance.</div>
       </div>
       <div class="art-action"><a href="https://beyabhi.github.io/abhinawchaubey/article-cde-access.html" target="_blank" class="badge-soon">Coming Soon</a></div>
@@ -213,7 +217,7 @@ nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93)
     <div class="article-row">
       <div class="art-num">3.2</div>
       <div class="art-body">
-        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-ocra-matrix.html" target="_blank" style="color:var(--dark);text-decoration:none;cursor:not-allowed;pointer-events:none;">OCRA Matrix — Ownership, Creation, Review & Approval Explained</a></div>
+        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-ocra-matrix.html" target="_blank" style="color:var(--dark);text-decoration:none;">OCRA Matrix — Ownership, Creation, Review & Approval Explained</a></div>
         <div class="art-subtitle">A practical guide to building the OCRA Matrix and applying it across all information containers on a live project.</div>
       </div>
       <div class="art-action"><a href="https://beyabhi.github.io/abhinawchaubey/article-ocra-matrix.html" target="_blank" class="badge-soon">Coming Soon</a></div>
@@ -221,7 +225,7 @@ nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93)
     <div class="article-row">
       <div class="art-num">3.3</div>
       <div class="art-body">
-        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-responsibility-matrix.html" target="_blank" style="color:var(--dark);text-decoration:none;cursor:not-allowed;pointer-events:none;">Responsibility Matrix — Discipline-Wise Role Allocation in BIM Projects</a></div>
+        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-responsibility-matrix.html" target="_blank" style="color:var(--dark);text-decoration:none;">Responsibility Matrix — Discipline-Wise Role Allocation in BIM Projects</a></div>
         <div class="art-subtitle">Mapping specific deliverables to specific teams — eliminating the grey zones that cause coordination failures.</div>
       </div>
       <div class="art-action"><a href="https://beyabhi.github.io/abhinawchaubey/article-responsibility-matrix.html" target="_blank" class="badge-soon">Coming Soon</a></div>
@@ -229,7 +233,7 @@ nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93)
     <div class="article-row">
       <div class="art-num">3.4</div>
       <div class="art-body">
-        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-raci-matrix.html" target="_blank" style="color:var(--dark);text-decoration:none;cursor:not-allowed;pointer-events:none;">RACI Matrix for BIM — Making Accountability Visible on Complex Programmes</a></div>
+        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-raci-matrix.html" target="_blank" style="color:var(--dark);text-decoration:none;">RACI Matrix for BIM — Making Accountability Visible on Complex Programmes</a></div>
         <div class="art-subtitle">Applying the Responsible, Accountable, Consulted and Informed framework to BIM workflows, clash management, and CDE operations.</div>
       </div>
       <div class="art-action"><a href="https://beyabhi.github.io/abhinawchaubey/article-raci-matrix.html" target="_blank" class="badge-soon">Coming Soon</a></div>
@@ -237,7 +241,7 @@ nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93)
     <div class="article-row">
       <div class="art-num">3.5</div>
       <div class="art-body">
-        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-organisation-chart.html" target="_blank" style="color:var(--dark);text-decoration:none;cursor:not-allowed;pointer-events:none;">Organisation Chart for BIM Teams — Reporting Lines, Escalation & Governance</a></div>
+        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-organisation-chart.html" target="_blank" style="color:var(--dark);text-decoration:none;">Organisation Chart for BIM Teams — Reporting Lines, Escalation & Governance</a></div>
         <div class="art-subtitle">Structuring the project team for information management — covering Lead AP, Appointed Parties, and client-side roles.</div>
       </div>
       <div class="art-action"><a href="https://beyabhi.github.io/abhinawchaubey/article-organisation-chart.html" target="_blank" class="badge-soon">Coming Soon</a></div>
@@ -258,7 +262,7 @@ nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93)
     <div class="article-row">
       <div class="art-num">4.1</div>
       <div class="art-body">
-        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-bep.html" target="_blank" style="color:var(--dark);text-decoration:none;cursor:not-allowed;pointer-events:none;">BIM Execution Plan (BEP) — A Complete Practical Guide</a></div>
+        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-bep.html" target="_blank" style="color:var(--dark);text-decoration:none;">BIM Execution Plan (BEP) — A Complete Practical Guide</a></div>
         <div class="art-subtitle">From pre-appointment BEP to post-contract update — what every section must contain and how to make it a working governance document, not a filing exercise.</div>
       </div>
       <div class="art-action"><a href="https://beyabhi.github.io/abhinawchaubey/article-bep.html" target="_blank" class="badge-soon">Coming Soon</a></div>
@@ -274,7 +278,7 @@ nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93)
     <div class="article-row">
       <div class="art-num">4.3</div>
       <div class="art-body">
-        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-tidp.html" target="_blank" style="color:var(--dark);text-decoration:none;cursor:not-allowed;pointer-events:none;">Task Information Delivery Plans (TIDP) — Discipline-Level Planning in Practice</a></div>
+        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-tidp.html" target="_blank" style="color:var(--dark);text-decoration:none;">Task Information Delivery Plans (TIDP) — Discipline-Level Planning in Practice</a></div>
         <div class="art-subtitle">How each Appointed Party should build, own, and maintain their TIDP — and how it feeds the MIDP.</div>
       </div>
       <div class="art-action"><a href="https://beyabhi.github.io/abhinawchaubey/article-tidp.html" target="_blank" class="badge-soon">Coming Soon</a></div>
@@ -292,7 +296,7 @@ nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93)
     <div class="article-row">
       <div class="art-num">4.5</div>
       <div class="art-body">
-        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-pmp.html" target="_blank" style="color:var(--dark);text-decoration:none;cursor:not-allowed;pointer-events:none;">Project Management Plan (PMP) for BIM — Scope, Risk & Change Control</a></div>
+        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-pmp.html" target="_blank" style="color:var(--dark);text-decoration:none;">Project Management Plan (PMP) for BIM — Scope, Risk & Change Control</a></div>
         <div class="art-subtitle">Aligning BIM delivery governance with the broader PMP — covering scope management, change control, and stakeholder reporting.</div>
       </div>
       <div class="art-action"><a href="https://beyabhi.github.io/abhinawchaubey/article-pmp.html" target="_blank" class="badge-soon">Coming Soon</a></div>
@@ -300,7 +304,7 @@ nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93)
     <div class="article-row">
       <div class="art-num">4.6</div>
       <div class="art-body">
-        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-resource-planning.html" target="_blank" style="color:var(--dark);text-decoration:none;cursor:not-allowed;pointer-events:none;">Resource Planning in BIM — Forecasting Manpower Across Project Stages</a></div>
+        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-resource-planning.html" target="_blank" style="color:var(--dark);text-decoration:none;">Resource Planning in BIM — Forecasting Manpower Across Project Stages</a></div>
         <div class="art-subtitle">How to build a resource planning register that anticipates gaps before they become delivery risks.</div>
       </div>
       <div class="art-action"><a href="https://beyabhi.github.io/abhinawchaubey/article-resource-planning.html" target="_blank" class="badge-soon">Coming Soon</a></div>
@@ -321,7 +325,7 @@ nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93)
     <div class="article-row">
       <div class="art-num">5.1</div>
       <div class="art-body">
-        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-model-quality-checklist.html" target="_blank" style="color:var(--dark);text-decoration:none;cursor:not-allowed;pointer-events:none;">Model Quality Checklist — What to Verify Before Every Information Exchange</a></div>
+        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-model-quality-checklist.html" target="_blank" style="color:var(--dark);text-decoration:none;">Model Quality Checklist — What to Verify Before Every Information Exchange</a></div>
         <div class="art-subtitle">The author's pre-submission checklist — covering naming, parameters, geometry, file structure, and CDE metadata compliance.</div>
       </div>
       <div class="art-action"><a href="https://beyabhi.github.io/abhinawchaubey/article-model-quality-checklist.html" target="_blank" class="badge-soon">Coming Soon</a></div>
@@ -329,7 +333,7 @@ nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93)
     <div class="article-row">
       <div class="art-num">5.2</div>
       <div class="art-body">
-        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-model-audit-checklist.html" target="_blank" style="color:var(--dark);text-decoration:none;cursor:not-allowed;pointer-events:none;">Model Audit Checklist — Governing BIM Quality at Stage Gates</a></div>
+        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-model-audit-checklist.html" target="_blank" style="color:var(--dark);text-decoration:none;">Model Audit Checklist — Governing BIM Quality at Stage Gates</a></div>
         <div class="art-subtitle">How the Information Manager conducts a formal model audit — and how to structure the acceptance or rejection decision.</div>
       </div>
       <div class="art-action"><a href="https://beyabhi.github.io/abhinawchaubey/article-model-audit-checklist.html" target="_blank" class="badge-soon">Coming Soon</a></div>
@@ -337,7 +341,7 @@ nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93)
     <div class="article-row">
       <div class="art-num">5.3</div>
       <div class="art-body">
-        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-ocra-dashboard.html" target="_blank" style="color:var(--dark);text-decoration:none;cursor:not-allowed;pointer-events:none;">OCRA Review Dashboard — Visualising Compliance and Closing Ownership Gaps</a></div>
+        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-ocra-dashboard.html" target="_blank" style="color:var(--dark);text-decoration:none;">OCRA Review Dashboard — Visualising Compliance and Closing Ownership Gaps</a></div>
         <div class="art-subtitle">Building a live OCRA compliance dashboard that flags overdue reviews and accountability gaps before they affect milestones.</div>
       </div>
       <div class="art-action"><a href="https://beyabhi.github.io/abhinawchaubey/article-ocra-dashboard.html" target="_blank" class="badge-soon">Coming Soon</a></div>
@@ -358,7 +362,7 @@ nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93)
     <div class="article-row">
       <div class="art-num">6.1</div>
       <div class="art-body">
-        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-coordination-matrix.html" target="_blank" style="color:var(--dark);text-decoration:none;cursor:not-allowed;pointer-events:none;">Coordination Matrix — Who Coordinates with Whom, How Often, and Through What</a></div>
+        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-coordination-matrix.html" target="_blank" style="color:var(--dark);text-decoration:none;">Coordination Matrix — Who Coordinates with Whom, How Often, and Through What</a></div>
         <div class="art-subtitle">Formalising inter-discipline coordination obligations — covering meeting cadence, platform, and deliverable expectations at each interface.</div>
       </div>
       <div class="art-action"><a href="https://beyabhi.github.io/abhinawchaubey/article-coordination-matrix.html" target="_blank" class="badge-soon">Coming Soon</a></div>
@@ -376,7 +380,7 @@ nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93)
     <div class="article-row">
       <div class="art-num">6.3</div>
       <div class="art-body">
-        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-issues-tracker.html" target="_blank" style="color:var(--dark);text-decoration:none;cursor:not-allowed;pointer-events:none;">Issues Tracker Dashboard — Centralised Issue Management in BIM Projects</a></div>
+        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-issues-tracker.html" target="_blank" style="color:var(--dark);text-decoration:none;">Issues Tracker Dashboard — Centralised Issue Management in BIM Projects</a></div>
         <div class="art-subtitle">Building an auditable, real-time issues log that covers design, coordination, and construction issues from identification to closure.</div>
       </div>
       <div class="art-action"><a href="https://beyabhi.github.io/abhinawchaubey/article-issues-tracker.html" target="_blank" class="badge-soon">Coming Soon</a></div>
@@ -384,7 +388,7 @@ nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93)
     <div class="article-row">
       <div class="art-num">6.4</div>
       <div class="art-body">
-        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-comment-resolution.html" target="_blank" style="color:var(--dark);text-decoration:none;cursor:not-allowed;pointer-events:none;">Comment Resolution Sheet — Auditable Design Review Response Management</a></div>
+        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-comment-resolution.html" target="_blank" style="color:var(--dark);text-decoration:none;">Comment Resolution Sheet — Auditable Design Review Response Management</a></div>
         <div class="art-subtitle">How to structure the comment resolution process — capturing comments, responses, closure evidence, and approvals in a way that satisfies ISO 19650 acceptance requirements.</div>
       </div>
       <div class="art-action"><a href="https://beyabhi.github.io/abhinawchaubey/article-comment-resolution.html" target="_blank" class="badge-soon">Coming Soon</a></div>
@@ -405,7 +409,7 @@ nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93)
     <div class="article-row">
       <div class="art-num">7.1</div>
       <div class="art-body">
-        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-information-exchange-dashboard.html" target="_blank" style="color:var(--dark);text-decoration:none;cursor:not-allowed;pointer-events:none;">Information Exchange Dashboard — Monitoring CDE Submissions, Approvals & Rejections</a></div>
+        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-information-exchange-dashboard.html" target="_blank" style="color:var(--dark);text-decoration:none;">Information Exchange Dashboard — Monitoring CDE Submissions, Approvals & Rejections</a></div>
         <div class="art-subtitle">How to build a live dashboard that tracks every information exchange against MIDP milestones — and surfaces exceptions before they become delays.</div>
       </div>
       <div class="art-action"><a href="https://beyabhi.github.io/abhinawchaubey/article-information-exchange-dashboard.html" target="_blank" class="badge-soon">Coming Soon</a></div>
@@ -413,7 +417,7 @@ nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93)
     <div class="article-row">
       <div class="art-num">7.2</div>
       <div class="art-body">
-        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-project-directory.html" target="_blank" style="color:var(--dark);text-decoration:none;cursor:not-allowed;pointer-events:none;">Project Directory — Building a Single Source of Truth for All Project Data</a></div>
+        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-project-directory.html" target="_blank" style="color:var(--dark);text-decoration:none;">Project Directory — Building a Single Source of Truth for All Project Data</a></div>
         <div class="art-subtitle">Structuring and maintaining the project directory so that every team member can always find what they need, where it lives, and who owns it.</div>
       </div>
       <div class="art-action"><a href="https://beyabhi.github.io/abhinawchaubey/article-project-directory.html" target="_blank" class="badge-soon">Coming Soon</a></div>
@@ -421,7 +425,7 @@ nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93)
     <div class="article-row">
       <div class="art-num">7.3</div>
       <div class="art-body">
-        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-cde-templates.html" target="_blank" style="color:var(--dark);text-decoration:none;cursor:not-allowed;pointer-events:none;">CDE Templates — Standardising Data Exchange Across Disciplines and Stages</a></div>
+        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-cde-templates.html" target="_blank" style="color:var(--dark);text-decoration:none;">CDE Templates — Standardising Data Exchange Across Disciplines and Stages</a></div>
         <div class="art-subtitle">Designing Excel and CDE-native templates that reduce formatting errors, enforce consistency, and accelerate information review cycles.</div>
       </div>
       <div class="art-action"><a href="https://beyabhi.github.io/abhinawchaubey/article-cde-templates.html" target="_blank" class="badge-soon">Coming Soon</a></div>
@@ -442,7 +446,7 @@ nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93)
     <div class="article-row">
       <div class="art-num">8.1</div>
       <div class="art-body">
-        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-dmp.html" target="_blank" style="color:var(--dark);text-decoration:none;cursor:not-allowed;pointer-events:none;">Document Management Plan (DMP) — Lifecycle, Status Codes & Archiving Policy</a></div>
+        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-dmp.html" target="_blank" style="color:var(--dark);text-decoration:none;">Document Management Plan (DMP) — Lifecycle, Status Codes & Archiving Policy</a></div>
         <div class="art-subtitle">Governing every document from S0 draft to final acceptance — covering status codes, revision control, retention periods, and CDE archiving workflows.</div>
       </div>
       <div class="art-action"><a href="https://beyabhi.github.io/abhinawchaubey/article-dmp.html" target="_blank" class="badge-soon">Coming Soon</a></div>
@@ -458,7 +462,7 @@ nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93)
     <div class="article-row">
       <div class="art-num">8.3</div>
       <div class="art-body">
-        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-risk-register.html" target="_blank" style="color:var(--dark);text-decoration:none;cursor:not-allowed;pointer-events:none;">Risk Register for BIM — Identifying and Mitigating Information Management Risks</a></div>
+        <div class="art-title"><a href="https://beyabhi.github.io/abhinawchaubey/article-risk-register.html" target="_blank" style="color:var(--dark);text-decoration:none;">Risk Register for BIM — Identifying and Mitigating Information Management Risks</a></div>
         <div class="art-subtitle">Building and maintaining a live risk register that captures CDE access risks, data security threats, coordination failures, and software incompatibilities across the project lifecycle.</div>
       </div>
       <div class="art-action"><a href="https://beyabhi.github.io/abhinawchaubey/article-risk-register.html" target="_blank" class="badge-soon">Coming Soon</a></div>
