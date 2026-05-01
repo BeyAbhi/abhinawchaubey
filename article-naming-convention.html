@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISO 19650 Naming Convention — A Practical Implementation Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; }
+:root {
+  --black: #0f0f0f; --ink: #1c1c1c; --dark: #2d2d2d; --mid: #555;
+  --muted: #888; --light: #bbb; --border: #e0e0e0;
+  --bg: #f4f4f0; --white: #ffffff;
+  --accent: #1a6b5a; --accent-light: #e8f4f1;
+  --accent2: #c47a3a; --accent2-light: #fdf3e8;
+  --red: #b03030; --red-light: #fdeaea;
+  --blue: #2a5a9a; --blue-light: #e8f0f8;
+  --purple: #6b3a9a; --purple-light: #f0eafd;
+}
+body { background: var(--bg); font-family: 'Outfit', sans-serif; font-weight: 300; color: var(--ink); padding: 2.5rem 1.5rem; }
+
+.page { background: var(--white); max-width: 860px; margin: 0 auto 3rem; position: relative; box-shadow: 0 2px 40px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04); }
+.page::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); }
+.page-inner { padding: 3rem 3.5rem 2.5rem; }
+
+.page-topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+.pt-subject { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+.pt-page { font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--light); letter-spacing: 0.12em; }
+
+.title-block { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: end; }
+.article-kicker { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; }
+.article-title { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 700; line-height: 1.05; color: var(--black); letter-spacing: -0.02em; }
+.article-title span { font-style: italic; font-weight: 300; color: var(--accent); }
+.article-desc { margin-top: 1rem; font-size: 0.85rem; line-height: 1.75; color: var(--mid); max-width: 500px; font-weight: 300; }
+.title-meta { text-align: right; display: flex; flex-direction: column; gap: 0.8rem; align-items: flex-end; }
+.meta-pill { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.3rem 0.8rem; border: 1px solid var(--border); color: var(--muted); border-radius: 2px; }
+
+.sec-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+.sec-heading { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: var(--black); margin-bottom: 1rem; letter-spacing: -0.01em; }
+hr.rule { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+.def-strip { background: var(--ink); color: white; padding: 1.4rem 2rem; margin-bottom: 1.5rem; display: grid; grid-template-columns: auto 1fr; gap: 2rem; align-items: center; }
+.def-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.4); writing-mode: vertical-rl; transform: rotate(180deg); }
+.def-text { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 300; line-height: 1.6; color: rgba(255,255,255,0.9); }
+.def-text strong { color: #7dd3c0; font-weight: 400; }
+
+/* PILLARS */
+.pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; }
+.pillar { padding: 1.2rem 1rem; border-right: 1px solid var(--border); position: relative; }
+.pillar:last-child { border-right: none; }
+.pillar::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.p1::before { background: var(--accent); } .p2::before { background: var(--accent2); } .p3::before { background: var(--blue); } .p4::before { background: var(--purple); }
+.pillar-q { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 700; font-style: italic; line-height: 1; margin-bottom: 0.4rem; }
+.p1 .pillar-q { color: var(--accent); } .p2 .pillar-q { color: var(--accent2); } .p3 .pillar-q { color: var(--blue); } .p4 .pillar-q { color: var(--purple); }
+.pillar-title { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dark); margin-bottom: 0.35rem; }
+.pillar-desc { font-size: 0.72rem; color: var(--mid); line-height: 1.5; }
+
+/* NAMING STRING ANATOMY */
+.naming-anatomy {
+  border: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+.na-bar {
+  background: var(--ink);
+  padding: 0.8rem 1.2rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  color: white;
+  letter-spacing: 0.05em;
+  text-align: center;
+  line-height: 1.8;
+}
+.na-string { color: #7dd3c0; font-size: 0.85rem; font-weight: 500; }
+.na-fields { display: grid; grid-template-columns: repeat(8, 1fr); gap: 0; }
+.na-field {
+  padding: 0.9rem 0.6rem;
+  border-right: 1px solid var(--border);
+  text-align: center;
+  position: relative;
+}
+.na-field:last-child { border-right: none; }
+.na-field::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.nf1::before { background: var(--accent); }
+.nf2::before { background: var(--blue); }
+.nf3::before { background: var(--accent2); }
+.nf4::before { background: var(--purple); }
+.nf5::before { background: var(--red); }
+.nf6::before { background: #2a8a7a; }
+.nf7::before { background: #7a4a2a; }
+.nf8::before { background: var(--dark); }
+.na-code { font-family: 'DM Mono', monospace; font-size: 0.72rem; font-weight: 500; color: var(--ink); margin-bottom: 0.3rem; }
+.na-name { font-size: 0.58rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--dark); margin-bottom: 0.15rem; }
+.na-eg { font-family: 'DM Mono', monospace; font-size: 0.52rem; color: var(--muted); }
+
+/* FIELD TABLE */
+.field-table { width: 100%; border-collapse: collapse; font-size: 0.68rem; margin-bottom: 1.5rem; }
+.field-table thead tr { background: var(--dark); }
+.field-table th { padding: 0.6rem 0.8rem; text-align: left; font-family: 'DM Mono', monospace; font-size: 0.54rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.7); font-weight: 400; }
+.field-table td { padding: 0.55rem 0.8rem; border-bottom: 1px solid #f0f0ee; color: var(--dark); vertical-align: top; line-height: 1.5; }
+.field-table tr:nth-child(even) td { background: #fafaf8; }
+.field-table tr:hover td { background: var(--accent-light); }
+.field-table tr:last-child td { border-bottom: none; }
+
+.f-code { font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; padding: 0.15rem 0.5rem; border-radius: 2px; }
+.fc1 { background: var(--accent-light); color: var(--accent); }
+.fc2 { background: var(--blue-light); color: var(--blue); }
+.fc3 { background: var(--accent2-light); color: var(--accent2); }
+.fc4 { background: var(--purple-light); color: var(--purple); }
+.fc5 { background: var(--red-light); color: var(--red); }
+.fc6 { background: #e8f8f5; color: #2a8a7a; }
+.fc7 { background: #f8f0e8; color: #7a4a2a; }
+.fc8 { background: #f0f0ee; color: var(--dark); }
+
+/* LIVE EXAMPLES TABLE */
+.ex-wrap { border: 1px solid var(--border); margin-bottom: 1.5rem; overflow: hidden; }
+.ex-title-bar { background: var(--ink); padding: 0.7rem 1.2rem; display: flex; justify-content: space-between; align-items: center; }
+.ex-title-bar strong { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: rgba(255,255,255,0.85); }
+.ex-title-bar span { font-family: 'DM Mono', monospace; font-size: 0.58rem; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; text-transform: uppercase; }
+
+.ex-table { width: 100%; border-collapse: collapse; font-size: 0.66rem; }
+.ex-table thead tr { background: #f8f8f6; border-bottom: 2px solid var(--border); }
+.ex-table th { padding: 0.5rem 0.7rem; text-align: left; font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 400; }
+.ex-table td { padding: 0.5rem 0.7rem; border-bottom: 1px solid #f0f0ee; color: var(--dark); vertical-align: middle; }
+.ex-table tr:last-child td { border-bottom: none; }
+.ex-table tr:hover td { background: #fafaf8; }
+.ex-table tr.hl td { background: var(--accent-light); }
+
+.fname { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--ink); font-weight: 500; }
+.badge { display: inline-block; padding: 0.12rem 0.45rem; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.55rem; font-weight: 500; }
+.b-model { background: var(--accent-light); color: var(--accent); }
+.b-drawing { background: var(--purple-light); color: var(--purple); }
+.b-doc { background: var(--blue-light); color: var(--blue); }
+.b-report { background: var(--accent2-light); color: var(--accent2); }
+
+/* TYPE CODES GRID */
+.type-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; }
+.type-cell { padding: 0.9rem 0.8rem; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.type-cell:nth-child(4n) { border-right: none; }
+.type-cell:nth-last-child(-n+4) { border-bottom: none; }
+.tc-code { font-family: 'DM Mono', monospace; font-size: 0.85rem; font-weight: 500; color: var(--accent); margin-bottom: 0.2rem; }
+.tc-name { font-size: 0.65rem; font-weight: 600; color: var(--dark); margin-bottom: 0.1rem; }
+.tc-eg { font-size: 0.6rem; color: var(--muted); }
+
+/* TWO COL */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+
+/* CHECKLIST */
+.checklist { border: 1px solid var(--border); }
+.cl-header { background: var(--dark); padding: 0.6rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+.cl-item { display: flex; align-items: center; gap: 0.8rem; padding: 0.55rem 1rem; border-bottom: 1px solid #f0f0ee; font-size: 0.7rem; color: var(--mid); }
+.cl-item:last-child { border-bottom: none; }
+.cl-box { width: 16px; height: 16px; background: var(--accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: white; font-size: 0.55rem; }
+
+/* MISTAKES */
+.mistakes { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); }
+.mistake { display: grid; grid-template-columns: 28px 1fr; gap: 0.8rem; padding: 0.8rem 1rem; border-bottom: 1px solid #f0f0ee; align-items: start; }
+.mistake:last-child { border-bottom: none; }
+.m-num { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 700; color: var(--border); line-height: 1.2; }
+.m-title { font-size: 0.72rem; font-weight: 600; color: var(--dark); margin-bottom: 0.2rem; }
+.m-title.accent { color: var(--accent); }
+.m-desc { font-size: 0.67rem; color: var(--mid); line-height: 1.55; }
+
+/* STATS */
+.stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; }
+.stat-cell { padding: 1.2rem 1rem; border-right: 1px solid var(--border); text-align: center; }
+.stat-cell:last-child { border-right: none; }
+.stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 700; line-height: 1; color: var(--black); margin-bottom: 0.3rem; }
+.stat-num.accent { color: var(--accent); }
+.stat-num.accent2 { color: var(--accent2); }
+.stat-num.red { color: var(--red); }
+.stat-label { font-size: 0.6rem; color: var(--muted); line-height: 1.4; }
+
+/* PAGE FOOTER */
+.page-foot { margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.pf-left { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--light); letter-spacing: 0.1em; }
+.pf-links { display: flex; gap: 1.8rem; }
+.pf-link { font-family: 'Outfit', sans-serif; font-size: 0.6rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.25s; position: relative; }
+.pf-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.25s; }
+.pf-link:hover { color: var(--accent); }
+.pf-link:hover::after { width: 100%; }
+
+@media (max-width: 700px) {
+  body { padding: 0.5rem; }
+  .page-inner { padding: 2rem 1.5rem; }
+  .title-block { grid-template-columns: 1fr; }
+  .pillars { grid-template-columns: 1fr 1fr; }
+  .na-fields { grid-template-columns: repeat(4, 1fr); }
+  .type-grid { grid-template-columns: 1fr 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .article-title { font-size: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ PAGE 1 ═══════════════════ -->
+<div class="page">
+<div class="page-inner">
+
+  <div class="page-topbar">
+    <span class="pt-subject">ISO 19650 Naming Convention — Practical Implementation</span>
+    <span class="pt-page">01 / 02</span>
+  </div>
+
+  <div class="title-block">
+    <div>
+      <div class="article-kicker">BIM Information Management · ISO 19650-2 · BS EN ISO 19650</div>
+      <h1 class="article-title">ISO 19650 Naming<br><span>Convention</span></h1>
+      <p class="article-desc">A practical field guide to implementing the ISO 19650 container naming structure — field by field — across models, drawings, documents, and CDE submissions on a live project.</p>
+    </div>
+    <div class="title-meta">
+      <span class="meta-pill">ISO 19650-2:2018</span>
+      <span class="meta-pill">BS EN ISO 19650</span>
+      <span class="meta-pill">2026 Edition</span>
+    </div>
+  </div>
+
+  <!-- DEFINITION -->
+  <div class="def-strip">
+    <div class="def-label">Definition</div>
+    <div class="def-text">The ISO 19650 naming convention is a <strong>structured string of defined fields</strong> that uniquely identifies every information container on a project — from BIM models and drawings to documents and reports. It enables <strong>automated CDE processing</strong>, consistent cross-discipline referencing, and full audit traceability across the project lifecycle without ambiguity.</div>
+  </div>
+
+  <!-- 4 PILLARS -->
+  <div class="pillars">
+    <div class="pillar p1">
+      <div class="pillar-q">Why?</div>
+      <div class="pillar-title">Uniqueness</div>
+      <div class="pillar-desc">Every file on a project has a name that uniquely identifies it — no two containers can share the same name, eliminating version confusion and duplication.</div>
+    </div>
+    <div class="pillar p2">
+      <div class="pillar-q">How?</div>
+      <div class="pillar-title">Structured Fields</div>
+      <div class="pillar-desc">8 defined fields separated by hyphens (-) build the complete naming string — each field carries specific project metadata in a fixed position.</div>
+    </div>
+    <div class="pillar p3">
+      <div class="pillar-q">Where?</div>
+      <div class="pillar-title">Across All Files</div>
+      <div class="pillar-desc">Applied to every information container — BIM models, drawings, documents, reports, registers — consistently across all disciplines and Appointed Parties.</div>
+    </div>
+    <div class="pillar p4">
+      <div class="pillar-q">When?</div>
+      <div class="pillar-title">From Day One</div>
+      <div class="pillar-desc">The naming convention must be defined in the BEP before any files are created and enforced from mobilisation — retrofitting is costly and error-prone.</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- NAMING ANATOMY -->
+  <div class="sec-eyebrow">Structure</div>
+  <div class="sec-heading">The ISO 19650 Naming String — Anatomy of a Container Name</div>
+
+  <div class="naming-anatomy">
+    <div class="na-bar">
+      <div style="color:rgba(255,255,255,0.4);font-size:0.6rem;margin-bottom:0.4rem;letter-spacing:0.2em;text-transform:uppercase;">Example Container Name</div>
+      <div class="na-string">XYZ-ARC-ZZ-00-M3-A-0001-S4-P01</div>
+    </div>
+    <div class="na-fields">
+      <div class="na-field nf1">
+        <div class="na-code">XYZ</div>
+        <div class="na-name">Project</div>
+        <div class="na-eg">e.g. SAA</div>
+      </div>
+      <div class="na-field nf2">
+        <div class="na-code">ARC</div>
+        <div class="na-name">Originator</div>
+        <div class="na-eg">e.g. MEP</div>
+      </div>
+      <div class="na-field nf3">
+        <div class="na-code">ZZ</div>
+        <div class="na-name">Volume / System</div>
+        <div class="na-eg">e.g. B1</div>
+      </div>
+      <div class="na-field nf4">
+        <div class="na-code">00</div>
+        <div class="na-name">Level / Location</div>
+        <div class="na-eg">e.g. L3</div>
+      </div>
+      <div class="na-field nf5">
+        <div class="na-code">M3</div>
+        <div class="na-name">Type</div>
+        <div class="na-eg">e.g. DR</div>
+      </div>
+      <div class="na-field nf6">
+        <div class="na-code">A</div>
+        <div class="na-name">Role</div>
+        <div class="na-eg">e.g. S</div>
+      </div>
+      <div class="na-field nf7">
+        <div class="na-code">0001</div>
+        <div class="na-name">Number</div>
+        <div class="na-eg">e.g. 0025</div>
+      </div>
+      <div class="na-field nf8">
+        <div class="na-code">S4-P01</div>
+        <div class="na-name">Status & Rev</div>
+        <div class="na-eg">e.g. S2-C02</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FIELD TABLE -->
+  <div class="sec-eyebrow">Fields Explained</div>
+  <div class="sec-heading">All 8 Fields — Values, Rules & Examples</div>
+
+  <table class="field-table">
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th>Name</th>
+        <th>Max Length</th>
+        <th>Rules</th>
+        <th>Common Values</th>
+        <th>Example</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="f-code fc1">Field 1</span></td>
+        <td><strong>Project</strong></td>
+        <td>6 chars</td>
+        <td>Alphanumeric, agreed at project outset, consistent across all parties</td>
+        <td>Project code or abbreviation defined in BEP</td>
+        <td><code>XYZ</code> / <code>SAA01</code></td>
+      </tr>
+      <tr>
+        <td><span class="f-code fc2">Field 2</span></td>
+        <td><strong>Originator</strong></td>
+        <td>6 chars</td>
+        <td>Identifies the Appointed Party that authored the container. Unique per party.</td>
+        <td>ARC, STR, MEP, CIV, FIR, ELE, PLB</td>
+        <td><code>ARC</code> / <code>MEPCO</code></td>
+      </tr>
+      <tr>
+        <td><span class="f-code fc3">Field 3</span></td>
+        <td><strong>Volume / System</strong></td>
+        <td>2 chars</td>
+        <td>Defines the spatial volume, building, or system the container covers. ZZ = whole project.</td>
+        <td>ZZ, B1, B2, T1, EX, UG</td>
+        <td><code>ZZ</code> / <code>B1</code></td>
+      </tr>
+      <tr>
+        <td><span class="f-code fc4">Field 4</span></td>
+        <td><strong>Level / Location</strong></td>
+        <td>2 chars</td>
+        <td>Defines the floor level or zone. 00 = all levels / not applicable.</td>
+        <td>00, B1, G0, L1, L2, RF</td>
+        <td><code>00</code> / <code>L3</code></td>
+      </tr>
+      <tr>
+        <td><span class="f-code fc5">Field 5</span></td>
+        <td><strong>Type</strong></td>
+        <td>2 chars</td>
+        <td>Defines the type of information container. Must use standard codes from ISO 19650 or BEP-defined list.</td>
+        <td>M3 (3D Model), DR (Drawing), SP (Specification), RP (Report), SC (Schedule)</td>
+        <td><code>M3</code> / <code>DR</code></td>
+      </tr>
+      <tr>
+        <td><span class="f-code fc6">Field 6</span></td>
+        <td><strong>Role</strong></td>
+        <td>1 char</td>
+        <td>Single character identifying the discipline role of the originator.</td>
+        <td>A (Arch), S (Struct), M (Mech), E (Elec), P (Plumb), C (Civil), X (Multi)</td>
+        <td><code>A</code> / <code>M</code></td>
+      </tr>
+      <tr>
+        <td><span class="f-code fc7">Field 7</span></td>
+        <td><strong>Number</strong></td>
+        <td>4 chars</td>
+        <td>Sequential number unique within the project-originator-type combination. Zero-padded.</td>
+        <td>0001, 0002 ... 9999</td>
+        <td><code>0001</code> / <code>0025</code></td>
+      </tr>
+      <tr>
+        <td><span class="f-code fc8">Field 8</span></td>
+        <td><strong>Status & Revision</strong></td>
+        <td>6 chars</td>
+        <td>Suitability code (S0–S4) followed by revision number (P01, C01 etc.). P = preliminary, C = contract.</td>
+        <td>S0-P01, S2-P03, S3-C01, S4-C02</td>
+        <td><code>S4-C01</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- TYPE CODES -->
+  <div class="sec-eyebrow">Type Codes</div>
+  <div class="sec-heading">Common Container Type Codes — Field 5</div>
+
+  <div class="type-grid">
+    <div class="type-cell"><div class="tc-code">M3</div><div class="tc-name">3D Model</div><div class="tc-eg">BIM model files (RVT, IFC)</div></div>
+    <div class="type-cell"><div class="tc-code">M2</div><div class="tc-name">2D Model</div><div class="tc-eg">CAD files (DWG, DXF)</div></div>
+    <div class="type-cell"><div class="tc-code">DR</div><div class="tc-name">Drawing</div><div class="tc-eg">Construction drawings (PDF)</div></div>
+    <div class="type-cell"><div class="tc-code">SP</div><div class="tc-name">Specification</div><div class="tc-eg">Technical specifications (PDF)</div></div>
+    <div class="type-cell"><div class="tc-code">RP</div><div class="tc-name">Report</div><div class="tc-eg">Clash reports, audits (PDF)</div></div>
+    <div class="type-cell"><div class="tc-code">SC</div><div class="tc-name">Schedule</div><div class="tc-eg">MIDP, MPDT (XLSX)</div></div>
+    <div class="type-cell"><div class="tc-code">CO</div><div class="tc-name">Correspondence</div><div class="tc-eg">RFIs, transmittals (PDF)</div></div>
+    <div class="type-cell"><div class="tc-code">VS</div><div class="tc-name">Visualisation</div><div class="tc-eg">Renders, animations (MP4)</div></div>
+  </div>
+
+  <!-- PAGE FOOTER -->
+  <div class="page-foot">
+    <span class="pf-left">ISO 19650 Naming Convention Guide · 2026</span>
+    <div class="pf-links">
+      <a href="https://beyabhi.github.io/abhinawchaubey/" target="_blank" class="pf-link">About Me</a>
+      <a href="https://beyabhi.github.io/abhinawchaubey/articles.html" target="_blank" class="pf-link">My Articles</a>
+    </div>
+  </div>
+
+</div>
+</div>
+
+
+<!-- ═══════════════════ PAGE 2 ═══════════════════ -->
+<div class="page">
+<div class="page-inner">
+
+  <div class="page-topbar">
+    <span class="pt-subject">ISO 19650 Naming Convention — Practical Implementation</span>
+    <span class="pt-page">02 / 02</span>
+  </div>
+
+  <!-- LIVE EXAMPLES -->
+  <div class="sec-eyebrow">Live Examples</div>
+  <div class="sec-heading">Sample Named Containers — Multi-Discipline Project</div>
+
+  <div class="ex-wrap">
+    <div class="ex-title-bar">
+      <strong>Container Naming Register — Project SAA01 · Saadiyat Island Development</strong>
+      <span>ISO 19650-2 Compliant</span>
+    </div>
+    <table class="ex-table">
+      <thead>
+        <tr>
+          <th>Container Name</th>
+          <th>Type</th>
+          <th>Originator</th>
+          <th>Vol / Level</th>
+          <th>Description</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="hl">
+          <td><span class="fname">SAA01-ARC-ZZ-00-M3-A-0001-S4-C01</span></td>
+          <td><span class="badge b-model">3D Model</span></td>
+          <td>Architect</td>
+          <td>All / All</td>
+          <td>Architectural Shell & Core — Federated Model</td>
+          <td style="color:var(--accent);font-size:0.62rem;font-weight:500;">S4 Approved</td>
+        </tr>
+        <tr>
+          <td><span class="fname">SAA01-STR-ZZ-00-M3-S-0001-S3-C01</span></td>
+          <td><span class="badge b-model">3D Model</span></td>
+          <td>Structural Eng.</td>
+          <td>All / All</td>
+          <td>Structural Frame & Foundations Model</td>
+          <td style="color:var(--accent2);font-size:0.62rem;font-weight:500;">S3 For Review</td>
+        </tr>
+        <tr class="hl">
+          <td><span class="fname">SAA01-MEP-B1-00-M3-M-0001-S2-P03</span></td>
+          <td><span class="badge b-model">3D Model</span></td>
+          <td>MEP Contractor</td>
+          <td>Block 1 / All</td>
+          <td>HVAC & Mechanical Systems — Block 1</td>
+          <td style="color:var(--blue);font-size:0.62rem;font-weight:500;">S2 For Info</td>
+        </tr>
+        <tr>
+          <td><span class="fname">SAA01-ARC-ZZ-L1-DR-A-0025-S4-C02</span></td>
+          <td><span class="badge b-drawing">Drawing</span></td>
+          <td>Architect</td>
+          <td>All / Level 1</td>
+          <td>Level 1 Floor Plan — Architectural</td>
+          <td style="color:var(--accent);font-size:0.62rem;font-weight:500;">S4 Approved</td>
+        </tr>
+        <tr>
+          <td><span class="fname">SAA01-BIM-ZZ-00-RP-X-0003-S4-C01</span></td>
+          <td><span class="badge b-report">Report</span></td>
+          <td>Info. Manager</td>
+          <td>All / All</td>
+          <td>Clash Detection Report — DD Stage</td>
+          <td style="color:var(--accent);font-size:0.62rem;font-weight:500;">S4 Approved</td>
+        </tr>
+        <tr>
+          <td><span class="fname">SAA01-BIM-ZZ-00-SC-X-0001-S4-C03</span></td>
+          <td><span class="badge b-doc">Schedule</span></td>
+          <td>Info. Manager</td>
+          <td>All / All</td>
+          <td>Master Information Delivery Plan (MIDP)</td>
+          <td style="color:var(--accent);font-size:0.62rem;font-weight:500;">S4 Approved</td>
+        </tr>
+        <tr>
+          <td><span class="fname">SAA01-CIV-ZZ-00-M2-C-0001-S3-P02</span></td>
+          <td><span class="badge b-drawing">2D Model</span></td>
+          <td>Civil Engineer</td>
+          <td>All / All</td>
+          <td>Site Layout & External Works — CAD</td>
+          <td style="color:var(--accent2);font-size:0.62rem;font-weight:500;">S3 For Review</td>
+        </tr>
+        <tr class="hl">
+          <td><span class="fname">SAA01-MEP-ZZ-RF-DR-M-0012-S4-C01</span></td>
+          <td><span class="badge b-drawing">Drawing</span></td>
+          <td>MEP Contractor</td>
+          <td>All / Roof</td>
+          <td>Roof Plant Layout — Mechanical Services</td>
+          <td style="color:var(--accent);font-size:0.62rem;font-weight:500;">S4 Approved</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="rule">
+
+  <!-- CHECKLIST + MISTAKES -->
+  <div class="two-col">
+    <div>
+      <div class="sec-eyebrow">Implementation Checklist</div>
+      <div class="sec-heading">Naming Convention Setup</div>
+      <div class="checklist">
+        <div class="cl-header">Before first CDE upload — verify all items</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Project code agreed and documented in BEP</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Originator codes assigned to all parties</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Volume / system codes defined for project zones</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Level codes agreed across all disciplines</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Type codes list shared with all Appointed Parties</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Role codes assigned per discipline</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Sequential number register set up per originator</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Status and revision format agreed (S0–S4, P/C)</div>
+        <div class="cl-item"><div class="cl-box">✓</div>CDE configured to enforce naming on upload</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Naming convention guide issued to all teams</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sec-eyebrow">Common Errors</div>
+      <div class="sec-heading">5 Naming Mistakes to Avoid</div>
+      <div class="mistakes">
+        <div class="mistake">
+          <div class="m-num">1</div>
+          <div>
+            <div class="m-title accent">Inconsistent originator codes across parties</div>
+            <div class="m-desc">If one party uses ARC and another uses ARCH for the same discipline, automated CDE processing fails. All codes must be standardised in the BEP before mobilisation.</div>
+          </div>
+        </div>
+        <div class="mistake">
+          <div class="m-num">2</div>
+          <div>
+            <div class="m-title">Free-text descriptions in the name string</div>
+            <div class="m-desc">Adding words like "FINAL", "REVISED", or "CLIENT" in the filename breaks the structured format. All context must be captured in the defined fields — never in free text.</div>
+          </div>
+        </div>
+        <div class="mistake">
+          <div class="m-num">3</div>
+          <div>
+            <div class="m-title">Reusing container numbers across revisions</div>
+            <div class="m-desc">The sequential number identifies the container — not the revision. The revision field handles version changes. Reusing numbers creates duplicate references and audit failures.</div>
+          </div>
+        </div>
+        <div class="mistake">
+          <div class="m-num">4</div>
+          <div>
+            <div class="m-title">Wrong status code on CDE submission</div>
+            <div class="m-desc">Submitting an S0 work-in-progress file with an S4 status code bypasses the review cycle. CDE workflows must enforce status validation on upload — not rely on author self-reporting.</div>
+          </div>
+        </div>
+        <div class="mistake">
+          <div class="m-num">5</div>
+          <div>
+            <div class="m-title">Applying naming retrospectively</div>
+            <div class="m-desc">Attempting to rename hundreds of files mid-project breaks CDE links, version histories, and cross-references. The naming convention must be in place before the first file is created.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- STATS -->
+  <div class="sec-eyebrow">Key Numbers</div>
+  <div class="stat-row">
+    <div class="stat-cell">
+      <div class="stat-num accent">8</div>
+      <div class="stat-label">Defined fields that make up every ISO 19650 container name</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">5</div>
+      <div class="stat-label">Suitability codes (S0–S4) that must be reflected in field 8</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num accent2">1</div>
+      <div class="stat-label">Delimiter used between fields — the hyphen (-). No spaces, no underscores.</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num red">0</div>
+      <div class="stat-label">Acceptable free-text or non-standard characters in a compliant container name</div>
+    </div>
+  </div>
+
+  <!-- PAGE FOOTER -->
+  <div class="page-foot">
+    <span class="pf-left">ISO 19650 Naming Convention Guide · 2026</span>
+    <div class="pf-links">
+      <a href="https://beyabhi.github.io/abhinawchaubey/" target="_blank" class="pf-link">About Me</a>
+      <a href="https://beyabhi.github.io/abhinawchaubey/articles.html" target="_blank" class="pf-link">My Articles</a>
+    </div>
+  </div>
+
+</div>
+</div>
+
+</body>
+</html>

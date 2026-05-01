@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clash Detection Matrix — A Professional Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; }
+:root {
+  --black: #0f0f0f;
+  --ink: #1c1c1c;
+  --dark: #2d2d2d;
+  --mid: #555;
+  --muted: #888;
+  --light: #bbb;
+  --border: #e0e0e0;
+  --bg: #f4f4f0;
+  --white: #ffffff;
+  --accent: #1a6b5a;
+  --accent-light: #e8f4f1;
+  --accent2: #c47a3a;
+  --accent2-light: #fdf3e8;
+  --red: #b03030;
+  --red-light: #fdeaea;
+  --blue: #2a5a9a;
+  --blue-light: #e8f0f8;
+  --purple: #6b3a9a;
+  --purple-light: #f0eafd;
+}
+body { background: var(--bg); font-family: 'Outfit', sans-serif; font-weight: 300; color: var(--ink); padding: 2.5rem 1.5rem; }
+
+/* PAGE */
+.page { background: var(--white); max-width: 860px; margin: 0 auto 3rem; position: relative; box-shadow: 0 2px 40px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04); }
+.page::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); }
+.page-inner { padding: 3rem 3.5rem 2.5rem; }
+
+/* TOP BAR */
+.page-topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+.pt-subject { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+.pt-page { font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--light); letter-spacing: 0.12em; }
+
+/* TITLE */
+.title-block { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: end; }
+.article-kicker { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; }
+.article-title { font-family: 'Cormorant Garamond', serif; font-size: 3.2rem; font-weight: 700; line-height: 1.05; color: var(--black); letter-spacing: -0.02em; }
+.article-title span { font-style: italic; font-weight: 300; color: var(--accent); }
+.article-desc { margin-top: 1rem; font-size: 0.85rem; line-height: 1.75; color: var(--mid); max-width: 500px; font-weight: 300; }
+.title-meta { text-align: right; display: flex; flex-direction: column; gap: 0.8rem; align-items: flex-end; }
+.meta-pill { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.3rem 0.8rem; border: 1px solid var(--border); color: var(--muted); border-radius: 2px; }
+
+/* SECTION LABELS */
+.sec-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+.sec-heading { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: var(--black); margin-bottom: 1rem; letter-spacing: -0.01em; }
+hr.rule { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+/* DEFINITION STRIP */
+.def-strip { background: var(--ink); color: white; padding: 1.4rem 2rem; margin-bottom: 1.5rem; display: grid; grid-template-columns: auto 1fr; gap: 2rem; align-items: center; }
+.def-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.4); writing-mode: vertical-rl; transform: rotate(180deg); }
+.def-text { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 300; line-height: 1.6; color: rgba(255,255,255,0.9); }
+.def-text strong { color: #7dd3c0; font-weight: 400; }
+
+/* 4 PILLARS */
+.pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; }
+.pillar { padding: 1.2rem 1rem; border-right: 1px solid var(--border); position: relative; }
+.pillar:last-child { border-right: none; }
+.pillar::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.p1::before { background: var(--accent); } .p2::before { background: var(--red); } .p3::before { background: var(--accent2); } .p4::before { background: var(--blue); }
+.pillar-q { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 700; font-style: italic; line-height: 1; margin-bottom: 0.4rem; }
+.p1 .pillar-q { color: var(--accent); } .p2 .pillar-q { color: var(--red); } .p3 .pillar-q { color: var(--accent2); } .p4 .pillar-q { color: var(--blue); }
+.pillar-title { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dark); margin-bottom: 0.35rem; }
+.pillar-desc { font-size: 0.72rem; color: var(--mid); line-height: 1.5; }
+
+/* CLASH TYPE GRID */
+.clash-types { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; }
+.ct-card { padding: 1.2rem 1rem; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.ct-card:nth-child(3n) { border-right: none; }
+.ct-card:nth-child(4), .ct-card:nth-child(5), .ct-card:nth-child(6) { border-bottom: none; }
+.ct-icon { font-size: 1.3rem; margin-bottom: 0.5rem; }
+.ct-type { font-family: 'DM Mono', monospace; font-size: 0.62rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.3rem; }
+.ct-hard { color: var(--red); } .ct-soft { color: var(--accent2); } .ct-workflow { color: var(--blue); }
+.ct-clearance { color: var(--purple); } .ct-duplicate { color: var(--dark); } .ct-tolerance { color: var(--accent); }
+.ct-desc { font-size: 0.7rem; color: var(--mid); line-height: 1.5; }
+
+/* MAIN CLASH MATRIX TABLE */
+.matrix-wrap { border: 1px solid var(--border); margin-bottom: 1.5rem; overflow-x: auto; }
+.matrix-title-bar { background: var(--ink); padding: 0.7rem 1.2rem; display: flex; justify-content: space-between; align-items: center; }
+.matrix-title-bar span { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+.matrix-title-bar strong { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: rgba(255,255,255,0.85); letter-spacing: 0.08em; }
+
+.matrix-table { width: 100%; border-collapse: collapse; font-size: 0.66rem; }
+.matrix-table thead tr { background: #f8f8f6; border-bottom: 2px solid var(--border); }
+.matrix-table th { padding: 0.55rem 0.6rem; text-align: left; font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 400; white-space: nowrap; }
+.matrix-table td { padding: 0.5rem 0.6rem; border-bottom: 1px solid #f0f0ee; color: var(--dark); vertical-align: middle; font-size: 0.67rem; }
+.matrix-table tr:last-child td { border-bottom: none; }
+.matrix-table tr:hover td { background: #fafaf8; }
+.matrix-table tr.hl td { background: var(--accent-light); }
+.matrix-table tr.hl:hover td { background: #ddf0eb; }
+
+/* discipline label */
+.disc { font-family: 'DM Mono', monospace; font-size: 0.58rem; font-weight: 500; padding: 0.15rem 0.45rem; border-radius: 2px; white-space: nowrap; }
+.d-arch { background: #f0f0ee; color: var(--dark); }
+.d-mep  { background: var(--blue-light); color: var(--blue); }
+.d-str  { background: var(--red-light); color: var(--red); }
+.d-civ  { background: var(--accent2-light); color: var(--accent2); }
+.d-fire { background: var(--purple-light); color: var(--purple); }
+
+/* clash priority */
+.pri { font-family: 'DM Mono', monospace; font-size: 0.58rem; font-weight: 500; padding: 0.15rem 0.5rem; border-radius: 2px; }
+.pri-critical { background: var(--red); color: white; }
+.pri-high { background: var(--accent2-light); color: var(--accent2); border: 1px solid rgba(196,122,58,0.3); }
+.pri-medium { background: var(--blue-light); color: var(--blue); border: 1px solid rgba(42,90,154,0.2); }
+.pri-low { background: #f0f0ee; color: var(--muted); }
+
+/* tolerance badge */
+.tol { font-family: 'DM Mono', monospace; font-size: 0.6rem; font-weight: 500; color: var(--accent); }
+.tol-tight { color: var(--red); }
+.tol-std { color: var(--accent); }
+.tol-loose { color: var(--muted); }
+
+/* TOLERANCE TABLE */
+.tol-table { width: 100%; border-collapse: collapse; font-size: 0.68rem; margin-bottom: 1.5rem; }
+.tol-table thead tr { background: var(--dark); }
+.tol-table th { padding: 0.6rem 0.8rem; text-align: left; font-family: 'DM Mono', monospace; font-size: 0.54rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.7); font-weight: 400; }
+.tol-table td { padding: 0.55rem 0.8rem; border-bottom: 1px solid #f0f0ee; color: var(--dark); vertical-align: middle; }
+.tol-table tr:nth-child(even) td { background: #fafaf8; }
+.tol-table tr:hover td { background: var(--accent-light); }
+
+/* stage badge */
+.stage { font-family: 'DM Mono', monospace; font-size: 0.58rem; padding: 0.15rem 0.5rem; border-radius: 2px; font-weight: 500; }
+.s-design { background: var(--blue-light); color: var(--blue); }
+.s-coord  { background: var(--accent-light); color: var(--accent); border: 1px solid rgba(26,107,90,0.2); }
+.s-fab    { background: var(--accent); color: white; }
+.s-const  { background: var(--ink); color: white; }
+
+/* DISCIPLINE MATRIX — heat grid */
+.heat-wrap { border: 1px solid var(--border); margin-bottom: 1.5rem; overflow-x: auto; }
+.heat-table { width: 100%; border-collapse: collapse; font-size: 0.65rem; }
+.heat-table th { padding: 0.5rem 0.6rem; font-family: 'DM Mono', monospace; font-size: 0.54rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-align: center; font-weight: 400; background: #f8f8f6; border-bottom: 2px solid var(--border); border-right: 1px solid var(--border); }
+.heat-table th:first-child { text-align: left; }
+.heat-table td { padding: 0.5rem 0.6rem; border-bottom: 1px solid #f0f0ee; border-right: 1px solid #f0f0ee; text-align: center; font-family: 'DM Mono', monospace; font-size: 0.6rem; font-weight: 500; }
+.heat-table td:first-child { text-align: left; font-family: 'Outfit', sans-serif; font-size: 0.68rem; color: var(--dark); background: #f8f8f6; border-right: 2px solid var(--border); }
+.heat-table tr:last-child td { border-bottom: none; }
+
+.h-critical { background: #fdeaea; color: var(--red); }
+.h-high { background: var(--accent2-light); color: var(--accent2); }
+.h-medium { background: var(--blue-light); color: var(--blue); }
+.h-low { background: var(--accent-light); color: var(--accent); }
+.h-none { background: #f8f8f6; color: var(--border); }
+.h-self { background: var(--ink); color: rgba(255,255,255,0.2); font-size: 0.45rem; }
+
+/* WORKFLOW STEPS */
+.workflow { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; overflow: hidden; }
+.wf-step { padding: 1.1rem 0.8rem; border-right: 1px solid var(--border); text-align: center; position: relative; }
+.wf-step:last-child { border-right: none; }
+.wf-step.wf-active { background: var(--accent-light); border-top: 2px solid var(--accent); }
+.wf-num { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 700; color: var(--border); line-height: 1; margin-bottom: 0.4rem; }
+.wf-active .wf-num { color: var(--accent); }
+.wf-title { font-family: 'DM Mono', monospace; font-size: 0.6rem; font-weight: 500; color: var(--dark); letter-spacing: 0.06em; margin-bottom: 0.2rem; }
+.wf-active .wf-title { color: var(--accent); }
+.wf-sub { font-size: 0.57rem; color: var(--muted); line-height: 1.4; }
+
+/* TWO COL */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+
+/* CHECKLIST */
+.checklist { border: 1px solid var(--border); }
+.cl-header { background: var(--dark); padding: 0.6rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+.cl-item { display: flex; align-items: center; gap: 0.8rem; padding: 0.55rem 1rem; border-bottom: 1px solid #f0f0ee; font-size: 0.7rem; color: var(--mid); }
+.cl-item:last-child { border-bottom: none; }
+.cl-box { width: 16px; height: 16px; background: var(--accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: white; font-size: 0.55rem; }
+
+/* BEST PRACTICES */
+.practices { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); }
+.practice { display: grid; grid-template-columns: 28px 1fr; gap: 0.8rem; padding: 0.8rem 1rem; border-bottom: 1px solid #f0f0ee; align-items: start; }
+.practice:last-child { border-bottom: none; }
+.pr-num { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 700; color: var(--border); line-height: 1.2; }
+.pr-title { font-size: 0.72rem; font-weight: 600; color: var(--dark); margin-bottom: 0.2rem; }
+.pr-title.accent { color: var(--accent); }
+.pr-desc { font-size: 0.67rem; color: var(--mid); line-height: 1.55; }
+
+/* STATS */
+.stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; }
+.stat-cell { padding: 1.2rem 1rem; border-right: 1px solid var(--border); text-align: center; }
+.stat-cell:last-child { border-right: none; }
+.stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 700; line-height: 1; color: var(--black); margin-bottom: 0.3rem; }
+.stat-num.accent { color: var(--accent); }
+.stat-num.red { color: var(--red); }
+.stat-num.amber { color: var(--accent2); }
+.stat-label { font-size: 0.6rem; color: var(--muted); line-height: 1.4; }
+
+/* LEGEND ROW */
+.legend { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.leg-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.6rem; color: var(--muted); }
+.leg-dot { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+
+/* PAGE FOOTER */
+.page-foot { margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.pf-left { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--light); letter-spacing: 0.1em; }
+.pf-links { display: flex; gap: 1.8rem; align-items: center; }
+.pf-link { font-family: 'Outfit', sans-serif; font-size: 0.6rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.25s; position: relative; }
+.pf-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.25s; }
+.pf-link:hover { color: var(--accent); }
+.pf-link:hover::after { width: 100%; }
+
+@media (max-width: 700px) {
+  body { padding: 0.5rem; }
+  .page-inner { padding: 2rem 1.5rem; }
+  .title-block { grid-template-columns: 1fr; }
+  .pillars, .clash-types { grid-template-columns: 1fr 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .workflow { grid-template-columns: repeat(3, 1fr); }
+  .article-title { font-size: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ PAGE 1 ═══════════════════ -->
+<div class="page">
+<div class="page-inner">
+
+  <div class="page-topbar">
+    <span class="pt-subject">Clash Detection & Coordination Matrix</span>
+    <span class="pt-page">01 / 02</span>
+  </div>
+
+  <div class="title-block">
+    <div>
+      <div class="article-kicker">BIM Coordination · Middle East Projects · SD / DD / CD / IFC</div>
+      <h1 class="article-title">Clash Detection<br>& <span>Coordination Matrix</span></h1>
+      <p class="article-desc">A practical guide to building and governing a Clash Detection Matrix — calibrated to Middle East project stages (SD, DD, CD, IFC) — defining which disciplines clash against each other, at what tolerance per stage, and how issues are prioritised and resolved. References: BIMForum LOD Spec 2021 · ISO 19650-2 · RIBA POW 2020 · AIA G202 · CIBSE Guide A.</p>
+    </div>
+    <div class="title-meta">
+      <span class="meta-pill">SD · DD · CD · IFC</span>
+      <span class="meta-pill">BIMForum · ISO 19650</span>
+      <span class="meta-pill">2026 Edition</span>
+    </div>
+  </div>
+
+  <!-- DEFINITION -->
+  <div class="def-strip">
+    <div class="def-label">Definition</div>
+    <div class="def-text">A Clash Detection Matrix is a <strong>structured coordination schedule</strong> that defines which discipline model pairs are tested against each other, the <strong>clash type and tolerance</strong> applied at each project stage, and the <strong>priority and ownership</strong> of each clash test — ensuring systematic, stage-appropriate coordination across all federated models.</div>
+  </div>
+
+  <!-- 4 PILLARS -->
+  <div class="pillars">
+    <div class="pillar p1">
+      <div class="pillar-q">What?</div>
+      <div class="pillar-title">Discipline Pairs</div>
+      <div class="pillar-desc">Defines which model pairs are tested — Arch vs MEP, Struct vs MEP, MEP vs MEP — no gaps, no missed interfaces.</div>
+    </div>
+    <div class="pillar p2">
+      <div class="pillar-q">Type?</div>
+      <div class="pillar-title">Clash Classification</div>
+      <div class="pillar-desc">Hard, soft, clearance, or workflow — each clash type has different severity and resolution requirements.</div>
+    </div>
+    <div class="pillar p3">
+      <div class="pillar-q">How?</div>
+      <div class="pillar-title">Tolerance per Stage</div>
+      <div class="pillar-desc">Tolerances tighten as the project progresses — what is acceptable at Stage 2 is a critical failure at Stage 4.</div>
+    </div>
+    <div class="pillar p4">
+      <div class="pillar-q">Who?</div>
+      <div class="pillar-title">Ownership & Priority</div>
+      <div class="pillar-desc">Every clash test is assigned an owner, a priority level, and a resolution deadline tied to the programme.</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- CLASH TYPES -->
+  <div class="sec-eyebrow">Classification</div>
+  <div class="sec-heading">6 Types of Clashes Defined</div>
+  <div class="clash-types">
+    <div class="ct-card">
+      <div class="ct-icon">🔴</div>
+      <div class="ct-type ct-hard">Hard Clash</div>
+      <div class="ct-desc">Two elements physically occupy the same space. Example: a structural beam running through an HVAC duct. Must be resolved before fabrication.</div>
+    </div>
+    <div class="ct-card">
+      <div class="ct-icon">🟡</div>
+      <div class="ct-type ct-soft">Soft Clash</div>
+      <div class="ct-desc">Elements are within a defined clearance zone but do not touch. Example: a pipe within 50mm of a structural element — violates maintenance access.</div>
+    </div>
+    <div class="ct-card">
+      <div class="ct-icon">🔵</div>
+      <div class="ct-type ct-workflow">Workflow Clash</div>
+      <div class="ct-desc">A sequencing or scheduling conflict. Example: two trades occupying the same zone in the same construction week — a programme-level issue.</div>
+    </div>
+    <div class="ct-card">
+      <div class="ct-icon">🟠</div>
+      <div class="ct-type ct-clearance">Clearance Clash</div>
+      <div class="ct-desc">Elements violate a minimum required clearance for operation, maintenance, or access. Commonly applied to MEP plant, valves, and panels.</div>
+    </div>
+    <div class="ct-card">
+      <div class="ct-icon">⚫</div>
+      <div class="ct-type ct-duplicate">Duplicate Clash</div>
+      <div class="ct-desc">Two identical elements occupy the same location — usually a data or modelling error. Indicates poor model discipline or CDE workflow issues.</div>
+    </div>
+    <div class="ct-card">
+      <div class="ct-icon">🟢</div>
+      <div class="ct-type ct-tolerance">Tolerance Clash</div>
+      <div class="ct-desc">An element falls outside agreed dimensional tolerance. Critical at LOD 400 where shop drawing accuracy is required for fabrication.</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- MAIN CLASH MATRIX -->
+  <div class="sec-eyebrow">Core Document</div>
+  <div class="sec-heading">Sample Clash Detection Matrix — Multi-Discipline</div>
+
+  <div class="matrix-wrap">
+    <div class="matrix-title-bar">
+      <strong>Clash Coordination Matrix — Middle East Project · SD / DD / CD / IFC</strong>
+      <span>Rev 02 · Coordination Issue</span>
+    </div>
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th>Test ID</th>
+          <th>Discipline A</th>
+          <th>Discipline B</th>
+          <th>Clash Type</th>
+          <th>SD Tol.</th>
+          <th>DD Tol.</th>
+          <th>CD / IFC Tol.</th>
+          <th>Priority</th>
+          <th>Owner</th>
+          <th>Frequency</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="hl">
+          <td><span class="disc d-str">CT-001</span></td>
+          <td><span class="disc d-str">Structure</span></td>
+          <td><span class="disc d-mep">Mechanical</span></td>
+          <td>Hard</td>
+          <td><span class="tol tol-loose">±50mm</span></td>
+          <td><span class="tol tol-std">±25mm</span></td>
+          <td><span class="tol tol-tight">0mm</span></td>
+          <td><span class="pri pri-critical">Critical</span></td>
+          <td>MEP Lead</td>
+          <td>Weekly</td>
+        </tr>
+        <tr class="hl">
+          <td><span class="disc d-str">CT-002</span></td>
+          <td><span class="disc d-str">Structure</span></td>
+          <td><span class="disc d-mep">Electrical</span></td>
+          <td>Hard</td>
+          <td><span class="tol tol-loose">±50mm</span></td>
+          <td><span class="tol tol-std">±25mm</span></td>
+          <td><span class="tol tol-tight">0mm</span></td>
+          <td><span class="pri pri-critical">Critical</span></td>
+          <td>MEP Lead</td>
+          <td>Weekly</td>
+        </tr>
+        <tr>
+          <td><span class="disc d-arch">CT-003</span></td>
+          <td><span class="disc d-arch">Architecture</span></td>
+          <td><span class="disc d-mep">Mechanical</span></td>
+          <td>Hard / Soft</td>
+          <td><span class="tol tol-loose">±75mm</span></td>
+          <td><span class="tol tol-std">±25mm</span></td>
+          <td><span class="tol tol-tight">0mm</span></td>
+          <td><span class="pri pri-high">High</span></td>
+          <td>BIM Coord.</td>
+          <td>Weekly</td>
+        </tr>
+        <tr>
+          <td><span class="disc d-arch">CT-004</span></td>
+          <td><span class="disc d-arch">Architecture</span></td>
+          <td><span class="disc d-mep">Plumbing</span></td>
+          <td>Hard</td>
+          <td><span class="tol tol-loose">±75mm</span></td>
+          <td><span class="tol tol-std">±25mm</span></td>
+          <td><span class="tol tol-tight">0mm</span></td>
+          <td><span class="pri pri-high">High</span></td>
+          <td>BIM Coord.</td>
+          <td>Bi-weekly</td>
+        </tr>
+        <tr>
+          <td><span class="disc d-mep">CT-005</span></td>
+          <td><span class="disc d-mep">Mechanical</span></td>
+          <td><span class="disc d-mep">Electrical</span></td>
+          <td>Hard / Clearance</td>
+          <td><span class="tol tol-loose">±100mm</span></td>
+          <td><span class="tol tol-std">±50mm</span></td>
+          <td><span class="tol tol-tight">±25mm</span></td>
+          <td><span class="pri pri-high">High</span></td>
+          <td>MEP Lead</td>
+          <td>Weekly</td>
+        </tr>
+        <tr>
+          <td><span class="disc d-mep">CT-006</span></td>
+          <td><span class="disc d-mep">Mechanical</span></td>
+          <td><span class="disc d-mep">Plumbing</span></td>
+          <td>Hard / Clearance</td>
+          <td><span class="tol tol-loose">±100mm</span></td>
+          <td><span class="tol tol-std">±50mm</span></td>
+          <td><span class="tol tol-tight">±25mm</span></td>
+          <td><span class="pri pri-high">High</span></td>
+          <td>MEP Lead</td>
+          <td>Weekly</td>
+        </tr>
+        <tr>
+          <td><span class="disc d-civ">CT-007</span></td>
+          <td><span class="disc d-civ">Civil</span></td>
+          <td><span class="disc d-str">Structure</span></td>
+          <td>Hard</td>
+          <td><span class="tol tol-loose">±100mm</span></td>
+          <td><span class="tol tol-std">±50mm</span></td>
+          <td><span class="tol tol-tight">±10mm</span></td>
+          <td><span class="pri pri-critical">Critical</span></td>
+          <td>Struct. Eng.</td>
+          <td>Fortnightly</td>
+        </tr>
+        <tr>
+          <td><span class="disc d-fire">CT-008</span></td>
+          <td><span class="disc d-fire">Fire Protection</span></td>
+          <td><span class="disc d-mep">Mechanical</span></td>
+          <td>Clearance</td>
+          <td><span class="tol tol-loose">±150mm</span></td>
+          <td><span class="tol tol-std">±75mm</span></td>
+          <td><span class="tol tol-tight">±50mm</span></td>
+          <td><span class="pri pri-medium">Medium</span></td>
+          <td>MEP Lead</td>
+          <td>Bi-weekly</td>
+        </tr>
+        <tr>
+          <td><span class="disc d-arch">CT-009</span></td>
+          <td><span class="disc d-arch">Architecture</span></td>
+          <td><span class="disc d-str">Structure</span></td>
+          <td>Soft / Tolerance</td>
+          <td><span class="tol tol-loose">±75mm</span></td>
+          <td><span class="tol tol-std">±25mm</span></td>
+          <td><span class="tol tol-tight">±10mm</span></td>
+          <td><span class="pri pri-medium">Medium</span></td>
+          <td>BIM Coord.</td>
+          <td>Fortnightly</td>
+        </tr>
+        <tr>
+          <td><span class="disc d-civ">CT-010</span></td>
+          <td><span class="disc d-civ">Civil</span></td>
+          <td><span class="disc d-mep">Plumbing</span></td>
+          <td>Hard</td>
+          <td><span class="tol tol-loose">±100mm</span></td>
+          <td><span class="tol tol-std">±50mm</span></td>
+          <td><span class="tol tol-tight">0mm</span></td>
+          <td><span class="pri pri-high">High</span></td>
+          <td>Civil Eng.</td>
+          <td>Fortnightly</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:var(--red)"></div>Critical — resolve before next model issue</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--accent2)"></div>High — resolve within 5 working days</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--blue)"></div>Medium — resolve before next stage gate</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#e0e0e0"></div>Low — log and monitor</div>
+  </div>
+
+  <!-- PAGE FOOTER -->
+  <div class="page-foot">
+    <span class="pf-left">BIM Coordination · Clash Detection Matrix Guide · 2026</span>
+    <div class="pf-links">
+      <a href="https://beyabhi.github.io/abhinawchaubey/" target="_blank" class="pf-link">About Me</a>
+      <a href="https://beyabhi.github.io/abhinawchaubey/articles.html" target="_blank" class="pf-link">My Articles</a>
+    </div>
+  </div>
+
+</div>
+</div>
+
+
+<!-- ═══════════════════ PAGE 2 ═══════════════════ -->
+<div class="page">
+<div class="page-inner">
+
+  <div class="page-topbar">
+    <span class="pt-subject">Clash Detection & Coordination Matrix</span>
+    <span class="pt-page">02 / 02</span>
+  </div>
+
+  <!-- TOLERANCE BY STAGE -->
+  <div class="sec-eyebrow">Stage-Appropriate Tolerances</div>
+  <div class="sec-heading">Clash Tolerance Thresholds — Middle East Stage Gates</div>
+
+  <table class="tol-table">
+    <thead>
+      <tr>
+        <th>Project Stage</th>
+        <th>LOD</th>
+        <th>Hard Clash Tol.</th>
+        <th>Soft / Clearance Tol.</th>
+        <th>Tolerance Clash</th>
+        <th>Rationale</th>
+        <th>Action Required</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="stage s-design">Stage 2 — Concept Design</span></td>
+        <td>LOD 200</td>
+        <td><span class="tol tol-loose">±75–100mm</span></td>
+        <td><span class="tol tol-loose">±150mm</span></td>
+        <td><span class="tol tol-loose">±75mm</span></td>
+        <td>Models are indicative — geometry not fully defined</td>
+        <td>Flag & record — no mandatory resolution</td>
+      </tr>
+      <tr>
+        <td><span class="stage s-design">Stage 3 — Developed Design</span></td>
+        <td>LOD 300</td>
+        <td><span class="tol tol-std">±25–50mm</span></td>
+        <td><span class="tol tol-std">±75mm</span></td>
+        <td><span class="tol tol-std">±25mm</span></td>
+        <td>Elements now have specific sizes and locations</td>
+        <td>Assign owner, resolve within 5 days</td>
+      </tr>
+      <tr>
+        <td><span class="stage s-coord">Stage 3+ — Coordination</span></td>
+        <td>LOD 350</td>
+        <td><span class="tol tol-std">±10–25mm</span></td>
+        <td><span class="tol tol-std">±50mm</span></td>
+        <td><span class="tol tol-std">±10mm</span></td>
+        <td>Interfaces and connections must be fully coordinated</td>
+        <td>Mandatory resolution before Stage 4 gate</td>
+      </tr>
+      <tr>
+        <td><span class="stage s-fab">Stage 4 — Technical Design</span></td>
+        <td>LOD 400</td>
+        <td><span class="tol tol-tight">0mm</span></td>
+        <td><span class="tol tol-tight">±25mm</span></td>
+        <td><span class="tol tol-tight">±5mm</span></td>
+        <td>Shop drawing accuracy — fabrication ready</td>
+        <td>Zero tolerance for hard clashes — stop fabrication</td>
+      </tr>
+      <tr>
+        <td><span class="stage s-const">Stage 5 — Construction</span></td>
+        <td>LOD 400+</td>
+        <td><span class="tol tol-tight">0mm</span></td>
+        <td><span class="tol tol-tight">±10mm</span></td>
+        <td><span class="tol tol-tight">±5mm</span></td>
+        <td>As-installed verification against design model</td>
+        <td>Raise RFI immediately — do not install until resolved</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr class="rule">
+
+  <!-- DISCIPLINE HEAT MAP -->
+  <div class="sec-eyebrow">Coordination Intensity</div>
+  <div class="sec-heading">Discipline Clash Frequency Matrix — Risk Heat Map</div>
+
+  <div class="heat-wrap">
+    <table class="heat-table">
+      <thead>
+        <tr>
+          <th>vs.</th>
+          <th>Architecture</th>
+          <th>Structure</th>
+          <th>Mechanical</th>
+          <th>Electrical</th>
+          <th>Plumbing</th>
+          <th>Fire Prot.</th>
+          <th>Civil</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Architecture</td>
+          <td class="h-self">—</td>
+          <td class="h-medium">Medium</td>
+          <td class="h-high">High</td>
+          <td class="h-medium">Medium</td>
+          <td class="h-medium">Medium</td>
+          <td class="h-low">Low</td>
+          <td class="h-low">Low</td>
+        </tr>
+        <tr>
+          <td>Structure</td>
+          <td class="h-medium">Medium</td>
+          <td class="h-self">—</td>
+          <td class="h-critical">Critical</td>
+          <td class="h-critical">Critical</td>
+          <td class="h-high">High</td>
+          <td class="h-medium">Medium</td>
+          <td class="h-critical">Critical</td>
+        </tr>
+        <tr>
+          <td>Mechanical</td>
+          <td class="h-high">High</td>
+          <td class="h-critical">Critical</td>
+          <td class="h-self">—</td>
+          <td class="h-high">High</td>
+          <td class="h-high">High</td>
+          <td class="h-high">High</td>
+          <td class="h-medium">Medium</td>
+        </tr>
+        <tr>
+          <td>Electrical</td>
+          <td class="h-medium">Medium</td>
+          <td class="h-critical">Critical</td>
+          <td class="h-high">High</td>
+          <td class="h-self">—</td>
+          <td class="h-medium">Medium</td>
+          <td class="h-medium">Medium</td>
+          <td class="h-low">Low</td>
+        </tr>
+        <tr>
+          <td>Plumbing</td>
+          <td class="h-medium">Medium</td>
+          <td class="h-high">High</td>
+          <td class="h-high">High</td>
+          <td class="h-medium">Medium</td>
+          <td class="h-self">—</td>
+          <td class="h-high">High</td>
+          <td class="h-high">High</td>
+        </tr>
+        <tr>
+          <td>Fire Protection</td>
+          <td class="h-low">Low</td>
+          <td class="h-medium">Medium</td>
+          <td class="h-high">High</td>
+          <td class="h-medium">Medium</td>
+          <td class="h-high">High</td>
+          <td class="h-self">—</td>
+          <td class="h-low">Low</td>
+        </tr>
+        <tr>
+          <td>Civil</td>
+          <td class="h-low">Low</td>
+          <td class="h-critical">Critical</td>
+          <td class="h-medium">Medium</td>
+          <td class="h-low">Low</td>
+          <td class="h-high">High</td>
+          <td class="h-low">Low</td>
+          <td class="h-self">—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="legend" style="margin-bottom:1.5rem;">
+    <div class="leg-item"><div class="leg-dot" style="background:#fdeaea;border:1px solid var(--red)"></div>Critical — weekly tests, zero tolerance at Stage 4</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--accent2-light);border:1px solid var(--accent2)"></div>High — weekly tests, resolve within 5 days</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--blue-light);border:1px solid var(--blue)"></div>Medium — fortnightly tests, resolve before stage gate</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--accent-light);border:1px solid var(--accent)"></div>Low — monthly tests, log and monitor</div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- CLASH WORKFLOW + CHECKLIST -->
+  <div class="sec-eyebrow">Process</div>
+  <div class="sec-heading">Clash Resolution Workflow — Stage Gate Model</div>
+
+  <div class="workflow">
+    <div class="wf-step">
+      <div class="wf-num">01</div>
+      <div class="wf-title">Federate</div>
+      <div class="wf-sub">All discipline models combined in CDE / Navisworks</div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num">02</div>
+      <div class="wf-title">Run Tests</div>
+      <div class="wf-sub">Execute clash tests per matrix — apply stage tolerances</div>
+    </div>
+    <div class="wf-step wf-active">
+      <div class="wf-num">03</div>
+      <div class="wf-title">Classify</div>
+      <div class="wf-sub">Filter by type, priority & discipline — remove false positives</div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num">04</div>
+      <div class="wf-title">Assign</div>
+      <div class="wf-sub">Issue clashes to responsible parties with resolution deadline</div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num">05</div>
+      <div class="wf-title">Resolve</div>
+      <div class="wf-sub">Author updates model, reissues to CDE for re-test</div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num">06</div>
+      <div class="wf-title">Close</div>
+      <div class="wf-sub">BIM Lead verifies resolution and closes clash in tracker</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <div class="two-col">
+    <div>
+      <div class="sec-eyebrow">Quality Assurance</div>
+      <div class="sec-heading">Matrix Setup Checklist</div>
+      <div class="checklist">
+        <div class="cl-header">Before running first clash tests — verify all items</div>
+        <div class="cl-item"><div class="cl-box">✓</div>All discipline pairs identified & listed</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Clash type defined per test (hard/soft/clearance)</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Tolerances set per stage in software</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Search sets configured per discipline</div>
+        <div class="cl-item"><div class="cl-box">✓</div>False positive filters applied (grids, rooms)</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Priority & ownership assigned per test</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Resolution deadlines tied to programme</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Issue tracker linked to clash tests (ACC/Revizto)</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Coordination meeting cadence agreed</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Matrix version-controlled in BEP</div>
+      </div>
+    </div>
+    <div>
+      <div class="sec-eyebrow">Best Practices</div>
+      <div class="sec-heading">5 Rules for Effective Clash Management</div>
+      <div class="practices">
+        <div class="practice"><div class="pr-num">1</div><div><div class="pr-title accent">Filter before you share</div><div class="pr-desc">Always remove false positives — grids, rooms, linked objects — before distributing results. Cluttered reports destroy team confidence in the process.</div></div></div>
+        <div class="practice"><div class="pr-num">2</div><div><div class="pr-title">Stage-appropriate tolerances only</div><div class="pr-desc">Applying LOD 400 tolerances at Stage 2 generates thousands of irrelevant clashes. Match tolerance to what the models can actually deliver at that stage.</div></div></div>
+        <div class="practice"><div class="pr-num">3</div><div><div class="pr-title">Assign before the meeting ends</div><div class="pr-desc">Every critical and high clash must have a named owner and resolution date before the coordination meeting closes. Unassigned clashes are never resolved.</div></div></div>
+        <div class="practice"><div class="pr-num">4</div><div><div class="pr-title">Track trends, not just counts</div><div class="pr-desc">A rising clash count week-on-week signals a modelling or workflow problem. Use your issue tracker data to identify which discipline pairs are not resolving.</div></div></div>
+        <div class="practice"><div class="pr-num">5</div><div><div class="pr-title">Zero hard clashes before fabrication</div><div class="pr-desc">No model should be issued for fabrication with open hard clashes. Make this a formal stage gate — not an advisory — enforced through the CDE approval workflow.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- STATS -->
+  <div class="sec-eyebrow">Key Numbers</div>
+  <div class="stat-row">
+    <div class="stat-cell"><div class="stat-num red">0mm</div><div class="stat-label">Acceptable hard clash tolerance at Stage 4 fabrication</div></div>
+    <div class="stat-cell"><div class="stat-num accent">10+</div><div class="stat-label">Discipline pair tests typically run on a complex project</div></div>
+    <div class="stat-cell"><div class="stat-num amber">↓40%</div><div class="stat-label">Site RFI reduction with a governed clash detection process</div></div>
+    <div class="stat-cell"><div class="stat-num">5</div><div class="stat-label">Stages at which tolerance thresholds must be recalibrated</div></div>
+  </div>
+
+  <!-- PAGE FOOTER -->
+  <div class="page-foot">
+    <span class="pf-left">BIM Coordination · Clash Detection Matrix Guide · 2026</span>
+    <div class="pf-links">
+      <a href="https://beyabhi.github.io/abhinawchaubey/" target="_blank" class="pf-link">About Me</a>
+      <a href="https://beyabhi.github.io/abhinawchaubey/articles.html" target="_blank" class="pf-link">My Articles</a>
+    </div>
+  </div>
+
+</div>
+</div>
+
+</body>
+</html>
