@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Information Management Document Suite — SOP · ISO 19650</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --black: #0f0f0f; --ink: #1c1c1c; --dark: #2d2d2d; --mid: #555;
+  --muted: #888; --light: #bbb; --border: #e0e0e0;
+  --bg: #f4f4f0; --white: #ffffff;
+  --accent: #1a6b5a; --accent-light: #e8f4f1;
+  --accent2: #c47a3a; --accent2-light: #fdf3e8;
+  --blue: #2a5a9a; --blue-light: #e8f0f8;
+  --red: #b03030; --red-light: #fdeaea;
+  --purple: #6b3a9a; --purple-light: #f0eafd;
+}
+body { background: var(--bg); font-family: 'Outfit', sans-serif; font-weight: 300; color: var(--ink); }
+
+/* NAV */
+nav { position: sticky; top: 0; z-index: 200; background: rgba(250,248,244,0.93); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); padding: 0.9rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 600; color: var(--ink); text-decoration: none; }
+.nav-logo span { font-style: italic; color: var(--accent); }
+.nav-links { display: flex; gap: 2rem; align-items: center; }
+.nav-link { font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(71,85,105,0.55); text-decoration: none; transition: color 0.25s; }
+.nav-link:hover { color: var(--accent); }
+.nav-btn { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); text-decoration: none; border: 1px solid rgba(26,107,90,0.35); padding: 0.4rem 1rem; border-radius: 2px; transition: all 0.3s; }
+.nav-btn:hover { background: rgba(26,107,90,0.08); }
+
+/* HERO */
+.hero { background: var(--white); padding: 4rem 3.5rem 3rem; max-width: 980px; margin: 2rem auto 0; position: relative; box-shadow: 0 2px 40px rgba(0,0,0,0.06); }
+.hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); }
+.hero-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 2rem; }
+.hero-kicker { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; }
+.hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; color: var(--black); }
+.hero-title span { font-style: italic; font-weight: 300; color: var(--accent); }
+.hero-sub { font-size: 0.85rem; line-height: 1.8; color: var(--mid); max-width: 620px; margin-top: 1rem; font-weight: 300; }
+.hero-meta { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
+.h-pill { font-family: 'DM Mono', monospace; font-size: 0.56rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.3rem 0.8rem; border: 1px solid var(--border); color: var(--muted); border-radius: 2px; }
+.hero-purpose { margin-top: 2rem; padding: 1.2rem 1.5rem; background: var(--bg); border-left: 3px solid var(--accent); }
+.hp-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+.hp-text { font-size: 0.78rem; color: var(--mid); line-height: 1.75; }
+
+/* LAYOUT */
+.page-wrap { max-width: 980px; margin: 0 auto 4rem; }
+
+/* SECTION CARD */
+.section-card { background: var(--white); margin-top: 1.5rem; box-shadow: 0 1px 20px rgba(0,0,0,0.05); position: relative; overflow: hidden; }
+.section-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; }
+.card-blue::before { background: var(--blue); }
+.card-teal::before { background: var(--accent); }
+.card-amber::before { background: var(--accent2); }
+.card-red::before { background: var(--red); }
+.card-purple::before { background: var(--purple); }
+.card-dark::before { background: var(--dark); }
+.card-ink::before { background: var(--ink); }
+
+.card-header { padding: 1.5rem 2rem 1.2rem 2.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: baseline; gap: 1.2rem; }
+.ch-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; line-height: 1; flex-shrink: 0; width: 2.5rem; }
+.card-teal .ch-num { color: rgba(26,107,90,0.18); }
+.card-blue .ch-num { color: rgba(42,90,154,0.18); }
+.card-amber .ch-num { color: rgba(196,122,58,0.18); }
+.card-red .ch-num { color: rgba(176,48,48,0.18); }
+.card-purple .ch-num { color: rgba(107,58,154,0.18); }
+.card-dark .ch-num { color: rgba(45,45,45,0.12); }
+.card-ink .ch-num { color: rgba(28,28,28,0.12); }
+
+.ch-body { flex: 1; }
+.ch-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.2rem; }
+.ch-title { font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; font-weight: 600; color: var(--black); }
+.ch-desc { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; line-height: 1.5; }
+.ch-count { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--light); margin-left: auto; flex-shrink: 0; }
+
+/* DOC ITEMS */
+.doc-list { padding: 0; }
+.doc-item { display: grid; grid-template-columns: 52px 1fr auto; border-bottom: 1px solid #f4f4f2; transition: background 0.2s; align-items: stretch; }
+.doc-item:last-child { border-bottom: none; }
+.doc-item:hover { background: #fafaf8; }
+.doc-id { padding: 1rem 0.6rem; font-family: 'DM Mono', monospace; font-size: 0.58rem; font-weight: 500; color: var(--light); border-right: 1px solid #f0f0ee; display: flex; align-items: center; justify-content: center; text-align: center; }
+.doc-body { padding: 1rem 1.5rem; }
+.doc-title { font-size: 0.82rem; font-weight: 500; color: var(--dark); margin-bottom: 0.25rem; line-height: 1.3; }
+.doc-desc { font-size: 0.7rem; color: var(--muted); line-height: 1.6; }
+.doc-action { padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: flex-end; min-width: 130px; }
+.art-link { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'DM Mono', monospace; font-size: 0.56rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); text-decoration: none; border: 1px solid rgba(26,107,90,0.3); padding: 0.32rem 0.7rem; border-radius: 2px; transition: all 0.25s; white-space: nowrap; }
+.art-link:hover { background: var(--accent-light); border-color: var(--accent); }
+.art-soon { display: inline-flex; align-items: center; font-family: 'DM Mono', monospace; font-size: 0.54rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--light); border: 1px solid var(--border); padding: 0.32rem 0.7rem; border-radius: 2px; white-space: nowrap; cursor: default; }
+
+/* ISO TABLE */
+.iso-table { width: 100%; border-collapse: collapse; font-size: 0.7rem; }
+.iso-table th { background: var(--dark); color: white; padding: 0.6rem 1rem; text-align: left; font-family: 'DM Mono', monospace; font-size: 0.54rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 400; }
+.iso-table td { padding: 0.65rem 1rem; border-bottom: 1px solid #f0f0ee; color: var(--mid); vertical-align: top; line-height: 1.5; }
+.iso-table tr:last-child td { border-bottom: none; }
+.iso-table tr:nth-child(even) td { background: #fafaf8; }
+.iso-table tr:hover td { background: var(--accent-light); }
+.iso-stage { font-family: 'DM Mono', monospace; font-size: 0.58rem; font-weight: 500; padding: 0.15rem 0.5rem; border-radius: 2px; white-space: nowrap; }
+.is1 { background: var(--blue-light); color: var(--blue); }
+.is2 { background: var(--accent2-light); color: var(--accent2); }
+.is3 { background: var(--purple-light); color: var(--purple); }
+.is4 { background: var(--accent-light); color: var(--accent); }
+.is5 { background: var(--red-light); color: var(--red); }
+.is6 { background: #f4f4f0; color: var(--dark); border: 1px solid var(--border); }
+.is7 { background: var(--ink); color: white; }
+
+/* CHECKLIST */
+.checklist-grid { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--border); }
+.cl-col { padding: 1.5rem 2rem; border-right: 1px solid var(--border); }
+.cl-col:last-child { border-right: none; }
+.cl-head { font-family: 'DM Mono', monospace; font-size: 0.56rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.8rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+.cl-item { display: flex; align-items: center; gap: 0.7rem; font-size: 0.7rem; color: var(--mid); padding: 0.38rem 0; border-bottom: 1px solid #f8f8f8; }
+.cl-item:last-child { border-bottom: none; }
+.cl-dot { width: 14px; height: 14px; background: var(--accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: white; font-size: 0.5rem; border-radius: 2px; }
+
+/* BENEFITS STRIP */
+.benefits { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid var(--border); }
+.benefit { padding: 1.5rem 1.2rem; border-right: 1px solid var(--border); text-align: center; }
+.benefit:last-child { border-right: none; }
+.ben-icon { font-size: 1.4rem; margin-bottom: 0.5rem; }
+.ben-title { font-size: 0.7rem; font-weight: 600; color: var(--dark); margin-bottom: 0.3rem; }
+.ben-desc { font-size: 0.62rem; color: var(--muted); line-height: 1.5; }
+
+/* CLOSING STRIP */
+.closing { background: var(--ink); padding: 2.5rem 3rem; margin-top: 1.5rem; display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: center; }
+.closing-text {}
+.closing-kicker { font-family: 'DM Mono', monospace; font-size: 0.56rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 0.6rem; }
+.closing-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; color: white; line-height: 1.2; margin-bottom: 0.8rem; }
+.closing-title em { font-style: italic; color: #7dd3c0; }
+.closing-para { font-size: 0.75rem; color: rgba(255,255,255,0.5); line-height: 1.75; max-width: 480px; }
+.closing-actions { display: flex; flex-direction: column; gap: 0.8rem; align-items: flex-end; }
+.closing-link { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; padding: 0.6rem 1.4rem; border-radius: 2px; transition: all 0.25s; white-space: nowrap; text-align: center; }
+.cl-primary { background: var(--accent); color: white; }
+.cl-primary:hover { background: #1d7a68; }
+.cl-secondary { border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.6); }
+.cl-secondary:hover { border-color: rgba(255,255,255,0.5); color: white; }
+
+/* PAGE FOOTER */
+.page-footer { max-width: 980px; margin: 0 auto 2rem; padding: 1.2rem 0; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.pf-left { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--light); }
+.pf-links { display: flex; gap: 1.8rem; }
+.pf-link { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.25s; }
+.pf-link:hover { color: var(--accent); }
+
+@media (max-width: 720px) {
+  nav { padding: 1rem 1.5rem; }
+  .hero { padding: 2.5rem 1.5rem 2rem; margin: 0; }
+  .page-wrap { padding: 0 0 2rem; }
+  .doc-item { grid-template-columns: 44px 1fr; }
+  .doc-action { display: none; }
+  .checklist-grid { grid-template-columns: 1fr; }
+  .benefits { grid-template-columns: 1fr 1fr; }
+  .closing { grid-template-columns: 1fr; }
+  .closing-actions { align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://beyabhi.github.io/abhinawchaubey/" class="nav-logo">Abhinaw <span>Chaubey</span></a>
+  <div class="nav-links">
+    <a href="https://beyabhi.github.io/abhinawchaubey/" class="nav-link">About Me</a>
+    <a href="https://beyabhi.github.io/abhinawchaubey/articles.html" class="nav-link">My Articles</a>
+    <a href="https://beyabhi.github.io/abhinawchaubey/" class="nav-btn">Portfolio ↗</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-kicker">Standard Operating Procedure · ISO 19650 Aligned · 2026</div>
+  <h1 class="hero-title">Information Management<br><span>Document Suite</span></h1>
+  <p class="hero-sub">A standard operating procedure and reference handbook for managing information, BIM, and documentation throughout the entire project lifecycle — from assessment and tender through to asset handover. Structured around the ISO 19650 information management cycle to support consistent, auditable, and efficient delivery across all project stages and disciplines.</p>
+  <div class="hero-meta">
+    <span class="h-pill">ISO 19650-2:2018</span>
+    <span class="h-pill">BEP · MIDP · MPDT</span>
+    <span class="h-pill">CDE Governance</span>
+    <span class="h-pill">Multi-Discipline</span>
+    <span class="h-pill">Live Reference · 2026</span>
+  </div>
+  <div class="hero-purpose">
+    <div class="hp-label">§1 — Purpose of This Document</div>
+    <div class="hp-text">This document serves as a standard operating procedure (SOP) and reference handbook for managing information, BIM, and documentation throughout the project lifecycle. It is aligned with ISO 19650 principles and supports consistent, auditable, and efficient project delivery. It shall be maintained as a live reference and updated in line with project stage changes and contract requirements.</div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- SECTION 2 — ISO FRAMEWORK -->
+  <div class="section-card card-blue">
+    <div class="card-header">
+      <div class="ch-num">2</div>
+      <div class="ch-body">
+        <div class="ch-eyebrow">Section 2 — Framework</div>
+        <div class="ch-title">ISO 19650 Framework Alignment</div>
+        <div class="ch-desc">The document set is structured around the ISO 19650 information management cycle across 7 defined stages — from assessment through to asset information delivery.</div>
+      </div>
+    </div>
+    <table class="iso-table">
+      <thead>
+        <tr>
+          <th>ISO 19650 Stage</th>
+          <th>Stage Name</th>
+          <th>Key Activities</th>
+          <th>Supporting Documents</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="iso-stage is1">Stage 1</span></td>
+          <td>Assessment & Need</td>
+          <td>Define information requirements, identify risks, establish project scope</td>
+          <td>BEP, Project Management Plan, Risk Register</td>
+        </tr>
+        <tr>
+          <td><span class="iso-stage is2">Stage 2</span></td>
+          <td>Invitation to Tender</td>
+          <td>Define ownership and review responsibilities, issue pre-appointment BEP</td>
+          <td>OCRA Matrix, Responsibility Matrix</td>
+        </tr>
+        <tr>
+          <td><span class="iso-stage is3">Stage 3</span></td>
+          <td>Mobilisation</td>
+          <td>Set up CDE, assign TIDP owners, confirm team structure and resources</td>
+          <td>MIDP, TIDP Owners, Resource Planning, Organisation Chart</td>
+        </tr>
+        <tr>
+          <td><span class="iso-stage is4">Stage 4</span></td>
+          <td>Collaborative Production</td>
+          <td>Author, share, and coordinate information across disciplines in the CDE</td>
+          <td>Coordination Matrix, Clash Dashboard, Issue Tracker</td>
+        </tr>
+        <tr>
+          <td><span class="iso-stage is5">Stage 5</span></td>
+          <td>Information Delivery</td>
+          <td>Deliver information containers against MIDP milestones, track compliance</td>
+          <td>MPDT, Information Exchange Dashboard</td>
+        </tr>
+        <tr>
+          <td><span class="iso-stage is6">Stage 6</span></td>
+          <td>Review & Acceptance</td>
+          <td>Audit models, resolve comments, verify compliance before acceptance</td>
+          <td>Model Audit Checklist, Model Quality Checklist, Comment Resolution Sheet</td>
+        </tr>
+        <tr>
+          <td><span class="iso-stage is7">Stage 7</span></td>
+          <td>Asset Information</td>
+          <td>Transfer information to asset register, archive project data, close CDE</td>
+          <td>Document Management Plan, Naming Convention, Project Directory</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 3 — GOVERNANCE -->
+  <div class="section-card card-teal">
+    <div class="card-header">
+      <div class="ch-num">3</div>
+      <div class="ch-body">
+        <div class="ch-eyebrow">Section 3 — Access & Accountability</div>
+        <div class="ch-title">Governance, Roles & Access Control</div>
+        <div class="ch-desc">Establishes who has access to what information, who is responsible for creating and approving it, and how the team is structured to deliver it — the foundation of all ISO 19650-compliant information management.</div>
+      </div>
+      <div class="ch-count">5 Documents</div>
+    </div>
+    <div class="doc-list">
+      <div class="doc-item">
+        <div class="doc-id">3.1</div>
+        <div class="doc-body">
+          <div class="doc-title">ACC / CDE Access Request Form</div>
+          <div class="doc-desc">A formal governance document used to request, approve, modify, or revoke access to the Common Data Environment. Ensures that CDE access is controlled, auditable, and aligned with project roles — preventing unauthorised access to sensitive or in-progress information containers.</div>
+        </div>
+        <div class="doc-action"><span class="art-soon">Coming Soon</span></div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-id">3.2</div>
+        <div class="doc-body">
+          <div class="doc-title">OCRA Matrix</div>
+          <div class="doc-desc">Defines Ownership, Creation, Review, and Approval responsibilities for each information container on the project. The OCRA Matrix ensures that every document and model file has a named owner, a clear creation party, defined reviewers, and a formal approver — eliminating ambiguity in information responsibility.</div>
+        </div>
+        <div class="doc-action"><span class="art-soon">Coming Soon</span></div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-id">3.3</div>
+        <div class="doc-body">
+          <div class="doc-title">Detailed Responsibility Matrix</div>
+          <div class="doc-desc">Provides a discipline-wise role allocation framework covering models, documents, and coordination tasks across all project stages. Goes beyond the RACI to map specific deliverables to specific teams and individuals — serving as a practical day-to-day reference for accountability.</div>
+        </div>
+        <div class="doc-action"><span class="art-soon">Coming Soon</span></div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-id">3.4</div>
+        <div class="doc-body">
+          <div class="doc-title">RACI Matrix</div>
+          <div class="doc-desc">Clarifies accountability across all BIM and project management activities using the Responsible, Accountable, Consulted, and Informed framework. Applied to all key workflows — model authoring, clash resolution, comment response, CDE management — to ensure no task falls without an owner.</div>
+        </div>
+        <div class="doc-action"><span class="art-soon">Coming Soon</span></div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-id">3.5</div>
+        <div class="doc-body">
+          <div class="doc-title">Organisation Chart</div>
+          <div class="doc-desc">Defines the project team structure including reporting lines, escalation paths, and governance hierarchy. Covers all Appointed Parties, the Lead Appointed Party, and the Appointing Party — establishing who reports to whom for BIM, coordination, and information management decisions.</div>
+        </div>
+        <div class="doc-action"><span class="art-soon">Coming Soon</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 — PLANNING -->
+  <div class="section-card card-blue">
+    <div class="card-header">
+      <div class="ch-num">4</div>
+      <div class="ch-body">
+        <div class="ch-eyebrow">Section 4 — Delivery Planning</div>
+        <div class="ch-title">Planning & Information Delivery Management</div>
+        <div class="ch-desc">The core planning documents that define how information will be produced, by whom, to what standard, and by when — forming the contractual and operational backbone of BIM delivery from mobilisation to construction.</div>
+      </div>
+      <div class="ch-count">6 Documents</div>
+    </div>
+    <div class="doc-list">
+      <div class="doc-item">
+        <div class="doc-id">4.1</div>
+        <div class="doc-body">
+          <div class="doc-title">BIM Execution Plan (BEP)</div>
+          <div class="doc-desc">The primary governance document for the project. Defines BIM objectives, applicable standards, exchange formats, Level of Information Need, software platforms, CDE structure, and delivery workflows. Issued pre-appointment and updated post-appointment — serves as the binding agreement between all Appointed Parties on how BIM will be delivered.</div>
+        </div>
+        <div class="doc-action"><span class="art-soon">Coming Soon</span></div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-id">4.2</div>
+        <div class="doc-body">
+          <div class="doc-title">Master Information Delivery Plan (MIDP)</div>
+          <div class="doc-desc">The consolidated master schedule listing all information deliverables across every discipline and stage — with submission dates, suitability codes, formats, and approval milestones. The MIDP is the single source of truth for what is due and when, drawing from all TIDPs submitted by Appointed Parties.</div>
+        </div>
+        <div class="doc-action"><span class="art-soon">Coming Soon</span></div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-id">4.3</div>
+        <div class="doc-body">
+          <div class="doc-title">Task Information Delivery Plans (TIDP)</div>
+          <div class="doc-desc">Discipline-specific delivery plans owned and maintained by each Appointed Party's lead. The TIDP breaks down the MIDP requirements into task-level schedules — specifying which team member produces which deliverable, at what LOD, and by which date. Feeds directly into the MIDP and is updated at each stage gate.</div>
+        </div>
+        <div class="doc-action"><span class="art-soon">Coming Soon</span></div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-id">4.4</div>
+        <div class="doc-body">
+          <div class="doc-title">Model Production & Delivery Table (MPDT)</div>
+          <div class="doc-desc">A structured schedule that lists every model file to be produced on the project — defining the responsible Appointed Party, authoring software, Level of Development per stage, and delivery milestone. The MPDT is the single source of truth for model delivery accountability, housed within the BEP.</div>
+        </div>
+        <div class="doc-action">
+          <a href="https://beyabhi.github.io/abhinawchaubey/MPDT_Article.html" target="_blank" class="art-link">↗ Read Article</a>
+        </div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-id">4.5</div>
+        <div class="doc-body">
+          <div class="doc-title">Project Management Plan (PMP)</div>
+          <div class="doc-desc">Defines the overarching project governance framework — covering scope, programme, change control procedures, risk management, communication protocols, and progress reporting. The PMP aligns the BIM delivery strategy with broader project management objectives and client reporting requirements.</div>
+        </div>
+        <div class="doc-action"><span class="art-soon">Coming Soon</span></div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-id">4.6</div>
+        <div class="doc-body">
+          <div class="doc-title">Resource Planning Register</div>
+          <div class="doc-desc">Forecasts manpower demand and team allocation across all project stages and disciplines. Used to identify resourcing gaps early, plan recruitment or subcontracting, and ensure that delivery commitments in the MIDP and MPDT are backed by sufficient team capacity at each milestone.</div>
+        </div>
+        <div class="doc-action"><span class="art-soon">Coming Soon</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 — QUALITY -->
+  <div class="section-card card-amber">
+    <div class="card-header">
+      <div class="ch-num">5</div>
+      <div class="ch-body">
+        <div class="ch-eyebrow">Section 5 — Compliance & Assurance</div>
+        <div class="ch-title">Quality, Audit & Compliance</div>
+        <div class="ch-desc">The quality assurance layer that governs how models and documents are checked, audited, and verified before they are shared or accepted — ensuring every information exchange meets the standards committed to in the BEP.</div>
+      </div>
+      <div class="ch-count">3 Documents</div>
+    </div>
+    <div class="doc-list">
+      <div class="doc-item">
+        <div class="doc-id">5.1</div>
+        <div class="doc-body">
+          <div class="doc-title">Model Quality Checklist</div>
+          <div class="doc-desc">A structured checklist applied by model authors before any information exchange to verify compliance with BEP requirements — covering modelling standards, element naming, parameter population, geometry accuracy, file structure, and CDE metadata. Prevents non-compliant models from reaching reviewers and consuming unnecessary review cycles.</div>
+        </div>
+        <div class="doc-action"><span class="art-soon">Coming Soon</span></div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-id">5.2</div>
+        <div class="doc-body">
+          <div class="doc-title">Model Audit Checklist</div>
+          <div class="doc-desc">Used during formal model reviews conducted by the BIM Lead or Information Manager prior to each stage gate information exchange. The audit assesses BEP compliance, LOD achievement, coordination status, issue resolution progress, and data completeness — forming the basis for acceptance or rejection of the submission.</div>
+        </div>
+        <div class="doc-action"><span class="art-soon">Coming Soon</span></div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-id">5.3</div>
+        <div class="doc-body">
+          <div class="doc-title">OCRA Review Dashboard</div>
+          <div class="doc-desc">A visual compliance dashboard that tracks the status of OCRA responsibilities across all information containers — displaying compliance levels, overdue review actions, and ownership gaps in real time. Enables the Information Manager to identify and escalate accountability failures before they impact delivery milestones.</div>
+        </div>
+        <div class="doc-action"><span class="art-soon">Coming Soon</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6 — COORDINATION -->
+  <div class="section-card card-red">
+    <div class="card-header">
+      <div class="ch-num">6</div>
+      <div class="ch-body">
+        <div class="ch-eyebrow">Section 6 — Issue Resolution</div>
+        <div class="ch-title">Coordination, Review & Issue Resolution</div>
+        <div class="ch-desc">The operational layer of BIM delivery — defining how disciplines coordinate, how clashes are detected and resolved, and how design comments are tracked and closed with full auditability.</div>
+      </div>
+      <div class="ch-count">4 Documents</div>
+    </div>
+    <div class="doc-list">
+      <div class="doc-item">
+        <div class="doc-id">6.1</div>
+        <div class="doc-body">
+          <div class="doc-title">Coordination Matrix</div>
+          <div class="doc-desc">Defines which disciplines coordinate with one another, at what frequency, through which platform or meeting format, and with what deliverable outcome. Eliminates coordination gaps between teams — particularly critical at MEP-structure, MEP-architecture, and civil-structure interfaces — by making coordination obligations explicit and enforceable.</div>
+        </div>
+        <div class="doc-action"><span class="art-soon">Coming Soon</span></div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-id">6.2</div>
+        <div class="doc-body">
+          <div class="doc-title">Clash Detection Report Dashboard</div>
+          <div class="doc-desc">A live tracking dashboard that monitors all clash tests run against the federated model — categorised by status (open, in progress, resolved, closed), priority (critical, high, medium, low), discipline pair, and resolution owner. Enables the BIM Lead and project team to track coordination progress and identify resolution bottlenecks before they affect the programme.</div>
+        </div>
+        <div class="doc-action">
+          <a href="https://beyabhi.github.io/abhinawchaubey/Clash_Detection_Matrix.html" target="_blank" class="art-link">↗ Read Article</a>
+        </div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-id">6.3</div>
+        <div class="doc-body">
+          <div class="doc-title">Issues Tracker Dashboard</div>
+          <div class="doc-desc">The centralised log for all design, coordination, and construction-related issues raised on the project — capturing issue type, location, priority, responsible party, target resolution date, and current status. Integrates with the CDE and clash management tools to provide a single, auditable record of every issue from identification to closure.</div>
+        </div>
+        <div class="doc-action"><span class="art-soon">Coming Soon</span></div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-id">6.4</div>
+        <div class="doc-body">
+          <div class="doc-title">Comment Resolution Sheet</div>
+          <div class="doc-desc">Records all review comments received against submitted information containers — including the original comment, the author's response, the closure evidence provided, and the approver's final acceptance. Provides a complete, traceable audit trail for every design review cycle, supporting compliance with ISO 19650 information acceptance procedures.</div>
+        </div>
+        <div class="doc-action"><span class="art-soon">Coming Soon</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 7 — INFORMATION EXCHANGE -->
+  <div class="section-card card-purple">
+    <div class="card-header">
+      <div class="ch-num">7</div>
+      <div class="ch-body">
+        <div class="ch-eyebrow">Section 7 — Reporting & Exchange</div>
+        <div class="ch-title">Information Exchange & Reporting</div>
+        <div class="ch-desc">The reporting and monitoring layer that tracks the flow of information through the CDE — from initial submission to final acceptance — and maintains a live project directory as the single index of all project data.</div>
+      </div>
+      <div class="ch-count">3 Documents</div>
+    </div>
+    <div class="doc-list">
+      <div class="doc-item">
+        <div class="doc-id">7.1</div>
+        <div class="doc-body">
+          <div class="doc-title">Information Exchange Dashboard</div>
+          <div class="doc-desc">A real-time monitoring dashboard that tracks the status of all information exchanges through the CDE — displaying submission counts, approval rates, rejection reasons, resubmission cycles, and overdue deliverables against MIDP milestones. Provides the Information Manager and client with a live view of delivery health across all disciplines and stages.</div>
+        </div>
+        <div class="doc-action"><span class="art-soon">Coming Soon</span></div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-id">7.2</div>
+        <div class="doc-body">
+          <div class="doc-title">Project Directory</div>
+          <div class="doc-desc">The single source index of all project folders, model files, documents, registers, and dashboards — providing every team member with a clear map of where information lives in the CDE. Updated throughout the project lifecycle to reflect new deliverables, revised folder structures, and stage-gate reorganisations.</div>
+        </div>
+        <div class="doc-action"><span class="art-soon">Coming Soon</span></div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-id">7.3</div>
+        <div class="doc-body">
+          <div class="doc-title">Standard Excel / CDE Templates</div>
+          <div class="doc-desc">A standardised set of Excel-based and CDE-native templates used for data exchange, progress reporting, dashboard population, and structured submissions. Ensures consistency across disciplines and reduces the risk of formatting errors or incompatible data structures when information is shared between teams or submitted to the client.</div>
+        </div>
+        <div class="doc-action"><span class="art-soon">Coming Soon</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 8 — DOCUMENT MANAGEMENT -->
+  <div class="section-card card-dark">
+    <div class="card-header">
+      <div class="ch-num">8</div>
+      <div class="ch-body">
+        <div class="ch-eyebrow">Section 8 — Data Governance</div>
+        <div class="ch-title">Document & Data Management</div>
+        <div class="ch-desc">The data governance layer that governs how all project documents and files are named, managed, retained, and archived — ensuring that every information container follows a consistent, ISO 19650-compliant lifecycle from creation to handover.</div>
+      </div>
+      <div class="ch-count">3 Documents</div>
+    </div>
+    <div class="doc-list">
+      <div class="doc-item">
+        <div class="doc-id">8.1</div>
+        <div class="doc-body">
+          <div class="doc-title">Document Management Plan (DMP)</div>
+          <div class="doc-desc">Defines the complete document lifecycle for the project — covering status codes (S0 through S4 and A through D), approval workflows, revision control procedures, retention periods, and archiving protocols. The DMP ensures that every information container follows a consistent, controlled path from draft creation to final acceptance and long-term storage.</div>
+        </div>
+        <div class="doc-action"><span class="art-soon">Coming Soon</span></div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-id">8.2</div>
+        <div class="doc-body">
+          <div class="doc-title">File & Document Naming Convention</div>
+          <div class="doc-desc">Applies the ISO 19650 container naming structure across all project data — models, drawings, documents, and reports. Defines the required fields (project, originator, volume, level, type, role, classification, number, revision), their permitted values, and the delimiter conventions required for CDE upload and automated metadata extraction.</div>
+        </div>
+        <div class="doc-action"><span class="art-soon">Coming Soon</span></div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-id">8.3</div>
+        <div class="doc-body">
+          <div class="doc-title">Risk Register</div>
+          <div class="doc-desc">The live register for identifying, evaluating, mitigating, and tracking all project risks and opportunities related to BIM and information management — including CDE access risks, data security threats, coordination failures, software incompatibilities, and resource constraints. Updated throughout the project lifecycle and reviewed at each stage gate.</div>
+        </div>
+        <div class="doc-action"><span class="art-soon">Coming Soon</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 9 — CHECKLISTS -->
+  <div class="section-card card-teal">
+    <div class="card-header">
+      <div class="ch-num">9</div>
+      <div class="ch-body">
+        <div class="ch-eyebrow">Section 9 — BEP Appendix</div>
+        <div class="ch-title">Day-to-Day Operational Checklists</div>
+        <div class="ch-desc">Routine governance controls applied by the Information Manager and BIM Lead to maintain compliance, quality, and delivery momentum throughout the project — on a daily, weekly, and monthly basis.</div>
+      </div>
+    </div>
+    <div class="checklist-grid">
+      <div class="cl-col">
+        <div class="cl-head">Daily / Weekly Controls</div>
+        <div class="cl-item"><div class="cl-dot">✓</div>CDE access and permissions review</div>
+        <div class="cl-item"><div class="cl-dot">✓</div>Clash dashboard update and triage</div>
+        <div class="cl-item"><div class="cl-dot">✓</div>Issue tracker review and status update</div>
+        <div class="cl-item"><div class="cl-dot">✓</div>Comment resolution follow-up with authors</div>
+        <div class="cl-item"><div class="cl-dot">✓</div>CDE submission status check vs MIDP</div>
+        <div class="cl-item"><div class="cl-dot">✓</div>Coordination meeting minutes distribution</div>
+      </div>
+      <div class="cl-col">
+        <div class="cl-head">Monthly Controls</div>
+        <div class="cl-item"><div class="cl-dot">✓</div>Formal model audit against BEP standards</div>
+        <div class="cl-item"><div class="cl-dot">✓</div>OCRA compliance review and gap analysis</div>
+        <div class="cl-item"><div class="cl-dot">✓</div>Resource forecast update and variance review</div>
+        <div class="cl-item"><div class="cl-dot">✓</div>MIDP and MPDT revision and reissue check</div>
+        <div class="cl-item"><div class="cl-dot">✓</div>Risk register review and mitigation update</div>
+        <div class="cl-item"><div class="cl-dot">✓</div>Information Exchange Dashboard reporting to client</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 10 — BENEFITS -->
+  <div class="section-card card-ink">
+    <div class="card-header">
+      <div class="ch-num">10</div>
+      <div class="ch-body">
+        <div class="ch-eyebrow">Section 10 — Value</div>
+        <div class="ch-title">Benefits of This Document Suite</div>
+        <div class="ch-desc">The collective value delivered when this Information Management Suite is implemented fully and maintained consistently throughout the project lifecycle.</div>
+      </div>
+    </div>
+    <div class="benefits">
+      <div class="benefit">
+        <div class="ben-icon">📋</div>
+        <div class="ben-title">ISO 19650 Compliance</div>
+        <div class="ben-desc">Every document maps directly to an ISO 19650 stage — ensuring full alignment with international BIM standards and client expectations.</div>
+      </div>
+      <div class="benefit">
+        <div class="ben-icon">👤</div>
+        <div class="ben-title">Clear Ownership</div>
+        <div class="ben-desc">OCRA, RACI, and Responsibility Matrix documents eliminate ambiguity — every deliverable has a named owner and a defined approval path.</div>
+      </div>
+      <div class="benefit">
+        <div class="ben-icon">🎯</div>
+        <div class="ben-title">Improved Coordination</div>
+        <div class="ben-desc">Coordination Matrix and Clash Dashboard tools reduce interface failures, rework, and site RFIs through structured, stage-appropriate clash management.</div>
+      </div>
+      <div class="benefit">
+        <div class="ben-icon">✅</div>
+        <div class="ben-title">Predictable Delivery</div>
+        <div class="ben-desc">MIDP, MPDT, and Information Exchange Dashboard ensure milestones are tracked, exceptions are flagged early, and delivery remains auditable end-to-end.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLOSING STRIP -->
+  <div class="closing">
+    <div class="closing-text">
+      <div class="closing-kicker">Live Reference Document · Maintained by Abhinaw Kumar Chaubey</div>
+      <div class="closing-title">This document shall be maintained as a <em>live reference</em></div>
+      <div class="closing-para">Updated in line with project stage changes, contract amendments, and evolving ISO 19650 practice. Each section of this suite is being developed into a dedicated article — providing practical, worked examples of every document covered here. Visit the Articles Index to follow the series as it grows.</div>
+    </div>
+    <div class="closing-actions">
+      <a href="https://beyabhi.github.io/abhinawchaubey/articles.html" class="closing-link cl-primary">Read the Articles Series ↗</a>
+      <a href="https://beyabhi.github.io/abhinawchaubey/" class="closing-link cl-secondary">About the Author</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="page-footer">
+  <span class="pf-left">Information Management Document Suite · ISO 19650 Aligned · 2026</span>
+  <div class="pf-links">
+    <a href="https://beyabhi.github.io/abhinawchaubey/" class="pf-link">About Me</a>
+    <a href="https://beyabhi.github.io/abhinawchaubey/articles.html" class="pf-link">My Articles</a>
+  </div>
+</div>
+
+</body>
+</html>
