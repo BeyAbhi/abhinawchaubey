@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Management Plan (PMP) for BIM — Scope, Risk & Change Control</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; }
+:root {
+  --black: #0f0f0f; --ink: #1c1c1c; --dark: #2d2d2d; --mid: #555;
+  --muted: #888; --light: #bbb; --border: #e0e0e0;
+  --bg: #f4f4f0; --white: #ffffff;
+  --accent: #1a6b5a; --accent-light: #e8f4f1;
+  --accent2: #c47a3a; --accent2-light: #fdf3e8;
+  --red: #b03030; --red-light: #fdeaea;
+  --blue: #2a5a9a; --blue-light: #e8f0f8;
+  --purple: #6b3a9a; --purple-light: #f0eafd;
+}
+body { background: var(--bg); font-family: 'Outfit', sans-serif; font-weight: 300; color: var(--ink); padding: 2.5rem 1.5rem; }
+
+.page { background: var(--white); max-width: 860px; margin: 0 auto 3rem; position: relative; box-shadow: 0 2px 40px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04); }
+.page::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); }
+.page-inner { padding: 3rem 3.5rem 2.5rem; }
+
+.page-topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+.pt-subject { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+.pt-page { font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--light); letter-spacing: 0.12em; }
+
+.title-block { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: end; }
+.article-kicker { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; }
+.article-title { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 700; line-height: 1.05; color: var(--black); letter-spacing: -0.02em; }
+.article-title span { font-style: italic; font-weight: 300; color: var(--accent); }
+.article-desc { margin-top: 1rem; font-size: 0.85rem; line-height: 1.75; color: var(--mid); max-width: 500px; font-weight: 300; }
+.title-meta { text-align: right; display: flex; flex-direction: column; gap: 0.8rem; align-items: flex-end; }
+.meta-pill { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.3rem 0.8rem; border: 1px solid var(--border); color: var(--muted); border-radius: 2px; }
+
+.sec-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+.sec-heading { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: var(--black); margin-bottom: 1rem; letter-spacing: -0.01em; }
+hr.rule { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+.def-strip { background: var(--ink); color: white; padding: 1.4rem 2rem; margin-bottom: 1.5rem; display: grid; grid-template-columns: auto 1fr; gap: 2rem; align-items: center; }
+.def-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.4); writing-mode: vertical-rl; transform: rotate(180deg); }
+.def-text { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 300; line-height: 1.6; color: rgba(255,255,255,0.9); }
+.def-text strong { color: #7dd3c0; font-weight: 400; }
+
+/* PILLARS */
+.pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; }
+.pillar { padding: 1.2rem 1rem; border-right: 1px solid var(--border); position: relative; }
+.pillar:last-child { border-right: none; }
+.pillar::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.p1::before { background: var(--accent); } .p2::before { background: var(--accent2); } .p3::before { background: var(--blue); } .p4::before { background: var(--red); }
+.pillar-q { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 700; font-style: italic; line-height: 1; margin-bottom: 0.4rem; }
+.p1 .pillar-q { color: var(--accent); } .p2 .pillar-q { color: var(--accent2); } .p3 .pillar-q { color: var(--blue); } .p4 .pillar-q { color: var(--red); }
+.pillar-title { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dark); margin-bottom: 0.35rem; }
+.pillar-desc { font-size: 0.72rem; color: var(--mid); line-height: 1.5; }
+
+/* PMP SECTIONS GRID */
+.pmp-sections { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; }
+.ps-card { padding: 1.2rem 1rem; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.ps-card:nth-child(3n) { border-right: none; }
+.ps-card:nth-child(4), .ps-card:nth-child(5), .ps-card:nth-child(6) { border-bottom: none; }
+.ps-icon { font-size: 1.3rem; margin-bottom: 0.5rem; }
+.ps-title { font-family: 'DM Mono', monospace; font-size: 0.62rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.3rem; }
+.ps-desc { font-size: 0.7rem; color: var(--mid); line-height: 1.5; }
+
+/* SCOPE TABLE */
+.scope-wrap { border: 1px solid var(--border); margin-bottom: 1.5rem; overflow: hidden; }
+.scope-title-bar { background: var(--ink); padding: 0.7rem 1.2rem; display: flex; justify-content: space-between; align-items: center; }
+.scope-title-bar strong { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: rgba(255,255,255,0.85); }
+.scope-title-bar span { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+
+.scope-table { width: 100%; border-collapse: collapse; font-size: 0.67rem; }
+.scope-table thead tr { background: #f8f8f6; border-bottom: 2px solid var(--border); }
+.scope-table th { padding: 0.55rem 0.7rem; text-align: left; font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 400; white-space: nowrap; }
+.scope-table td { padding: 0.5rem 0.7rem; border-bottom: 1px solid #f0f0ee; color: var(--dark); vertical-align: middle; line-height: 1.5; }
+.scope-table tr:last-child td { border-bottom: none; }
+.scope-table tr:hover td { background: #fafaf8; }
+.scope-table tr.hl td { background: var(--accent-light); }
+.scope-table tr.hl:hover td { background: #ddf0eb; }
+.scope-table tr.cat-row td { background: #f4f4f0; font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dark); font-weight: 500; }
+
+.badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.56rem; font-weight: 500; }
+.b-in { background: var(--accent-light); color: var(--accent); border: 1px solid rgba(26,107,90,0.2); }
+.b-out { background: var(--red-light); color: var(--red); border: 1px solid rgba(176,48,48,0.2); }
+.b-high { background: var(--red); color: white; }
+.b-med { background: var(--accent2-light); color: var(--accent2); border: 1px solid rgba(196,122,58,0.2); }
+.b-low { background: var(--blue-light); color: var(--blue); border: 1px solid rgba(42,90,154,0.2); }
+.b-open { background: var(--accent2-light); color: var(--accent2); border: 1px solid rgba(196,122,58,0.2); }
+.b-closed { background: #f0f0ee; color: var(--muted); }
+.b-approved { background: var(--accent); color: white; }
+.b-rejected { background: var(--red-light); color: var(--red); border: 1px solid rgba(176,48,48,0.2); }
+.b-pending { background: var(--blue-light); color: var(--blue); border: 1px solid rgba(42,90,154,0.2); }
+
+/* RISK REGISTER */
+.risk-wrap { border: 1px solid var(--border); margin-bottom: 1.5rem; overflow: hidden; }
+.risk-title-bar { background: var(--ink); padding: 0.7rem 1.2rem; display: flex; justify-content: space-between; align-items: center; }
+.risk-title-bar strong { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: rgba(255,255,255,0.85); }
+.risk-title-bar span { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+
+.risk-table { width: 100%; border-collapse: collapse; font-size: 0.66rem; }
+.risk-table thead tr { background: #f8f8f6; border-bottom: 2px solid var(--border); }
+.risk-table th { padding: 0.55rem 0.6rem; text-align: left; font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 400; white-space: nowrap; }
+.risk-table td { padding: 0.5rem 0.6rem; border-bottom: 1px solid #f0f0ee; color: var(--dark); vertical-align: middle; line-height: 1.5; }
+.risk-table tr:last-child td { border-bottom: none; }
+.risk-table tr:hover td { background: #fafaf8; }
+.risk-table tr.hl td { background: var(--red-light); }
+
+/* CHANGE CONTROL TABLE */
+.change-wrap { border: 1px solid var(--border); margin-bottom: 1.5rem; overflow: hidden; }
+.change-title-bar { background: var(--ink); padding: 0.7rem 1.2rem; display: flex; justify-content: space-between; align-items: center; }
+.change-title-bar strong { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: rgba(255,255,255,0.85); }
+.change-title-bar span { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+.change-table { width: 100%; border-collapse: collapse; font-size: 0.66rem; }
+.change-table thead tr { background: #f8f8f6; border-bottom: 2px solid var(--border); }
+.change-table th { padding: 0.55rem 0.6rem; text-align: left; font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 400; white-space: nowrap; }
+.change-table td { padding: 0.5rem 0.6rem; border-bottom: 1px solid #f0f0ee; color: var(--dark); vertical-align: middle; }
+.change-table tr:last-child td { border-bottom: none; }
+.change-table tr:hover td { background: #fafaf8; }
+.change-table tr.hl td { background: var(--accent-light); }
+
+/* CHANGE FLOW */
+.change-flow { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; overflow: hidden; }
+.cf-step { padding: 1rem 0.7rem; border-right: 1px solid var(--border); text-align: center; }
+.cf-step:last-child { border-right: none; }
+.cf-step.cf-active { background: var(--accent-light); border-top: 2px solid var(--accent); }
+.cf-num { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 700; color: var(--border); line-height: 1; margin-bottom: 0.3rem; }
+.cf-active .cf-num { color: var(--accent); }
+.cf-title { font-family: 'DM Mono', monospace; font-size: 0.58rem; font-weight: 500; color: var(--dark); letter-spacing: 0.05em; margin-bottom: 0.15rem; }
+.cf-active .cf-title { color: var(--accent); font-weight: 600; }
+.cf-sub { font-size: 0.55rem; color: var(--muted); line-height: 1.4; }
+
+/* RESP MATRIX */
+.resp-grid { width: 100%; border-collapse: collapse; font-size: 0.7rem; margin-bottom: 1.5rem; }
+.resp-grid th { padding: 0.6rem 0.8rem; text-align: left; font-size: 0.58rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: white; background: var(--dark); }
+.resp-grid th:first-child { width: 40%; }
+.resp-grid td { padding: 0.55rem 0.8rem; border-bottom: 1px solid #f0f0ee; color: var(--mid); vertical-align: middle; }
+.resp-grid tr:nth-child(even) td { background: #fafaf8; }
+.resp-grid tr:hover td { background: var(--accent-light); }
+.dot { display: inline-flex; width: 24px; height: 24px; border-radius: 50%; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 0.58rem; font-weight: 500; }
+.d-l { background: var(--accent); color: white; }
+.d-s { background: var(--accent-light); color: var(--accent); border: 1px solid rgba(26,107,90,0.2); }
+.d-r { background: var(--accent2-light); color: var(--accent2); border: 1px solid rgba(196,122,58,0.2); }
+.d-n { background: #f4f4f0; color: var(--light); }
+
+/* TWO COL */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+
+/* CHECKLIST */
+.checklist { border: 1px solid var(--border); }
+.cl-header { background: var(--dark); padding: 0.6rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+.cl-item { display: flex; align-items: center; gap: 0.8rem; padding: 0.55rem 1rem; border-bottom: 1px solid #f0f0ee; font-size: 0.7rem; color: var(--mid); }
+.cl-item:last-child { border-bottom: none; }
+.cl-box { width: 16px; height: 16px; background: var(--accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: white; font-size: 0.55rem; }
+
+/* MISTAKES */
+.mistakes { display: flex; flex-direction: column; border: 1px solid var(--border); }
+.mistake { display: grid; grid-template-columns: 28px 1fr; gap: 0.8rem; padding: 0.8rem 1rem; border-bottom: 1px solid #f0f0ee; align-items: start; }
+.mistake:last-child { border-bottom: none; }
+.m-num { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 700; color: var(--border); line-height: 1.2; }
+.m-title { font-size: 0.72rem; font-weight: 600; color: var(--dark); margin-bottom: 0.2rem; }
+.m-title.accent { color: var(--accent); }
+.m-desc { font-size: 0.67rem; color: var(--mid); line-height: 1.55; }
+
+/* STATS */
+.stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; }
+.stat-cell { padding: 1.2rem 1rem; border-right: 1px solid var(--border); text-align: center; }
+.stat-cell:last-child { border-right: none; }
+.stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 700; line-height: 1; color: var(--black); margin-bottom: 0.3rem; }
+.stat-num.accent { color: var(--accent); }
+.stat-num.accent2 { color: var(--accent2); }
+.stat-num.red { color: var(--red); }
+.stat-label { font-size: 0.6rem; color: var(--muted); line-height: 1.4; }
+
+/* PAGE FOOTER */
+.page-foot { margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.pf-left { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--light); letter-spacing: 0.1em; }
+.pf-links { display: flex; gap: 1.8rem; }
+.pf-link { font-family: 'Outfit', sans-serif; font-size: 0.6rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.25s; position: relative; }
+.pf-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.25s; }
+.pf-link:hover { color: var(--accent); }
+.pf-link:hover::after { width: 100%; }
+
+@media (max-width: 700px) {
+  body { padding: 0.5rem; }
+  .page-inner { padding: 2rem 1.5rem; }
+  .title-block { grid-template-columns: 1fr; }
+  .pillars, .pmp-sections { grid-template-columns: 1fr 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .change-flow { grid-template-columns: repeat(3, 1fr); }
+  .article-title { font-size: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ PAGE 1 ═══════════════════ -->
+<div class="page">
+<div class="page-inner">
+
+  <div class="page-topbar">
+    <span class="pt-subject">Project Management Plan (PMP) for BIM — Scope, Risk & Change Control</span>
+    <span class="pt-page">01 / 02</span>
+  </div>
+
+  <div class="title-block">
+    <div>
+      <div class="article-kicker">BIM Project Governance · PMP · ISO 19650 · PMI PMBOK</div>
+      <h1 class="article-title">Project Management<br><span>Plan for BIM</span></h1>
+      <p class="article-desc">A practical guide to aligning the Project Management Plan with BIM delivery — covering scope definition, risk management, change control, communication, and stakeholder reporting for ISO 19650-compliant programmes.</p>
+    </div>
+    <div class="title-meta">
+      <span class="meta-pill">ISO 19650-2</span>
+      <span class="meta-pill">PMI PMBOK 7</span>
+      <span class="meta-pill">2026 Edition</span>
+    </div>
+  </div>
+
+  <!-- DEFINITION -->
+  <div class="def-strip">
+    <div class="def-label">Definition</div>
+    <div class="def-text">The Project Management Plan (PMP) for BIM is a <strong>governance document that defines how the project will be managed</strong> from a digital delivery perspective — covering scope boundaries, risk identification and mitigation, change control procedures, communication protocols, and stakeholder reporting frameworks. It <strong>aligns BIM delivery with contractual obligations</strong> and programme milestones.</div>
+  </div>
+
+  <!-- 4 PILLARS -->
+  <div class="pillars">
+    <div class="pillar p1">
+      <div class="pillar-q">Scope</div>
+      <div class="pillar-title">What is Included</div>
+      <div class="pillar-desc">Defines the precise boundaries of the BIM scope — what models, deliverables, and services are included and what is explicitly excluded — eliminating scope creep from day one.</div>
+    </div>
+    <div class="pillar p2">
+      <div class="pillar-q">Risk</div>
+      <div class="pillar-title">What Could Go Wrong</div>
+      <div class="pillar-desc">Identifies, assesses, and mitigates project risks that could impact BIM delivery — from CDE failures and software incompatibilities to resourcing gaps and data security threats.</div>
+    </div>
+    <div class="pillar p3">
+      <div class="pillar-q">Change</div>
+      <div class="pillar-title">How Changes Are Managed</div>
+      <div class="pillar-desc">Defines the formal change control process — how scope changes are requested, assessed, approved, and communicated — preventing unauthorised model changes from destabilising delivery.</div>
+    </div>
+    <div class="pillar p4">
+      <div class="pillar-q">Comms</div>
+      <div class="pillar-title">How We Report</div>
+      <div class="pillar-desc">Establishes stakeholder communication cadence, reporting format, escalation paths, and the meeting structure for BIM coordination and progress review throughout the project.</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- PMP SECTIONS -->
+  <div class="sec-eyebrow">Structure</div>
+  <div class="sec-heading">6 Core Sections of the BIM Project Management Plan</div>
+
+  <div class="pmp-sections">
+    <div class="ps-card">
+      <div class="ps-icon">📋</div>
+      <div class="ps-title">Scope Management</div>
+      <div class="ps-desc">Defines what is in and out of BIM scope — deliverables, disciplines, stages, and services. Includes scope change triggers and approval thresholds.</div>
+    </div>
+    <div class="ps-card">
+      <div class="ps-icon">⚠️</div>
+      <div class="ps-title">Risk Management</div>
+      <div class="ps-desc">Live risk register covering probability, impact, mitigation, and ownership for all BIM-related project risks across the delivery lifecycle.</div>
+    </div>
+    <div class="ps-card">
+      <div class="ps-icon">🔄</div>
+      <div class="ps-title">Change Control</div>
+      <div class="ps-desc">Formal process for raising, assessing, approving, and implementing scope, programme, or contractual changes that affect BIM delivery.</div>
+    </div>
+    <div class="ps-card">
+      <div class="ps-icon">📡</div>
+      <div class="ps-title">Communication Plan</div>
+      <div class="ps-desc">Meeting schedule, reporting cadence, escalation paths, and stakeholder matrix — defining who receives what information and how often.</div>
+    </div>
+    <div class="ps-card">
+      <div class="ps-icon">📅</div>
+      <div class="ps-title">Programme Alignment</div>
+      <div class="ps-desc">Maps BIM milestones to the master programme — ensuring MIDP dates, stage gates, and information exchanges are integrated with the construction programme.</div>
+    </div>
+    <div class="ps-card">
+      <div class="ps-icon">📊</div>
+      <div class="ps-title">Performance Reporting</div>
+      <div class="ps-desc">KPIs, dashboards, and progress metrics used to report BIM delivery health to the client, project manager, and senior stakeholders.</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- SCOPE TABLE -->
+  <div class="sec-eyebrow">Scope Management</div>
+  <div class="sec-heading">BIM Scope Register — In / Out of Scope</div>
+
+  <div class="scope-wrap">
+    <div class="scope-title-bar">
+      <strong>BIM Scope Register — Project XYZ · Agreed at Mobilisation</strong>
+      <span>Rev 02 · Approved</span>
+    </div>
+    <table class="scope-table">
+      <thead>
+        <tr>
+          <th>Ref</th>
+          <th>Scope Item</th>
+          <th>Discipline</th>
+          <th>Stage</th>
+          <th>Inclusions</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="cat-row">
+          <td colspan="6">§A — BIM Modelling Scope</td>
+        </tr>
+        <tr class="hl">
+          <td>A.01</td>
+          <td>3D Architectural Model — LOD 300 at DD, LOD 400 at IFC</td>
+          <td>Architecture</td>
+          <td>SD → IFC</td>
+          <td>Shell, core, fit-out, external envelope</td>
+          <td><span class="badge b-in">In Scope</span></td>
+        </tr>
+        <tr>
+          <td>A.02</td>
+          <td>3D Structural Model — LOD 300 at DD, LOD 400 at IFC</td>
+          <td>Structure</td>
+          <td>SD → IFC</td>
+          <td>Frame, foundations, slabs, stairs</td>
+          <td><span class="badge b-in">In Scope</span></td>
+        </tr>
+        <tr class="hl">
+          <td>A.03</td>
+          <td>MEP Federated Model — Full MEPF coordination</td>
+          <td>MEP</td>
+          <td>DD → IFC</td>
+          <td>HVAC, electrical, plumbing, fire protection</td>
+          <td><span class="badge b-in">In Scope</span></td>
+        </tr>
+        <tr>
+          <td>A.04</td>
+          <td>Interior Design Modelling beyond FF&E placement</td>
+          <td>ID</td>
+          <td>All</td>
+          <td>Not included in BIM scope</td>
+          <td><span class="badge b-out">Out of Scope</span></td>
+        </tr>
+        <tr class="cat-row">
+          <td colspan="6">§B — Information Management Services</td>
+        </tr>
+        <tr class="hl">
+          <td>B.01</td>
+          <td>BEP authoring, maintenance, and reissue</td>
+          <td>All</td>
+          <td>All stages</td>
+          <td>Pre and post-appointment BEP versions</td>
+          <td><span class="badge b-in">In Scope</span></td>
+        </tr>
+        <tr>
+          <td>B.02</td>
+          <td>MIDP and MPDT management</td>
+          <td>All</td>
+          <td>All stages</td>
+          <td>Consolidated schedules, stage updates</td>
+          <td><span class="badge b-in">In Scope</span></td>
+        </tr>
+        <tr class="hl">
+          <td>B.03</td>
+          <td>As-built modelling post construction</td>
+          <td>All</td>
+          <td>Post-IFC</td>
+          <td>Not included unless separately instructed</td>
+          <td><span class="badge b-out">Out of Scope</span></td>
+        </tr>
+        <tr>
+          <td>B.04</td>
+          <td>Asset Information Model (AIM) population</td>
+          <td>All</td>
+          <td>Handover</td>
+          <td>Data transfer to FM system per AIR</td>
+          <td><span class="badge b-in">In Scope</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- RISK REGISTER -->
+  <div class="sec-eyebrow">Risk Management</div>
+  <div class="sec-heading">BIM Risk Register — Active Project Risks</div>
+
+  <div class="risk-wrap">
+    <div class="risk-title-bar">
+      <strong>BIM Risk Register — Project XYZ · Live Register</strong>
+      <span>Updated Monthly</span>
+    </div>
+    <table class="risk-table">
+      <thead>
+        <tr>
+          <th>Risk ID</th>
+          <th>Risk Description</th>
+          <th>Category</th>
+          <th>Probability</th>
+          <th>Impact</th>
+          <th>Rating</th>
+          <th>Mitigation</th>
+          <th>Owner</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="hl">
+          <td>R-01</td>
+          <td>MEP subcontractor not BIM-capable at CD stage</td>
+          <td>Resource</td>
+          <td>High</td>
+          <td>High</td>
+          <td><span class="badge b-high">Critical</span></td>
+          <td>BIM capability assessment at tender</td>
+          <td>Info. Mgr</td>
+          <td><span class="badge b-open">Open</span></td>
+        </tr>
+        <tr>
+          <td>R-02</td>
+          <td>CDE access failure at peak coordination period</td>
+          <td>Technology</td>
+          <td>Medium</td>
+          <td>High</td>
+          <td><span class="badge b-high">Critical</span></td>
+          <td>CDE SLA agreed, backup protocol in place</td>
+          <td>BIM Lead</td>
+          <td><span class="badge b-open">Open</span></td>
+        </tr>
+        <tr class="hl">
+          <td>R-03</td>
+          <td>Software version incompatibility across disciplines</td>
+          <td>Technology</td>
+          <td>Medium</td>
+          <td>Medium</td>
+          <td><span class="badge b-med">High</span></td>
+          <td>Software versions fixed in BEP at mobilisation</td>
+          <td>BIM Lead</td>
+          <td><span class="badge b-closed">Mitigated</span></td>
+        </tr>
+        <tr>
+          <td>R-04</td>
+          <td>Scope creep — client requesting additional models</td>
+          <td>Scope</td>
+          <td>High</td>
+          <td>Medium</td>
+          <td><span class="badge b-med">High</span></td>
+          <td>Formal change control process enforced</td>
+          <td>PM</td>
+          <td><span class="badge b-open">Open</span></td>
+        </tr>
+        <tr class="hl">
+          <td>R-05</td>
+          <td>Key BIM Lead departure mid-project</td>
+          <td>Resource</td>
+          <td>Low</td>
+          <td>High</td>
+          <td><span class="badge b-med">High</span></td>
+          <td>Succession plan and documentation in place</td>
+          <td>Info. Mgr</td>
+          <td><span class="badge b-open">Open</span></td>
+        </tr>
+        <tr>
+          <td>R-06</td>
+          <td>Late TIDP submission from structural sub-consultant</td>
+          <td>Delivery</td>
+          <td>Medium</td>
+          <td>Low</td>
+          <td><span class="badge b-low">Medium</span></td>
+          <td>TIDP deadline in contract, weekly chaser</td>
+          <td>Info. Mgr</td>
+          <td><span class="badge b-closed">Mitigated</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PAGE FOOTER -->
+  <div class="page-foot">
+    <span class="pf-left">Project Management Plan for BIM · Scope, Risk & Change Control · 2026</span>
+    <div class="pf-links">
+      <a href="https://beyabhi.github.io/abhinawchaubey/" target="_blank" class="pf-link">About Me</a>
+      <a href="https://beyabhi.github.io/abhinawchaubey/articles.html" target="_blank" class="pf-link">My Articles</a>
+    </div>
+  </div>
+
+</div>
+</div>
+
+
+<!-- ═══════════════════ PAGE 2 ═══════════════════ -->
+<div class="page">
+<div class="page-inner">
+
+  <div class="page-topbar">
+    <span class="pt-subject">Project Management Plan (PMP) for BIM — Scope, Risk & Change Control</span>
+    <span class="pt-page">02 / 02</span>
+  </div>
+
+  <!-- CHANGE CONTROL FLOW -->
+  <div class="sec-eyebrow">Change Control</div>
+  <div class="sec-heading">BIM Change Control Process — Step by Step</div>
+
+  <div class="change-flow">
+    <div class="cf-step">
+      <div class="cf-num">01</div>
+      <div class="cf-title">Identify</div>
+      <div class="cf-sub">Change identified by any party — scope, programme, data requirement or contractual</div>
+    </div>
+    <div class="cf-step">
+      <div class="cf-num">02</div>
+      <div class="cf-title">Request</div>
+      <div class="cf-sub">Formal Change Request (CR) raised with description, impact, and priority</div>
+    </div>
+    <div class="cf-step cf-active">
+      <div class="cf-num">03</div>
+      <div class="cf-title">Assess</div>
+      <div class="cf-sub">Info Manager & PM assess BIM impact — cost, programme, resource, model</div>
+    </div>
+    <div class="cf-step cf-active">
+      <div class="cf-num">04</div>
+      <div class="cf-title">Approve</div>
+      <div class="cf-sub">Client and PM sign off. Threshold defined — minor changes delegated to Info Mgr</div>
+    </div>
+    <div class="cf-step">
+      <div class="cf-num">05</div>
+      <div class="cf-title">Implement</div>
+      <div class="cf-sub">BEP, MIDP, MPDT updated. Models revised. CDE notified. Programme adjusted.</div>
+    </div>
+    <div class="cf-step">
+      <div class="cf-num">06</div>
+      <div class="cf-title">Close</div>
+      <div class="cf-sub">Change confirmed implemented. CR closed in register. All parties notified.</div>
+    </div>
+  </div>
+
+  <!-- CHANGE REGISTER TABLE -->
+  <div class="sec-eyebrow">Change Register</div>
+  <div class="sec-heading">Sample Change Request Register — BIM Delivery</div>
+
+  <div class="change-wrap">
+    <div class="change-title-bar">
+      <strong>Change Request Register — Project XYZ</strong>
+      <span>Rev 03 · Live Register</span>
+    </div>
+    <table class="change-table">
+      <thead>
+        <tr>
+          <th>CR Ref</th>
+          <th>Description</th>
+          <th>Raised By</th>
+          <th>BIM Impact</th>
+          <th>Programme Impact</th>
+          <th>Priority</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="hl">
+          <td>CR-001</td>
+          <td>Add fire protection model to BIM scope — not in original BEP</td>
+          <td>Client</td>
+          <td>New model file, new TIDP entry, MIDP update</td>
+          <td>+3 weeks to DD stage</td>
+          <td><span class="badge b-high">Critical</span></td>
+          <td><span class="badge b-approved">Approved</span></td>
+        </tr>
+        <tr>
+          <td>CR-002</td>
+          <td>Software upgrade from Revit 2024 to Revit 2025 mid-project</td>
+          <td>BIM Lead</td>
+          <td>All models require upgrade — 2 week freeze period</td>
+          <td>Minor — absorbed in schedule</td>
+          <td><span class="badge b-med">Medium</span></td>
+          <td><span class="badge b-approved">Approved</span></td>
+        </tr>
+        <tr class="hl">
+          <td>CR-003</td>
+          <td>Client requests as-built model post-IFC — originally out of scope</td>
+          <td>Client</td>
+          <td>New deliverable — additional FTE required at construction stage</td>
+          <td>Handover extended by 4 weeks</td>
+          <td><span class="badge b-high">Critical</span></td>
+          <td><span class="badge b-pending">Under Review</span></td>
+        </tr>
+        <tr>
+          <td>CR-004</td>
+          <td>Structural engineer requests change to model naming convention Field 3</td>
+          <td>STR Lead</td>
+          <td>All STR containers require rename — CDE batch process</td>
+          <td>None</td>
+          <td><span class="badge b-low">Low</span></td>
+          <td><span class="badge b-rejected">Rejected</span></td>
+        </tr>
+        <tr class="hl">
+          <td>CR-005</td>
+          <td>Add Power BI dashboard for client — not in original BEP</td>
+          <td>PM</td>
+          <td>Digital Engineer to configure — 0.5 FTE for 3 weeks</td>
+          <td>None</td>
+          <td><span class="badge b-med">Medium</span></td>
+          <td><span class="badge b-approved">Approved</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="rule">
+
+  <!-- RESP MATRIX -->
+  <div class="sec-eyebrow">Accountability</div>
+  <div class="sec-heading">PMP Responsibility Matrix</div>
+
+  <table class="resp-grid">
+    <thead>
+      <tr>
+        <th>Task</th>
+        <th>Information Manager</th>
+        <th>BIM Lead</th>
+        <th>Project Manager</th>
+        <th>Client</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Author and maintain the PMP</td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-s">S</span></td>
+        <td><span class="dot d-r">R</span></td>
+        <td><span class="dot d-r">R</span></td>
+      </tr>
+      <tr>
+        <td>Maintain the BIM risk register</td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-s">S</span></td>
+        <td><span class="dot d-r">R</span></td>
+        <td><span class="dot d-n">–</span></td>
+      </tr>
+      <tr>
+        <td>Raise and assess change requests</td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-s">S</span></td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-r">R</span></td>
+      </tr>
+      <tr>
+        <td>Approve change requests</td>
+        <td><span class="dot d-s">S</span></td>
+        <td><span class="dot d-n">–</span></td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-l">L</span></td>
+      </tr>
+      <tr>
+        <td>Update BEP / MIDP after approved change</td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-s">S</span></td>
+        <td><span class="dot d-r">R</span></td>
+        <td><span class="dot d-n">–</span></td>
+      </tr>
+      <tr>
+        <td>Stakeholder reporting on BIM progress</td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-s">S</span></td>
+        <td><span class="dot d-r">R</span></td>
+        <td><span class="dot d-r">R</span></td>
+      </tr>
+      <tr>
+        <td>Escalate critical risks to programme</td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-s">S</span></td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-r">R</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="display:flex;gap:1.5rem;margin-bottom:1.5rem;">
+    <span style="display:flex;align-items:center;gap:0.4rem;font-size:0.6rem;color:var(--muted)"><span class="dot d-l" style="width:16px;height:16px;font-size:0.5rem">L</span> Lead</span>
+    <span style="display:flex;align-items:center;gap:0.4rem;font-size:0.6rem;color:var(--muted)"><span class="dot d-s" style="width:16px;height:16px;font-size:0.5rem">S</span> Support</span>
+    <span style="display:flex;align-items:center;gap:0.4rem;font-size:0.6rem;color:var(--muted)"><span class="dot d-r" style="width:16px;height:16px;font-size:0.5rem">R</span> Review</span>
+    <span style="display:flex;align-items:center;gap:0.4rem;font-size:0.6rem;color:var(--muted)"><span class="dot d-n" style="width:16px;height:16px;font-size:0.5rem">–</span> Not Involved</span>
+  </div>
+
+  <hr class="rule">
+
+  <!-- CHECKLIST + MISTAKES -->
+  <div class="two-col">
+    <div>
+      <div class="sec-eyebrow">PMP Setup Checklist</div>
+      <div class="sec-heading">Before Issuing the PMP</div>
+      <div class="checklist">
+        <div class="cl-header">Verify all items before first issue</div>
+        <div class="cl-item"><div class="cl-box">✓</div>BIM scope boundaries clearly defined</div>
+        <div class="cl-item"><div class="cl-box">✓</div>In-scope and out-of-scope items documented</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Risk register populated with initial BIM risks</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Risk owners and mitigation actions assigned</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Change control thresholds agreed with PM</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Change request form template issued to all parties</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Communication plan and meeting schedule agreed</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Escalation path defined for critical issues</div>
+        <div class="cl-item"><div class="cl-box">✓</div>BIM KPIs and reporting format agreed with client</div>
+        <div class="cl-item"><div class="cl-box">✓</div>PMP version-controlled and issued within BEP</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sec-eyebrow">Common Errors</div>
+      <div class="sec-heading">5 PMP Mistakes to Avoid</div>
+      <div class="mistakes">
+        <div class="mistake">
+          <div class="m-num">1</div>
+          <div>
+            <div class="m-title accent">Scope not defined — only deliverables listed</div>
+            <div class="m-desc">Listing deliverables without defining scope boundaries leaves the door open for unlimited scope creep. The PMP must explicitly state what is out of scope — not just what is in.</div>
+          </div>
+        </div>
+        <div class="mistake">
+          <div class="m-num">2</div>
+          <div>
+            <div class="m-title">No formal change control process enforced</div>
+            <div class="m-desc">Informal verbal scope changes are the single largest source of BIM delivery failure. Every scope change — however minor — must go through the formal change request process before any work begins.</div>
+          </div>
+        </div>
+        <div class="mistake">
+          <div class="m-num">3</div>
+          <div>
+            <div class="m-title">Risk register created at mobilisation and never updated</div>
+            <div class="m-desc">A risk register that is not updated is not a risk management tool — it is a filing exercise. Risks must be reviewed monthly and updated as project conditions change throughout the lifecycle.</div>
+          </div>
+        </div>
+        <div class="mistake">
+          <div class="m-num">4</div>
+          <div>
+            <div class="m-title">BIM PMP disconnected from the master PMP</div>
+            <div class="m-desc">The BIM PMP must align with the overarching project PMP — sharing the same programme milestones, escalation paths, and reporting structure. A BIM PMP that operates in isolation creates contradictory governance.</div>
+          </div>
+        </div>
+        <div class="mistake">
+          <div class="m-num">5</div>
+          <div>
+            <div class="m-title">No communication plan for BIM stakeholders</div>
+            <div class="m-desc">Without a defined communication plan, BIM progress reports are issued ad hoc, escalations are missed, and client expectations diverge from delivery reality. Meeting cadence and reporting format must be agreed at mobilisation.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- STATS -->
+  <div class="sec-eyebrow">Key Numbers</div>
+  <div class="stat-row">
+    <div class="stat-cell">
+      <div class="stat-num accent">6</div>
+      <div class="stat-label">Core sections every BIM PMP must address</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num red">1</div>
+      <div class="stat-label">Formal change control process — no verbal scope changes permitted</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num accent2">Monthly</div>
+      <div class="stat-label">Minimum frequency for risk register review and update</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">↓40%</div>
+      <div class="stat-label">Reduction in uncontrolled scope changes with a governed BIM PMP</div>
+    </div>
+  </div>
+
+  <!-- PAGE FOOTER -->
+  <div class="page-foot">
+    <span class="pf-left">Project Management Plan for BIM · Scope, Risk & Change Control · 2026</span>
+    <div class="pf-links">
+      <a href="https://beyabhi.github.io/abhinawchaubey/" target="_blank" class="pf-link">About Me</a>
+      <a href="https://beyabhi.github.io/abhinawchaubey/articles.html" target="_blank" class="pf-link">My Articles</a>
+    </div>
+  </div>
+
+</div>
+</div>
+
+</body>
+</html>

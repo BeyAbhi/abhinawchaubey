@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Task Information Delivery Plans (TIDP) — Discipline-Level Planning in Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; }
+:root {
+  --black: #0f0f0f; --ink: #1c1c1c; --dark: #2d2d2d; --mid: #555;
+  --muted: #888; --light: #bbb; --border: #e0e0e0;
+  --bg: #f4f4f0; --white: #ffffff;
+  --accent: #1a6b5a; --accent-light: #e8f4f1;
+  --accent2: #c47a3a; --accent2-light: #fdf3e8;
+  --red: #b03030; --red-light: #fdeaea;
+  --blue: #2a5a9a; --blue-light: #e8f0f8;
+  --purple: #6b3a9a; --purple-light: #f0eafd;
+}
+body { background: var(--bg); font-family: 'Outfit', sans-serif; font-weight: 300; color: var(--ink); padding: 2.5rem 1.5rem; }
+
+.page { background: var(--white); max-width: 860px; margin: 0 auto 3rem; position: relative; box-shadow: 0 2px 40px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04); }
+.page::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); }
+.page-inner { padding: 3rem 3.5rem 2.5rem; }
+
+.page-topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+.pt-subject { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+.pt-page { font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--light); letter-spacing: 0.12em; }
+
+.title-block { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: end; }
+.article-kicker { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; }
+.article-title { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 700; line-height: 1.05; color: var(--black); letter-spacing: -0.02em; }
+.article-title span { font-style: italic; font-weight: 300; color: var(--accent); }
+.article-desc { margin-top: 1rem; font-size: 0.85rem; line-height: 1.75; color: var(--mid); max-width: 500px; font-weight: 300; }
+.title-meta { text-align: right; display: flex; flex-direction: column; gap: 0.8rem; align-items: flex-end; }
+.meta-pill { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.3rem 0.8rem; border: 1px solid var(--border); color: var(--muted); border-radius: 2px; }
+
+.sec-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+.sec-heading { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: var(--black); margin-bottom: 1rem; letter-spacing: -0.01em; }
+hr.rule { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+.def-strip { background: var(--ink); color: white; padding: 1.4rem 2rem; margin-bottom: 1.5rem; display: grid; grid-template-columns: auto 1fr; gap: 2rem; align-items: center; }
+.def-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.4); writing-mode: vertical-rl; transform: rotate(180deg); }
+.def-text { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 300; line-height: 1.6; color: rgba(255,255,255,0.9); }
+.def-text strong { color: #7dd3c0; font-weight: 400; }
+
+/* PILLARS */
+.pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; }
+.pillar { padding: 1.2rem 1rem; border-right: 1px solid var(--border); position: relative; }
+.pillar:last-child { border-right: none; }
+.pillar::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.p1::before { background: var(--accent); } .p2::before { background: var(--accent2); } .p3::before { background: var(--blue); } .p4::before { background: var(--purple); }
+.pillar-q { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 700; font-style: italic; line-height: 1; margin-bottom: 0.4rem; }
+.p1 .pillar-q { color: var(--accent); } .p2 .pillar-q { color: var(--accent2); } .p3 .pillar-q { color: var(--blue); } .p4 .pillar-q { color: var(--purple); }
+.pillar-title { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dark); margin-bottom: 0.35rem; }
+.pillar-desc { font-size: 0.72rem; color: var(--mid); line-height: 1.5; }
+
+/* COLUMN MAP */
+.col-map { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 1rem; }
+.cm-col { padding: 0.9rem 0.6rem; border-right: 1px solid var(--border); text-align: center; }
+.cm-col:last-child { border-right: none; }
+.cm-num { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 700; line-height: 1; color: var(--border); margin-bottom: 0.4rem; }
+.cm-name { font-size: 0.58rem; font-weight: 600; color: var(--dark); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.2rem; }
+.cm-eg { font-family: 'DM Mono', monospace; font-size: 0.52rem; color: var(--muted); }
+.cm-important .cm-num { color: var(--accent); }
+.cm-important .cm-name { color: var(--accent); }
+
+/* TIDP TABLE */
+.tidp-wrap { border: 1px solid var(--border); margin-bottom: 1.5rem; overflow-x: auto; }
+.tidp-title-bar { background: var(--ink); padding: 0.7rem 1.2rem; display: flex; justify-content: space-between; align-items: center; }
+.tidp-title-bar strong { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: rgba(255,255,255,0.85); }
+.tidp-title-bar span { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+
+.tidp-table { width: 100%; border-collapse: collapse; font-size: 0.66rem; }
+.tidp-table thead tr { background: #f8f8f6; border-bottom: 2px solid var(--border); }
+.tidp-table th { padding: 0.55rem 0.6rem; text-align: left; font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 400; white-space: nowrap; }
+.tidp-table td { padding: 0.5rem 0.6rem; border-bottom: 1px solid #f0f0ee; color: var(--dark); vertical-align: middle; font-size: 0.67rem; }
+.tidp-table tr:last-child td { border-bottom: none; }
+.tidp-table tr:hover td { background: #fafaf8; }
+.tidp-table tr.hl td { background: var(--accent-light); }
+.tidp-table tr.hl:hover td { background: #ddf0eb; }
+
+.badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.56rem; font-weight: 500; }
+.b-id { background: #f0f0ee; color: var(--dark); }
+.b-model { background: var(--accent-light); color: var(--accent); }
+.b-drawing { background: var(--purple-light); color: var(--purple); }
+.b-doc { background: var(--blue-light); color: var(--blue); }
+.b-report { background: var(--accent2-light); color: var(--accent2); }
+.b-s2 { background: var(--blue-light); color: var(--blue); }
+.b-s3 { background: var(--accent-light); color: var(--accent); border: 1px solid rgba(26,107,90,0.2); }
+.b-s4 { background: var(--accent); color: white; }
+.b-active { background: var(--accent-light); color: var(--accent); border: 1px solid rgba(26,107,90,0.2); }
+.b-pending { background: var(--accent2-light); color: var(--accent2); border: 1px solid rgba(196,122,58,0.2); }
+.b-overdue { background: var(--red-light); color: var(--red); border: 1px solid rgba(176,48,48,0.2); }
+.b-approved { background: var(--ink); color: white; }
+
+/* TIDP vs MIDP comparison */
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; }
+.cmp-col { padding: 1.5rem; border-right: 1px solid var(--border); }
+.cmp-col:last-child { border-right: none; }
+.cmp-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.cmp-tidp .cmp-label { color: var(--accent2); }
+.cmp-midp .cmp-label { color: var(--accent); }
+.cmp-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; color: var(--black); margin-bottom: 0.5rem; }
+.cmp-items { display: flex; flex-direction: column; gap: 0.4rem; margin-top: 0.8rem; }
+.cmp-item { display: flex; gap: 0.6rem; font-size: 0.7rem; color: var(--mid); align-items: flex-start; }
+.cmp-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 0.35rem; }
+.cmp-tidp .cmp-dot { background: var(--accent2); }
+.cmp-midp .cmp-dot { background: var(--accent); }
+
+/* HIERARCHY */
+.hierarchy { display: flex; align-items: stretch; border: 1px solid var(--border); margin-bottom: 1.5rem; overflow: hidden; }
+.h-step { flex: 1; padding: 1.1rem 0.7rem; border-right: 1px solid var(--border); text-align: center; position: relative; transition: background 0.2s; }
+.h-step:last-child { border-right: none; }
+.h-step:hover { background: #fafaf8; }
+.h-step.h-active { background: var(--accent-light); border-top: 2px solid var(--accent); }
+.h-arrow { position: absolute; right: -10px; top: 50%; transform: translateY(-50%); font-size: 0.7rem; color: var(--light); z-index: 2; }
+.h-icon { font-size: 1.2rem; margin-bottom: 0.4rem; }
+.h-title { font-family: 'DM Mono', monospace; font-size: 0.62rem; font-weight: 500; color: var(--dark); margin-bottom: 0.15rem; letter-spacing: 0.05em; }
+.h-active .h-title { color: var(--accent); font-weight: 600; }
+.h-sub { font-size: 0.55rem; color: var(--muted); line-height: 1.4; }
+
+/* RESP MATRIX */
+.resp-grid { width: 100%; border-collapse: collapse; font-size: 0.7rem; margin-bottom: 1.5rem; }
+.resp-grid th { padding: 0.6rem 0.8rem; text-align: left; font-size: 0.58rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: white; background: var(--dark); }
+.resp-grid th:first-child { width: 40%; }
+.resp-grid td { padding: 0.55rem 0.8rem; border-bottom: 1px solid #f0f0ee; color: var(--mid); vertical-align: middle; }
+.resp-grid tr:nth-child(even) td { background: #fafaf8; }
+.resp-grid tr:hover td { background: var(--accent-light); }
+.dot { display: inline-flex; width: 24px; height: 24px; border-radius: 50%; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 0.58rem; font-weight: 500; }
+.d-l { background: var(--accent); color: white; }
+.d-s { background: var(--accent-light); color: var(--accent); border: 1px solid rgba(26,107,90,0.2); }
+.d-r { background: var(--accent2-light); color: var(--accent2); border: 1px solid rgba(196,122,58,0.2); }
+.d-n { background: #f4f4f0; color: var(--light); }
+
+/* TWO COL */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+
+/* CHECKLIST */
+.checklist { border: 1px solid var(--border); }
+.cl-header { background: var(--dark); padding: 0.6rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+.cl-item { display: flex; align-items: center; gap: 0.8rem; padding: 0.55rem 1rem; border-bottom: 1px solid #f0f0ee; font-size: 0.7rem; color: var(--mid); }
+.cl-item:last-child { border-bottom: none; }
+.cl-box { width: 16px; height: 16px; background: var(--accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: white; font-size: 0.55rem; }
+
+/* MISTAKES */
+.mistakes { display: flex; flex-direction: column; border: 1px solid var(--border); }
+.mistake { display: grid; grid-template-columns: 28px 1fr; gap: 0.8rem; padding: 0.8rem 1rem; border-bottom: 1px solid #f0f0ee; align-items: start; }
+.mistake:last-child { border-bottom: none; }
+.m-num { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 700; color: var(--border); line-height: 1.2; }
+.m-title { font-size: 0.72rem; font-weight: 600; color: var(--dark); margin-bottom: 0.2rem; }
+.m-title.accent { color: var(--accent); }
+.m-desc { font-size: 0.67rem; color: var(--mid); line-height: 1.55; }
+
+/* STATS */
+.stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; }
+.stat-cell { padding: 1.2rem 1rem; border-right: 1px solid var(--border); text-align: center; }
+.stat-cell:last-child { border-right: none; }
+.stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 700; line-height: 1; color: var(--black); margin-bottom: 0.3rem; }
+.stat-num.accent { color: var(--accent); }
+.stat-num.accent2 { color: var(--accent2); }
+.stat-num.red { color: var(--red); }
+.stat-label { font-size: 0.6rem; color: var(--muted); line-height: 1.4; }
+
+/* PAGE FOOTER */
+.page-foot { margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.pf-left { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--light); letter-spacing: 0.1em; }
+.pf-links { display: flex; gap: 1.8rem; }
+.pf-link { font-family: 'Outfit', sans-serif; font-size: 0.6rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.25s; position: relative; }
+.pf-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.25s; }
+.pf-link:hover { color: var(--accent); }
+.pf-link:hover::after { width: 100%; }
+
+@media (max-width: 700px) {
+  body { padding: 0.5rem; }
+  .page-inner { padding: 2rem 1.5rem; }
+  .title-block { grid-template-columns: 1fr; }
+  .pillars { grid-template-columns: 1fr 1fr; }
+  .col-map { grid-template-columns: repeat(4, 1fr); }
+  .compare { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .hierarchy { flex-direction: column; }
+  .article-title { font-size: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ PAGE 1 ═══════════════════ -->
+<div class="page">
+<div class="page-inner">
+
+  <div class="page-topbar">
+    <span class="pt-subject">Task Information Delivery Plans (TIDP) — Discipline-Level Planning</span>
+    <span class="pt-page">01 / 02</span>
+  </div>
+
+  <div class="title-block">
+    <div>
+      <div class="article-kicker">BIM Information Management · ISO 19650-2 · Discipline Planning</div>
+      <h1 class="article-title">Task Information<br><span>Delivery Plans</span></h1>
+      <p class="article-desc">A practical guide to building, owning, and maintaining the TIDP — the discipline-level delivery plan that each Appointed Party owns, populates, and submits to form the Master Information Delivery Plan (MIDP).</p>
+    </div>
+    <div class="title-meta">
+      <span class="meta-pill">ISO 19650-2</span>
+      <span class="meta-pill">Per Discipline</span>
+      <span class="meta-pill">2026 Edition</span>
+    </div>
+  </div>
+
+  <!-- DEFINITION -->
+  <div class="def-strip">
+    <div class="def-label">Definition</div>
+    <div class="def-text">A Task Information Delivery Plan (TIDP) is a <strong>discipline-specific delivery schedule</strong> owned and maintained by each Appointed Party — listing every information container they are responsible for producing, with the <strong>format, suitability code, LOD, and submission milestone</strong> for each. Multiple TIDPs are consolidated by the Information Manager to form the <strong>Master Information Delivery Plan (MIDP)</strong>.</div>
+  </div>
+
+  <!-- 4 PILLARS -->
+  <div class="pillars">
+    <div class="pillar p1">
+      <div class="pillar-q">Who?</div>
+      <div class="pillar-title">Each Appointed Party</div>
+      <div class="pillar-desc">Every Appointed Party on the project — architect, structural engineer, MEP contractor, civil engineer — owns and maintains their own TIDP. It cannot be completed by the Information Manager on their behalf.</div>
+    </div>
+    <div class="pillar p2">
+      <div class="pillar-q">What?</div>
+      <div class="pillar-title">Their Deliverables Only</div>
+      <div class="pillar-desc">The TIDP covers only the deliverables within the scope of that Appointed Party — models, drawings, documents, and reports that they are contractually responsible for producing.</div>
+    </div>
+    <div class="pillar p3">
+      <div class="pillar-q">When?</div>
+      <div class="pillar-title">Their Task Schedule</div>
+      <div class="pillar-desc">Submission dates are defined by the Appointed Party based on their internal production programme — but must align with the MIDP milestones and stage gates agreed in the BEP.</div>
+    </div>
+    <div class="pillar p4">
+      <div class="pillar-q">Feeds?</div>
+      <div class="pillar-title">The MIDP</div>
+      <div class="pillar-desc">All TIDPs are submitted to the Information Manager and consolidated into the MIDP. Without a complete and accurate TIDP from every Appointed Party, the MIDP cannot be finalised.</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- TIDP vs MIDP -->
+  <div class="sec-eyebrow">Key Distinction</div>
+  <div class="sec-heading">TIDP vs MIDP — Understanding the Difference</div>
+
+  <div class="compare">
+    <div class="cmp-col cmp-tidp">
+      <div class="cmp-label">TIDP — Task Information Delivery Plan</div>
+      <div class="cmp-title">Discipline-Level — One per Appointed Party</div>
+      <div class="cmp-items">
+        <div class="cmp-item"><div class="cmp-dot"></div>Owned by each individual Appointed Party</div>
+        <div class="cmp-item"><div class="cmp-dot"></div>Covers only that party's deliverables</div>
+        <div class="cmp-item"><div class="cmp-dot"></div>Authored by the discipline team lead</div>
+        <div class="cmp-item"><div class="cmp-dot"></div>Submitted to Info Manager for consolidation</div>
+        <div class="cmp-item"><div class="cmp-dot"></div>Updated whenever scope or programme changes</div>
+        <div class="cmp-item"><div class="cmp-dot"></div>Input document — feeds the MIDP</div>
+      </div>
+    </div>
+    <div class="cmp-col cmp-midp">
+      <div class="cmp-label">MIDP — Master Information Delivery Plan</div>
+      <div class="cmp-title">Project-Level — One per Project</div>
+      <div class="cmp-items">
+        <div class="cmp-item"><div class="cmp-dot"></div>Owned by the Information Manager</div>
+        <div class="cmp-item"><div class="cmp-dot"></div>Covers all deliverables across all disciplines</div>
+        <div class="cmp-item"><div class="cmp-dot"></div>Compiled from all submitted TIDPs</div>
+        <div class="cmp-item"><div class="cmp-dot"></div>Issued to client and all Appointed Parties</div>
+        <div class="cmp-item"><div class="cmp-dot"></div>Updated at each stage gate</div>
+        <div class="cmp-item"><div class="cmp-dot"></div>Output document — the master schedule</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- KEY COLUMNS -->
+  <div class="sec-eyebrow">Structure</div>
+  <div class="sec-heading">The 7 Essential TIDP Columns</div>
+
+  <div class="col-map">
+    <div class="cm-col cm-important"><div class="cm-num">01</div><div class="cm-name">Ref No.</div><div class="cm-eg">MEP-M-001</div></div>
+    <div class="cm-col cm-important"><div class="cm-num">02</div><div class="cm-name">Title</div><div class="cm-eg">Description</div></div>
+    <div class="cm-col cm-important"><div class="cm-num">03</div><div class="cm-name">Type</div><div class="cm-eg">Model/Doc</div></div>
+    <div class="cm-col cm-important"><div class="cm-num">04</div><div class="cm-name">Author</div><div class="cm-eg">Named lead</div></div>
+    <div class="cm-col cm-important"><div class="cm-num">05</div><div class="cm-name">Format</div><div class="cm-eg">RVT/PDF/IFC</div></div>
+    <div class="cm-col cm-important"><div class="cm-num">06</div><div class="cm-name">Suitability</div><div class="cm-eg">S0 → S4</div></div>
+    <div class="cm-col cm-important"><div class="cm-num">07</div><div class="cm-name">Milestone</div><div class="cm-eg">W12 / W24</div></div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- SAMPLE TIDP TABLE -->
+  <div class="sec-eyebrow">Live Example</div>
+  <div class="sec-heading">Sample TIDP — MEP Contractor · Project XYZ</div>
+
+  <div class="tidp-wrap">
+    <div class="tidp-title-bar">
+      <strong>TIDP — MEP Contractor · SD through IFC</strong>
+      <span>Rev 03 · Submitted to Info. Manager</span>
+    </div>
+    <table class="tidp-table">
+      <thead>
+        <tr>
+          <th>Ref No.</th>
+          <th>Title / Description</th>
+          <th>Type</th>
+          <th>Author</th>
+          <th>Format</th>
+          <th>SD</th>
+          <th>DD</th>
+          <th>CD</th>
+          <th>IFC</th>
+          <th>Milestone</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="hl">
+          <td><span class="badge b-id">MEP-M-001</span></td>
+          <td>HVAC — Air Handling Systems</td>
+          <td><span class="badge b-model">Model</span></td>
+          <td>MEP BIM Lead</td>
+          <td>RVT / IFC</td>
+          <td><span class="badge b-s2">S2</span></td>
+          <td><span class="badge b-s3">S3</span></td>
+          <td><span class="badge b-s4">S4</span></td>
+          <td><span class="badge b-s4">S4</span></td>
+          <td>W10 / W22</td>
+          <td><span class="badge b-active">Active</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge b-id">MEP-M-002</span></td>
+          <td>Electrical & LV Distribution</td>
+          <td><span class="badge b-model">Model</span></td>
+          <td>MEP BIM Lead</td>
+          <td>RVT / IFC</td>
+          <td><span class="badge b-s2">S2</span></td>
+          <td><span class="badge b-s3">S3</span></td>
+          <td><span class="badge b-s4">S4</span></td>
+          <td><span class="badge b-s4">S4</span></td>
+          <td>W10 / W22</td>
+          <td><span class="badge b-active">Active</span></td>
+        </tr>
+        <tr class="hl">
+          <td><span class="badge b-id">MEP-M-003</span></td>
+          <td>Plumbing & Drainage Systems</td>
+          <td><span class="badge b-model">Model</span></td>
+          <td>MEP BIM Lead</td>
+          <td>RVT / IFC</td>
+          <td><span class="badge b-s2">S2</span></td>
+          <td><span class="badge b-s3">S3</span></td>
+          <td><span class="badge b-s4">S4</span></td>
+          <td><span class="badge b-s4">S4</span></td>
+          <td>W12 / W24</td>
+          <td><span class="badge b-pending">Pending</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge b-id">MEP-M-004</span></td>
+          <td>Fire Protection Systems</td>
+          <td><span class="badge b-model">Model</span></td>
+          <td>MEP BIM Lead</td>
+          <td>RVT / IFC</td>
+          <td>—</td>
+          <td><span class="badge b-s2">S2</span></td>
+          <td><span class="badge b-s4">S4</span></td>
+          <td><span class="badge b-s4">S4</span></td>
+          <td>W16 / W28</td>
+          <td><span class="badge b-pending">Pending</span></td>
+        </tr>
+        <tr class="hl">
+          <td><span class="badge b-id">MEP-D-001</span></td>
+          <td>MEP Coordination Drawings — Level 01</td>
+          <td><span class="badge b-drawing">Drawing</span></td>
+          <td>MEP Coord.</td>
+          <td>DWG / PDF</td>
+          <td>—</td>
+          <td><span class="badge b-s2">S2</span></td>
+          <td><span class="badge b-s4">S4</span></td>
+          <td><span class="badge b-s4">S4</span></td>
+          <td>W20 / W30</td>
+          <td><span class="badge b-pending">Pending</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge b-id">MEP-D-002</span></td>
+          <td>MEP Coordination Drawings — Level 02</td>
+          <td><span class="badge b-drawing">Drawing</span></td>
+          <td>MEP Coord.</td>
+          <td>DWG / PDF</td>
+          <td>—</td>
+          <td><span class="badge b-s2">S2</span></td>
+          <td><span class="badge b-s4">S4</span></td>
+          <td><span class="badge b-s4">S4</span></td>
+          <td>W20 / W30</td>
+          <td><span class="badge b-overdue">Overdue</span></td>
+        </tr>
+        <tr class="hl">
+          <td><span class="badge b-id">MEP-R-001</span></td>
+          <td>MEP Clash Detection Report — DD</td>
+          <td><span class="badge b-report">Report</span></td>
+          <td>BIM Lead</td>
+          <td>PDF</td>
+          <td>—</td>
+          <td><span class="badge b-s3">S3</span></td>
+          <td><span class="badge b-s4">S4</span></td>
+          <td><span class="badge b-s4">S4</span></td>
+          <td>W22</td>
+          <td><span class="badge b-approved">Approved</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge b-id">MEP-SP-001</span></td>
+          <td>MEP Technical Specification</td>
+          <td><span class="badge b-doc">Document</span></td>
+          <td>MEP Engineer</td>
+          <td>PDF / DOCX</td>
+          <td><span class="badge b-s2">S2</span></td>
+          <td><span class="badge b-s3">S3</span></td>
+          <td><span class="badge b-s4">S4</span></td>
+          <td><span class="badge b-s4">S4</span></td>
+          <td>W08 / W20</td>
+          <td><span class="badge b-active">Active</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PAGE FOOTER -->
+  <div class="page-foot">
+    <span class="pf-left">Task Information Delivery Plans (TIDP) · Discipline-Level Planning · 2026</span>
+    <div class="pf-links">
+      <a href="https://beyabhi.github.io/abhinawchaubey/" target="_blank" class="pf-link">About Me</a>
+      <a href="https://beyabhi.github.io/abhinawchaubey/articles.html" target="_blank" class="pf-link">My Articles</a>
+    </div>
+  </div>
+
+</div>
+</div>
+
+
+<!-- ═══════════════════ PAGE 2 ═══════════════════ -->
+<div class="page">
+<div class="page-inner">
+
+  <div class="page-topbar">
+    <span class="pt-subject">Task Information Delivery Plans (TIDP) — Discipline-Level Planning</span>
+    <span class="pt-page">02 / 02</span>
+  </div>
+
+  <!-- HIERARCHY -->
+  <div class="sec-eyebrow">Context</div>
+  <div class="sec-heading">Where the TIDP Sits in the BIM Delivery Hierarchy</div>
+
+  <div class="hierarchy">
+    <div class="h-step">
+      <div class="h-icon">📋</div>
+      <div class="h-title">EIR</div>
+      <div class="h-sub">Client defines requirements</div>
+      <div class="h-arrow">›</div>
+    </div>
+    <div class="h-step">
+      <div class="h-icon">📄</div>
+      <div class="h-title">BEP</div>
+      <div class="h-sub">Governs delivery — TIDP template issued here</div>
+      <div class="h-arrow">›</div>
+    </div>
+    <div class="h-step h-active">
+      <div class="h-icon">🗂️</div>
+      <div class="h-title">TIDP</div>
+      <div class="h-sub">Each party's discipline deliverable schedule</div>
+      <div class="h-arrow">›</div>
+    </div>
+    <div class="h-step">
+      <div class="h-icon">📅</div>
+      <div class="h-title">MIDP</div>
+      <div class="h-sub">All TIDPs consolidated into master schedule</div>
+      <div class="h-arrow">›</div>
+    </div>
+    <div class="h-step">
+      <div class="h-icon">📊</div>
+      <div class="h-title">MPDT</div>
+      <div class="h-sub">Model-specific delivery sub-schedule</div>
+      <div class="h-arrow">›</div>
+    </div>
+    <div class="h-step">
+      <div class="h-icon">☁️</div>
+      <div class="h-title">CDE</div>
+      <div class="h-sub">Deliverables uploaded per TIDP schedule</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- RESP MATRIX -->
+  <div class="sec-eyebrow">Accountability</div>
+  <div class="sec-heading">TIDP Responsibility Matrix</div>
+
+  <table class="resp-grid">
+    <thead>
+      <tr>
+        <th>Task</th>
+        <th>Information Manager</th>
+        <th>BIM Lead</th>
+        <th>Appointed Party Lead</th>
+        <th>Client</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Issue TIDP template to Appointed Parties</td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-s">S</span></td>
+        <td><span class="dot d-n">–</span></td>
+        <td><span class="dot d-n">–</span></td>
+      </tr>
+      <tr>
+        <td>Populate TIDP for own discipline</td>
+        <td><span class="dot d-n">–</span></td>
+        <td><span class="dot d-r">R</span></td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-n">–</span></td>
+      </tr>
+      <tr>
+        <td>Submit TIDP to Information Manager</td>
+        <td><span class="dot d-r">R</span></td>
+        <td><span class="dot d-n">–</span></td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-n">–</span></td>
+      </tr>
+      <tr>
+        <td>Review and validate submitted TIDPs</td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-s">S</span></td>
+        <td><span class="dot d-n">–</span></td>
+        <td><span class="dot d-n">–</span></td>
+      </tr>
+      <tr>
+        <td>Consolidate TIDPs into MIDP</td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-s">S</span></td>
+        <td><span class="dot d-n">–</span></td>
+        <td><span class="dot d-n">–</span></td>
+      </tr>
+      <tr>
+        <td>Update TIDP at stage gates</td>
+        <td><span class="dot d-r">R</span></td>
+        <td><span class="dot d-s">S</span></td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-n">–</span></td>
+      </tr>
+      <tr>
+        <td>Monitor TIDP delivery compliance</td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-r">R</span></td>
+        <td><span class="dot d-n">–</span></td>
+        <td><span class="dot d-r">R</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="display:flex;gap:1.5rem;margin-bottom:1.5rem;">
+    <span style="display:flex;align-items:center;gap:0.4rem;font-size:0.6rem;color:var(--muted)"><span class="dot d-l" style="width:16px;height:16px;font-size:0.5rem">L</span> Lead</span>
+    <span style="display:flex;align-items:center;gap:0.4rem;font-size:0.6rem;color:var(--muted)"><span class="dot d-s" style="width:16px;height:16px;font-size:0.5rem">S</span> Support</span>
+    <span style="display:flex;align-items:center;gap:0.4rem;font-size:0.6rem;color:var(--muted)"><span class="dot d-r" style="width:16px;height:16px;font-size:0.5rem">R</span> Review</span>
+    <span style="display:flex;align-items:center;gap:0.4rem;font-size:0.6rem;color:var(--muted)"><span class="dot d-n" style="width:16px;height:16px;font-size:0.5rem">–</span> Not Involved</span>
+  </div>
+
+  <hr class="rule">
+
+  <!-- CHECKLIST + MISTAKES -->
+  <div class="two-col">
+    <div>
+      <div class="sec-eyebrow">TIDP Readiness Checklist</div>
+      <div class="sec-heading">Before Submitting Your TIDP</div>
+      <div class="checklist">
+        <div class="cl-header">Verify all items before submission</div>
+        <div class="cl-item"><div class="cl-box">✓</div>All deliverables within your scope listed</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Each container has a unique reference number</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Container type defined per row</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Named author confirmed for every deliverable</div>
+        <div class="cl-item"><div class="cl-box">✓</div>File format specified per container</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Suitability code defined per stage</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Milestones aligned to MIDP programme dates</div>
+        <div class="cl-item"><div class="cl-box">✓</div>LOD confirmed per deliverable per stage</div>
+        <div class="cl-item"><div class="cl-box">✓</div>TIDP version-controlled and dated</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Submitted to Info Manager before MIDP deadline</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sec-eyebrow">Common Errors</div>
+      <div class="sec-heading">5 TIDP Mistakes to Avoid</div>
+      <div class="mistakes">
+        <div class="mistake">
+          <div class="m-num">1</div>
+          <div>
+            <div class="m-title accent">Info Manager completing TIDP on party's behalf</div>
+            <div class="m-desc">The TIDP must be completed by the Appointed Party who owns the deliverables. An Information Manager who fills it in on their behalf creates a schedule the authoring team has not validated — and will not own.</div>
+          </div>
+        </div>
+        <div class="mistake">
+          <div class="m-num">2</div>
+          <div>
+            <div class="m-title">Milestones copied from MIDP without checking capacity</div>
+            <div class="m-desc">Copying MIDP dates directly into the TIDP without checking whether the authoring team can actually meet them creates false confidence. TIDP dates must reflect real production capacity.</div>
+          </div>
+        </div>
+        <div class="mistake">
+          <div class="m-num">3</div>
+          <div>
+            <div class="m-title">Deliverables missing from TIDP scope</div>
+            <div class="m-desc">If a deliverable is not in the TIDP, it will not appear in the MIDP — and will therefore have no delivery date, no suitability code, and no CDE submission path. Everything must be listed, however minor.</div>
+          </div>
+        </div>
+        <div class="mistake">
+          <div class="m-num">4</div>
+          <div>
+            <div class="m-title">TIDP submitted once and never updated</div>
+            <div class="m-desc">The TIDP is a live schedule. Scope changes, design evolution, and programme revisions all require TIDP updates. A static TIDP that diverges from actual production quickly becomes meaningless as a delivery tool.</div>
+          </div>
+        </div>
+        <div class="mistake">
+          <div class="m-num">5</div>
+          <div>
+            <div class="m-title">Suitability codes left blank or defaulted to S4</div>
+            <div class="m-desc">Every deliverable must have a suitability code defined per stage. Defaulting everything to S4 bypasses the controlled review process — CDE workflows will fail and the client will lose trust in the delivery process.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- STATS -->
+  <div class="sec-eyebrow">Key Numbers</div>
+  <div class="stat-row">
+    <div class="stat-cell">
+      <div class="stat-num accent">7</div>
+      <div class="stat-label">Minimum essential columns every TIDP must contain</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">1</div>
+      <div class="stat-label">TIDP per Appointed Party — not one per project, one per team</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num accent2">MIDP</div>
+      <div class="stat-label">The single document that all TIDPs feed into and form</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num red">0</div>
+      <div class="stat-label">Deliverables acceptable without a TIDP entry and a named author</div>
+    </div>
+  </div>
+
+  <!-- PAGE FOOTER -->
+  <div class="page-foot">
+    <span class="pf-left">Task Information Delivery Plans (TIDP) · Discipline-Level Planning · 2026</span>
+    <div class="pf-links">
+      <a href="https://beyabhi.github.io/abhinawchaubey/" target="_blank" class="pf-link">About Me</a>
+      <a href="https://beyabhi.github.io/abhinawchaubey/articles.html" target="_blank" class="pf-link">My Articles</a>
+    </div>
+  </div>
+
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BIM Execution Plan (BEP) — A Complete Practical Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; }
+:root {
+  --black: #0f0f0f; --ink: #1c1c1c; --dark: #2d2d2d; --mid: #555;
+  --muted: #888; --light: #bbb; --border: #e0e0e0;
+  --bg: #f4f4f0; --white: #ffffff;
+  --accent: #1a6b5a; --accent-light: #e8f4f1;
+  --accent2: #c47a3a; --accent2-light: #fdf3e8;
+  --red: #b03030; --red-light: #fdeaea;
+  --blue: #2a5a9a; --blue-light: #e8f0f8;
+  --purple: #6b3a9a; --purple-light: #f0eafd;
+}
+body { background: var(--bg); font-family: 'Outfit', sans-serif; font-weight: 300; color: var(--ink); padding: 2.5rem 1.5rem; }
+
+.page { background: var(--white); max-width: 860px; margin: 0 auto 3rem; position: relative; box-shadow: 0 2px 40px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04); }
+.page::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); }
+.page-inner { padding: 3rem 3.5rem 2.5rem; }
+
+.page-topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+.pt-subject { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+.pt-page { font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--light); letter-spacing: 0.12em; }
+
+.title-block { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: end; }
+.article-kicker { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; }
+.article-title { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 700; line-height: 1.05; color: var(--black); letter-spacing: -0.02em; }
+.article-title span { font-style: italic; font-weight: 300; color: var(--accent); }
+.article-desc { margin-top: 1rem; font-size: 0.85rem; line-height: 1.75; color: var(--mid); max-width: 500px; font-weight: 300; }
+.title-meta { text-align: right; display: flex; flex-direction: column; gap: 0.8rem; align-items: flex-end; }
+.meta-pill { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.3rem 0.8rem; border: 1px solid var(--border); color: var(--muted); border-radius: 2px; }
+
+.sec-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+.sec-heading { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: var(--black); margin-bottom: 1rem; letter-spacing: -0.01em; }
+hr.rule { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+.def-strip { background: var(--ink); color: white; padding: 1.4rem 2rem; margin-bottom: 1.5rem; display: grid; grid-template-columns: auto 1fr; gap: 2rem; align-items: center; }
+.def-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.4); writing-mode: vertical-rl; transform: rotate(180deg); }
+.def-text { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 300; line-height: 1.6; color: rgba(255,255,255,0.9); }
+.def-text strong { color: #7dd3c0; font-weight: 400; }
+
+/* PILLARS */
+.pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; }
+.pillar { padding: 1.2rem 1rem; border-right: 1px solid var(--border); position: relative; }
+.pillar:last-child { border-right: none; }
+.pillar::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.p1::before { background: var(--accent); } .p2::before { background: var(--accent2); } .p3::before { background: var(--blue); } .p4::before { background: var(--purple); }
+.pillar-q { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 700; font-style: italic; line-height: 1; margin-bottom: 0.4rem; }
+.p1 .pillar-q { color: var(--accent); } .p2 .pillar-q { color: var(--accent2); } .p3 .pillar-q { color: var(--blue); } .p4 .pillar-q { color: var(--purple); }
+.pillar-title { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dark); margin-bottom: 0.35rem; }
+.pillar-desc { font-size: 0.72rem; color: var(--mid); line-height: 1.5; }
+
+/* BEP VERSIONS */
+.bep-versions { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; }
+.bv-card { padding: 1.5rem 1.5rem; border-right: 1px solid var(--border); position: relative; }
+.bv-card:last-child { border-right: none; }
+.bv-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.bv-pre::before { background: var(--accent2); }
+.bv-post::before { background: var(--accent); }
+.bv-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.bv-pre .bv-label { color: var(--accent2); }
+.bv-post .bv-label { color: var(--accent); }
+.bv-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; color: var(--black); margin-bottom: 0.5rem; }
+.bv-desc { font-size: 0.72rem; color: var(--mid); line-height: 1.6; margin-bottom: 0.8rem; }
+.bv-items { display: flex; flex-direction: column; gap: 0.3rem; }
+.bv-item { font-size: 0.68rem; color: var(--mid); display: flex; gap: 0.5rem; align-items: flex-start; }
+.bv-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 0.35rem; }
+.bv-pre .bv-dot { background: var(--accent2); }
+.bv-post .bv-dot { background: var(--accent); }
+
+/* BEP CONTENTS TABLE */
+.bep-wrap { border: 1px solid var(--border); margin-bottom: 1.5rem; overflow: hidden; }
+.bep-title-bar { background: var(--ink); padding: 0.7rem 1.2rem; display: flex; justify-content: space-between; align-items: center; }
+.bep-title-bar strong { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: rgba(255,255,255,0.85); }
+.bep-title-bar span { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+
+.bep-table { width: 100%; border-collapse: collapse; font-size: 0.67rem; }
+.bep-table thead tr { background: #f8f8f6; border-bottom: 2px solid var(--border); }
+.bep-table th { padding: 0.55rem 0.7rem; text-align: left; font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 400; white-space: nowrap; }
+.bep-table td { padding: 0.5rem 0.7rem; border-bottom: 1px solid #f0f0ee; color: var(--dark); vertical-align: top; line-height: 1.5; }
+.bep-table tr:last-child td { border-bottom: none; }
+.bep-table tr:hover td { background: #fafaf8; }
+.bep-table tr.hl td { background: var(--accent-light); }
+.bep-table tr.cat-row td { background: #f4f4f0; font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dark); font-weight: 500; }
+
+.badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.56rem; font-weight: 500; }
+.b-pre { background: var(--accent2-light); color: var(--accent2); border: 1px solid rgba(196,122,58,0.2); }
+.b-post { background: var(--accent-light); color: var(--accent); border: 1px solid rgba(26,107,90,0.2); }
+.b-both { background: var(--blue-light); color: var(--blue); border: 1px solid rgba(42,90,154,0.2); }
+.b-critical { background: var(--red); color: white; }
+.b-required { background: var(--ink); color: white; }
+.b-optional { background: #f0f0ee; color: var(--muted); }
+
+/* HIERARCHY */
+.hierarchy { display: flex; align-items: stretch; border: 1px solid var(--border); margin-bottom: 1.5rem; overflow: hidden; }
+.h-step { flex: 1; padding: 1.1rem 0.7rem; border-right: 1px solid var(--border); text-align: center; position: relative; transition: background 0.2s; }
+.h-step:last-child { border-right: none; }
+.h-step:hover { background: #fafaf8; }
+.h-step.h-active { background: var(--accent-light); border-top: 2px solid var(--accent); }
+.h-arrow { position: absolute; right: -10px; top: 50%; transform: translateY(-50%); font-size: 0.7rem; color: var(--light); z-index: 2; }
+.h-icon { font-size: 1.2rem; margin-bottom: 0.4rem; }
+.h-title { font-family: 'DM Mono', monospace; font-size: 0.62rem; font-weight: 500; color: var(--dark); margin-bottom: 0.15rem; letter-spacing: 0.05em; }
+.h-active .h-title { color: var(--accent); font-weight: 600; }
+.h-sub { font-size: 0.55rem; color: var(--muted); line-height: 1.4; }
+
+/* RESP MATRIX */
+.resp-grid { width: 100%; border-collapse: collapse; font-size: 0.7rem; margin-bottom: 1.5rem; }
+.resp-grid th { padding: 0.6rem 0.8rem; text-align: left; font-size: 0.58rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: white; background: var(--dark); }
+.resp-grid th:first-child { width: 40%; }
+.resp-grid td { padding: 0.55rem 0.8rem; border-bottom: 1px solid #f0f0ee; color: var(--mid); vertical-align: middle; }
+.resp-grid tr:nth-child(even) td { background: #fafaf8; }
+.resp-grid tr:hover td { background: var(--accent-light); }
+.dot { display: inline-flex; width: 24px; height: 24px; border-radius: 50%; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 0.58rem; font-weight: 500; }
+.d-l { background: var(--accent); color: white; }
+.d-s { background: var(--accent-light); color: var(--accent); border: 1px solid rgba(26,107,90,0.2); }
+.d-r { background: var(--accent2-light); color: var(--accent2); border: 1px solid rgba(196,122,58,0.2); }
+.d-n { background: #f4f4f0; color: var(--light); }
+
+/* TWO COL */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+
+/* CHECKLIST */
+.checklist { border: 1px solid var(--border); }
+.cl-header { background: var(--dark); padding: 0.6rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+.cl-item { display: flex; align-items: center; gap: 0.8rem; padding: 0.55rem 1rem; border-bottom: 1px solid #f0f0ee; font-size: 0.7rem; color: var(--mid); }
+.cl-item:last-child { border-bottom: none; }
+.cl-box { width: 16px; height: 16px; background: var(--accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: white; font-size: 0.55rem; }
+
+/* MISTAKES */
+.mistakes { display: flex; flex-direction: column; border: 1px solid var(--border); }
+.mistake { display: grid; grid-template-columns: 28px 1fr; gap: 0.8rem; padding: 0.8rem 1rem; border-bottom: 1px solid #f0f0ee; align-items: start; }
+.mistake:last-child { border-bottom: none; }
+.m-num { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 700; color: var(--border); line-height: 1.2; }
+.m-title { font-size: 0.72rem; font-weight: 600; color: var(--dark); margin-bottom: 0.2rem; }
+.m-title.accent { color: var(--accent); }
+.m-desc { font-size: 0.67rem; color: var(--mid); line-height: 1.55; }
+
+/* STATS */
+.stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; }
+.stat-cell { padding: 1.2rem 1rem; border-right: 1px solid var(--border); text-align: center; }
+.stat-cell:last-child { border-right: none; }
+.stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 700; line-height: 1; color: var(--black); margin-bottom: 0.3rem; }
+.stat-num.accent { color: var(--accent); }
+.stat-num.accent2 { color: var(--accent2); }
+.stat-num.red { color: var(--red); }
+.stat-label { font-size: 0.6rem; color: var(--muted); line-height: 1.4; }
+
+/* PAGE FOOTER */
+.page-foot { margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.pf-left { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--light); letter-spacing: 0.1em; }
+.pf-links { display: flex; gap: 1.8rem; }
+.pf-link { font-family: 'Outfit', sans-serif; font-size: 0.6rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.25s; position: relative; }
+.pf-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.25s; }
+.pf-link:hover { color: var(--accent); }
+.pf-link:hover::after { width: 100%; }
+
+@media (max-width: 700px) {
+  body { padding: 0.5rem; }
+  .page-inner { padding: 2rem 1.5rem; }
+  .title-block, .bep-versions { grid-template-columns: 1fr; }
+  .pillars { grid-template-columns: 1fr 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .hierarchy { flex-direction: column; }
+  .article-title { font-size: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ PAGE 1 ═══════════════════ -->
+<div class="page">
+<div class="page-inner">
+
+  <div class="page-topbar">
+    <span class="pt-subject">BIM Execution Plan (BEP) — A Complete Practical Guide</span>
+    <span class="pt-page">01 / 02</span>
+  </div>
+
+  <div class="title-block">
+    <div>
+      <div class="article-kicker">BIM Information Management · ISO 19650-2 · Core Governance</div>
+      <h1 class="article-title">BIM Execution<br><span>Plan</span></h1>
+      <p class="article-desc">A complete practical guide to the BIM Execution Plan — the primary governance document for any ISO 19650-compliant project. Covers structure, content, pre and post-appointment versions, and how to make it a working tool, not a filing exercise.</p>
+    </div>
+    <div class="title-meta">
+      <span class="meta-pill">ISO 19650-2:2018</span>
+      <span class="meta-pill">Pre & Post BEP</span>
+      <span class="meta-pill">2026 Edition</span>
+    </div>
+  </div>
+
+  <!-- DEFINITION -->
+  <div class="def-strip">
+    <div class="def-label">Definition</div>
+    <div class="def-text">The BIM Execution Plan (BEP) is the <strong>primary governance and delivery framework document</strong> for a project — defining BIM objectives, applicable standards, software platforms, CDE structure, delivery workflows, and the responsibilities of all Appointed Parties. It is the <strong>binding agreement</strong> between all parties on how BIM will be produced, managed, and delivered across the project lifecycle.</div>
+  </div>
+
+  <!-- 4 PILLARS -->
+  <div class="pillars">
+    <div class="pillar p1">
+      <div class="pillar-q">What?</div>
+      <div class="pillar-title">BIM Objectives</div>
+      <div class="pillar-desc">Defines what the project aims to achieve through BIM — use cases, information requirements, asset data outcomes, and the client's specific digital delivery goals.</div>
+    </div>
+    <div class="pillar p2">
+      <div class="pillar-q">How?</div>
+      <div class="pillar-title">Standards & Methods</div>
+      <div class="pillar-desc">Specifies the standards, software, file formats, naming conventions, and workflows that all Appointed Parties must follow — creating a consistent delivery environment.</div>
+    </div>
+    <div class="pillar p3">
+      <div class="pillar-q">Who?</div>
+      <div class="pillar-title">Roles & Responsibilities</div>
+      <div class="pillar-desc">Defines the Lead Appointed Party, all Appointed Parties, and the Appointing Party — with clear responsibilities for every BIM function across the project lifecycle.</div>
+    </div>
+    <div class="pillar p4">
+      <div class="pillar-q">When?</div>
+      <div class="pillar-title">Delivery Schedule</div>
+      <div class="pillar-desc">Links to the MIDP and MPDT — establishing the information delivery timeline, stage gate milestones, and exchange requirements from mobilisation to handover.</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- PRE vs POST BEP -->
+  <div class="sec-eyebrow">Two Versions</div>
+  <div class="sec-heading">Pre-Appointment vs Post-Appointment BEP</div>
+
+  <div class="bep-versions">
+    <div class="bv-card bv-pre">
+      <div class="bv-label">Pre-Appointment BEP</div>
+      <div class="bv-title">The Tender Response</div>
+      <div class="bv-desc">Issued by the bidding team in response to the EIR during the tender process. Demonstrates capability, proposed approach, and compliance with the client's information requirements. Used by the client to evaluate BIM competence before awarding the contract.</div>
+      <div class="bv-items">
+        <div class="bv-item"><div class="bv-dot"></div>Proposed BIM uses and objectives</div>
+        <div class="bv-item"><div class="bv-dot"></div>Outline team structure and competencies</div>
+        <div class="bv-item"><div class="bv-dot"></div>Indicative software and CDE platform</div>
+        <div class="bv-item"><div class="bv-dot"></div>High-level MIDP and delivery approach</div>
+        <div class="bv-item"><div class="bv-dot"></div>Risk and opportunity register — initial</div>
+      </div>
+    </div>
+    <div class="bv-card bv-post">
+      <div class="bv-label">Post-Appointment BEP</div>
+      <div class="bv-title">The Binding Document</div>
+      <div class="bv-desc">Developed collaboratively after contract award — confirming all delivery details, workflows, and commitments agreed between the Lead AP, Appointed Parties, and the client. This is the version that governs delivery. It must be finalised before any model authoring begins.</div>
+      <div class="bv-items">
+        <div class="bv-item"><div class="bv-dot"></div>Confirmed team, roles, and responsibilities</div>
+        <div class="bv-item"><div class="bv-dot"></div>Full CDE structure and access matrix</div>
+        <div class="bv-item"><div class="bv-dot"></div>Complete MIDP and MPDT attached</div>
+        <div class="bv-item"><div class="bv-dot"></div>LOD / LOI schedule per stage confirmed</div>
+        <div class="bv-item"><div class="bv-dot"></div>QA/QC procedures and audit schedule</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- BEP CONTENTS TABLE -->
+  <div class="sec-eyebrow">Contents</div>
+  <div class="sec-heading">What Every BEP Must Contain — Section by Section</div>
+
+  <div class="bep-wrap">
+    <div class="bep-title-bar">
+      <strong>BEP Contents Register — ISO 19650-2 Compliant</strong>
+      <span>Pre / Post / Both</span>
+    </div>
+    <table class="bep-table">
+      <thead>
+        <tr>
+          <th>Section</th>
+          <th>Content</th>
+          <th>Key Outputs</th>
+          <th>Version</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="cat-row">
+          <td colspan="5">Part 1 — Project Information & Objectives</td>
+        </tr>
+        <tr class="hl">
+          <td>1.1 Project Overview</td>
+          <td>Project name, location, value, programme, client, and key stakeholders</td>
+          <td>Project data sheet</td>
+          <td><span class="badge b-both">Both</span></td>
+          <td><span class="badge b-required">Required</span></td>
+        </tr>
+        <tr>
+          <td>1.2 BIM Uses & Objectives</td>
+          <td>Defined BIM use cases — coordination, clash detection, 4D, asset management, etc.</td>
+          <td>BIM uses schedule</td>
+          <td><span class="badge b-both">Both</span></td>
+          <td><span class="badge b-required">Required</span></td>
+        </tr>
+        <tr class="hl">
+          <td>1.3 EIR Response</td>
+          <td>Point-by-point response to the Employer's Information Requirements</td>
+          <td>EIR compliance matrix</td>
+          <td><span class="badge b-pre">Pre</span></td>
+          <td><span class="badge b-required">Required</span></td>
+        </tr>
+        <tr class="cat-row">
+          <td colspan="5">Part 2 — Management & Governance</td>
+        </tr>
+        <tr>
+          <td>2.1 Team Structure</td>
+          <td>Organisation chart, roles, Lead AP, Appointed Parties, OCRA matrix</td>
+          <td>Org chart, RACI</td>
+          <td><span class="badge b-both">Both</span></td>
+          <td><span class="badge b-required">Required</span></td>
+        </tr>
+        <tr class="hl">
+          <td>2.2 Responsibility Matrix</td>
+          <td>Discipline-wise role allocation for models, documents, and coordination tasks</td>
+          <td>Resp. Matrix</td>
+          <td><span class="badge b-post">Post</span></td>
+          <td><span class="badge b-required">Required</span></td>
+        </tr>
+        <tr>
+          <td>2.3 Risk Register</td>
+          <td>BIM-specific risks, probability, impact, mitigation, and ownership</td>
+          <td>Live risk register</td>
+          <td><span class="badge b-both">Both</span></td>
+          <td><span class="badge b-required">Required</span></td>
+        </tr>
+        <tr class="cat-row">
+          <td colspan="5">Part 3 — Standards & Methods</td>
+        </tr>
+        <tr class="hl">
+          <td>3.1 Applicable Standards</td>
+          <td>ISO 19650, PAS 1192, CIC BIM Protocol, project-specific standards</td>
+          <td>Standards list</td>
+          <td><span class="badge b-both">Both</span></td>
+          <td><span class="badge b-required">Required</span></td>
+        </tr>
+        <tr>
+          <td>3.2 Software & Formats</td>
+          <td>Authoring software, versions, exchange formats (IFC, DWG, PDF), interoperability</td>
+          <td>Software schedule</td>
+          <td><span class="badge b-both">Both</span></td>
+          <td><span class="badge b-required">Required</span></td>
+        </tr>
+        <tr class="hl">
+          <td>3.3 Naming Convention</td>
+          <td>ISO 19650 container naming — all 8 fields, permitted values, delimiter rules</td>
+          <td>Naming guide</td>
+          <td><span class="badge b-post">Post</span></td>
+          <td><span class="badge b-required">Required</span></td>
+        </tr>
+        <tr>
+          <td>3.4 LOD / LOI Schedule</td>
+          <td>Level of Detail and Level of Information per discipline per stage</td>
+          <td>LOD matrix</td>
+          <td><span class="badge b-both">Both</span></td>
+          <td><span class="badge b-required">Required</span></td>
+        </tr>
+        <tr class="cat-row">
+          <td colspan="5">Part 4 — CDE & Information Management</td>
+        </tr>
+        <tr class="hl">
+          <td>4.1 CDE Structure</td>
+          <td>Folder hierarchy, suitability codes, access matrix, workflow configuration</td>
+          <td>CDE setup guide</td>
+          <td><span class="badge b-post">Post</span></td>
+          <td><span class="badge b-required">Required</span></td>
+        </tr>
+        <tr>
+          <td>4.2 MIDP & MPDT</td>
+          <td>Master delivery schedule and model production table — attached as appendices</td>
+          <td>MIDP, MPDT</td>
+          <td><span class="badge b-post">Post</span></td>
+          <td><span class="badge b-required">Required</span></td>
+        </tr>
+        <tr class="hl">
+          <td>4.3 Security — ISO 19650-5</td>
+          <td>Data classification, access control, information security plan</td>
+          <td>Security plan</td>
+          <td><span class="badge b-post">Post</span></td>
+          <td><span class="badge b-optional">If Required</span></td>
+        </tr>
+        <tr class="cat-row">
+          <td colspan="5">Part 5 — QA / QC & Coordination</td>
+        </tr>
+        <tr>
+          <td>5.1 QA / QC Procedures</td>
+          <td>Model quality checklist, audit schedule, stage gate pass/fail criteria</td>
+          <td>QA/QC plan</td>
+          <td><span class="badge b-post">Post</span></td>
+          <td><span class="badge b-required">Required</span></td>
+        </tr>
+        <tr class="hl">
+          <td>5.2 Coordination Procedures</td>
+          <td>Clash detection matrix, coordination meeting schedule, issue resolution workflow</td>
+          <td>Coord. matrix</td>
+          <td><span class="badge b-post">Post</span></td>
+          <td><span class="badge b-required">Required</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PAGE FOOTER -->
+  <div class="page-foot">
+    <span class="pf-left">BIM Execution Plan · A Complete Practical Guide · 2026</span>
+    <div class="pf-links">
+      <a href="https://beyabhi.github.io/abhinawchaubey/" target="_blank" class="pf-link">About Me</a>
+      <a href="https://beyabhi.github.io/abhinawchaubey/articles.html" target="_blank" class="pf-link">My Articles</a>
+    </div>
+  </div>
+
+</div>
+</div>
+
+
+<!-- ═══════════════════ PAGE 2 ═══════════════════ -->
+<div class="page">
+<div class="page-inner">
+
+  <div class="page-topbar">
+    <span class="pt-subject">BIM Execution Plan (BEP) — A Complete Practical Guide</span>
+    <span class="pt-page">02 / 02</span>
+  </div>
+
+  <!-- HIERARCHY -->
+  <div class="sec-eyebrow">Context</div>
+  <div class="sec-heading">Where the BEP Sits in the ISO 19650 Information Hierarchy</div>
+
+  <div class="hierarchy">
+    <div class="h-step">
+      <div class="h-icon">📋</div>
+      <div class="h-title">EIR</div>
+      <div class="h-sub">Client defines information requirements — inputs to BEP</div>
+      <div class="h-arrow">›</div>
+    </div>
+    <div class="h-step h-active">
+      <div class="h-icon">📄</div>
+      <div class="h-title">BEP</div>
+      <div class="h-sub">Primary governance document — how team will meet the EIR</div>
+      <div class="h-arrow">›</div>
+    </div>
+    <div class="h-step">
+      <div class="h-icon">🗂️</div>
+      <div class="h-title">MIDP</div>
+      <div class="h-sub">All deliverables scheduled — BEP appendix</div>
+      <div class="h-arrow">›</div>
+    </div>
+    <div class="h-step">
+      <div class="h-icon">📊</div>
+      <div class="h-title">MPDT</div>
+      <div class="h-sub">Model delivery schedule — BEP appendix</div>
+      <div class="h-arrow">›</div>
+    </div>
+    <div class="h-step">
+      <div class="h-icon">📅</div>
+      <div class="h-title">TIDP</div>
+      <div class="h-sub">Discipline-level plans — feed into MIDP</div>
+      <div class="h-arrow">›</div>
+    </div>
+    <div class="h-step">
+      <div class="h-icon">☁️</div>
+      <div class="h-title">CDE</div>
+      <div class="h-sub">All delivery governed by BEP protocols</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- RESP MATRIX -->
+  <div class="sec-eyebrow">Accountability</div>
+  <div class="sec-heading">BEP Authoring & Governance Responsibility Matrix</div>
+
+  <table class="resp-grid">
+    <thead>
+      <tr>
+        <th>Task</th>
+        <th>Information Manager</th>
+        <th>BIM Lead</th>
+        <th>Appointed Parties</th>
+        <th>Client / EIR Owner</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Author pre-appointment BEP</td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-s">S</span></td>
+        <td><span class="dot d-s">S</span></td>
+        <td><span class="dot d-r">R</span></td>
+      </tr>
+      <tr>
+        <td>Develop post-appointment BEP</td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-s">S</span></td>
+        <td><span class="dot d-r">R</span></td>
+      </tr>
+      <tr>
+        <td>Review and approve BEP</td>
+        <td><span class="dot d-s">S</span></td>
+        <td><span class="dot d-s">S</span></td>
+        <td><span class="dot d-n">–</span></td>
+        <td><span class="dot d-l">L</span></td>
+      </tr>
+      <tr>
+        <td>Issue BEP to all Appointed Parties</td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-s">S</span></td>
+        <td><span class="dot d-n">–</span></td>
+        <td><span class="dot d-n">–</span></td>
+      </tr>
+      <tr>
+        <td>Update BEP at each stage gate</td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-s">S</span></td>
+        <td><span class="dot d-r">R</span></td>
+        <td><span class="dot d-r">R</span></td>
+      </tr>
+      <tr>
+        <td>Monitor compliance with BEP</td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-n">–</span></td>
+        <td><span class="dot d-r">R</span></td>
+      </tr>
+      <tr>
+        <td>Escalate BEP non-compliance</td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-s">S</span></td>
+        <td><span class="dot d-n">–</span></td>
+        <td><span class="dot d-r">R</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="display:flex;gap:1.5rem;margin-bottom:1.5rem;">
+    <span style="display:flex;align-items:center;gap:0.4rem;font-size:0.6rem;color:var(--muted)"><span class="dot d-l" style="width:16px;height:16px;font-size:0.5rem">L</span> Lead</span>
+    <span style="display:flex;align-items:center;gap:0.4rem;font-size:0.6rem;color:var(--muted)"><span class="dot d-s" style="width:16px;height:16px;font-size:0.5rem">S</span> Support</span>
+    <span style="display:flex;align-items:center;gap:0.4rem;font-size:0.6rem;color:var(--muted)"><span class="dot d-r" style="width:16px;height:16px;font-size:0.5rem">R</span> Review</span>
+    <span style="display:flex;align-items:center;gap:0.4rem;font-size:0.6rem;color:var(--muted)"><span class="dot d-n" style="width:16px;height:16px;font-size:0.5rem">–</span> Not Involved</span>
+  </div>
+
+  <hr class="rule">
+
+  <!-- CHECKLIST + MISTAKES -->
+  <div class="two-col">
+    <div>
+      <div class="sec-eyebrow">BEP Readiness Checklist</div>
+      <div class="sec-heading">Before Issuing Post-Appointment BEP</div>
+      <div class="checklist">
+        <div class="cl-header">Verify all items before BEP issue</div>
+        <div class="cl-item"><div class="cl-box">✓</div>EIR reviewed and all requirements addressed</div>
+        <div class="cl-item"><div class="cl-box">✓</div>BIM uses and objectives agreed with client</div>
+        <div class="cl-item"><div class="cl-box">✓</div>All Appointed Parties confirmed and listed</div>
+        <div class="cl-item"><div class="cl-box">✓</div>OCRA and Responsibility Matrix completed</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Software versions fixed and agreed</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Naming convention defined — all 8 fields</div>
+        <div class="cl-item"><div class="cl-box">✓</div>LOD / LOI schedule confirmed per stage</div>
+        <div class="cl-item"><div class="cl-box">✓</div>CDE structure set up and access granted</div>
+        <div class="cl-item"><div class="cl-box">✓</div>MIDP and MPDT attached as appendices</div>
+        <div class="cl-item"><div class="cl-box">✓</div>BEP approved by client before model authoring begins</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sec-eyebrow">Common Errors</div>
+      <div class="sec-heading">5 BEP Mistakes to Avoid</div>
+      <div class="mistakes">
+        <div class="mistake">
+          <div class="m-num">1</div>
+          <div>
+            <div class="m-title accent">BEP issued after modelling has already started</div>
+            <div class="m-desc">The BEP must be agreed and issued before any model authoring begins. Starting without an approved BEP means every file produced lacks a governance basis — and retrofitting standards mid-project is costly and incomplete.</div>
+          </div>
+        </div>
+        <div class="mistake">
+          <div class="m-num">2</div>
+          <div>
+            <div class="m-title">Pre-appointment BEP copied as the post-appointment BEP</div>
+            <div class="m-desc">The pre-appointment BEP is a proposal. The post-appointment BEP is a contract. Copying one as the other without developing the full delivery detail — CDE setup, MIDP, MPDT, team structure — results in a governance document that cannot actually govern anything.</div>
+          </div>
+        </div>
+        <div class="mistake">
+          <div class="m-num">3</div>
+          <div>
+            <div class="m-title">BEP not updated at stage gates</div>
+            <div class="m-desc">A BEP that is issued at mobilisation and never updated is a snapshot, not a governance document. It must be reviewed and revised at every stage gate — reflecting scope changes, team changes, and programme revisions.</div>
+          </div>
+        </div>
+        <div class="mistake">
+          <div class="m-num">4</div>
+          <div>
+            <div class="m-title">MIDP and MPDT not attached</div>
+            <div class="m-desc">A BEP without the MIDP and MPDT as appendices is incomplete. These documents are what make the BEP deliverable — without them, the governance framework has no delivery schedule to enforce.</div>
+          </div>
+        </div>
+        <div class="mistake">
+          <div class="m-num">5</div>
+          <div>
+            <div class="m-title">Appointed Parties not involved in BEP development</div>
+            <div class="m-desc">A BEP authored by the Information Manager alone and imposed on sub-consultants will always contain errors on software, LOD, and delivery timelines. Every Appointed Party must contribute to and validate their section before the BEP is finalised.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- STATS -->
+  <div class="sec-eyebrow">Key Numbers</div>
+  <div class="stat-row">
+    <div class="stat-cell">
+      <div class="stat-num accent">2</div>
+      <div class="stat-label">BEP versions — Pre-Appointment (tender) and Post-Appointment (binding)</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">5</div>
+      <div class="stat-label">Core parts every BEP must contain — objectives, governance, standards, CDE, QA</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num accent2">0</div>
+      <div class="stat-label">Models to be authored before the post-appointment BEP is approved by the client</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num red">↓45%</div>
+      <div class="stat-label">Reduction in coordination failures on projects with a fully governed BEP</div>
+    </div>
+  </div>
+
+  <!-- PAGE FOOTER -->
+  <div class="page-foot">
+    <span class="pf-left">BIM Execution Plan · A Complete Practical Guide · 2026</span>
+    <div class="pf-links">
+      <a href="https://beyabhi.github.io/abhinawchaubey/" target="_blank" class="pf-link">About Me</a>
+      <a href="https://beyabhi.github.io/abhinawchaubey/articles.html" target="_blank" class="pf-link">My Articles</a>
+    </div>
+  </div>
+
+</div>
+</div>
+
+</body>
+</html>
