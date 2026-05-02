@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Model Audit Checklist — Governing BIM Quality at Stage Gates</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; }
+:root {
+  --black: #0f0f0f; --ink: #1c1c1c; --dark: #2d2d2d; --mid: #555;
+  --muted: #888; --light: #bbb; --border: #e0e0e0;
+  --bg: #f4f4f0; --white: #ffffff;
+  --accent: #1a6b5a; --accent-light: #e8f4f1;
+  --accent2: #c47a3a; --accent2-light: #fdf3e8;
+  --red: #b03030; --red-light: #fdeaea;
+  --blue: #2a5a9a; --blue-light: #e8f0f8;
+  --purple: #6b3a9a; --purple-light: #f0eafd;
+}
+body { background: var(--bg); font-family: 'Outfit', sans-serif; font-weight: 300; color: var(--ink); padding: 2.5rem 1.5rem; }
+
+.page { background: var(--white); max-width: 860px; margin: 0 auto 3rem; position: relative; box-shadow: 0 2px 40px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04); }
+.page::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); }
+.page-inner { padding: 3rem 3.5rem 2.5rem; }
+
+.page-topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+.pt-subject { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+.pt-page { font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--light); letter-spacing: 0.12em; }
+
+.title-block { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: end; }
+.article-kicker { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; }
+.article-title { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 700; line-height: 1.05; color: var(--black); letter-spacing: -0.02em; }
+.article-title span { font-style: italic; font-weight: 300; color: var(--accent); }
+.article-desc { margin-top: 1rem; font-size: 0.85rem; line-height: 1.75; color: var(--mid); max-width: 500px; font-weight: 300; }
+.title-meta { text-align: right; display: flex; flex-direction: column; gap: 0.8rem; align-items: flex-end; }
+.meta-pill { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.3rem 0.8rem; border: 1px solid var(--border); color: var(--muted); border-radius: 2px; }
+
+.sec-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+.sec-heading { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: var(--black); margin-bottom: 1rem; letter-spacing: -0.01em; }
+hr.rule { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+.def-strip { background: var(--ink); color: white; padding: 1.4rem 2rem; margin-bottom: 1.5rem; display: grid; grid-template-columns: auto 1fr; gap: 2rem; align-items: center; }
+.def-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.4); writing-mode: vertical-rl; transform: rotate(180deg); }
+.def-text { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 300; line-height: 1.6; color: rgba(255,255,255,0.9); }
+.def-text strong { color: #7dd3c0; font-weight: 400; }
+
+/* PILLARS */
+.pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; }
+.pillar { padding: 1.2rem 1rem; border-right: 1px solid var(--border); position: relative; }
+.pillar:last-child { border-right: none; }
+.pillar::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.p1::before { background: var(--accent); } .p2::before { background: var(--accent2); } .p3::before { background: var(--blue); } .p4::before { background: var(--red); }
+.pillar-q { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 700; font-style: italic; line-height: 1; margin-bottom: 0.4rem; }
+.p1 .pillar-q { color: var(--accent); } .p2 .pillar-q { color: var(--accent2); } .p3 .pillar-q { color: var(--blue); } .p4 .pillar-q { color: var(--red); }
+.pillar-title { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dark); margin-bottom: 0.35rem; }
+.pillar-desc { font-size: 0.72rem; color: var(--mid); line-height: 1.5; }
+
+/* AUDIT CATEGORIES */
+.audit-cats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; }
+.ac-card { padding: 1.2rem 1rem; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.ac-card:nth-child(3n) { border-right: none; }
+.ac-card:nth-child(4), .ac-card:nth-child(5), .ac-card:nth-child(6) { border-bottom: none; }
+.ac-icon { font-size: 1.3rem; margin-bottom: 0.5rem; }
+.ac-type { font-family: 'DM Mono', monospace; font-size: 0.62rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.3rem; color: var(--accent); }
+.ac-desc { font-size: 0.7rem; color: var(--mid); line-height: 1.5; }
+
+/* MAIN CHECKLIST TABLE */
+.audit-wrap { border: 1px solid var(--border); margin-bottom: 1.5rem; overflow: hidden; }
+.audit-title-bar { background: var(--ink); padding: 0.7rem 1.2rem; display: flex; justify-content: space-between; align-items: center; }
+.audit-title-bar strong { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: rgba(255,255,255,0.85); }
+.audit-title-bar span { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+
+.audit-table { width: 100%; border-collapse: collapse; font-size: 0.67rem; }
+.audit-table thead tr { background: #f8f8f6; border-bottom: 2px solid var(--border); }
+.audit-table th { padding: 0.55rem 0.7rem; text-align: left; font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 400; white-space: nowrap; }
+.audit-table td { padding: 0.5rem 0.7rem; border-bottom: 1px solid #f0f0ee; color: var(--dark); vertical-align: middle; }
+.audit-table tr:last-child td { border-bottom: none; }
+.audit-table tr:hover td { background: #fafaf8; }
+.audit-table tr.hl td { background: var(--accent-light); }
+.audit-table tr.hl:hover td { background: #ddf0eb; }
+.audit-table tr.cat-row td { background: #f4f4f0; font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dark); font-weight: 500; }
+
+.badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.56rem; font-weight: 500; }
+.b-pass { background: var(--accent-light); color: var(--accent); border: 1px solid rgba(26,107,90,0.2); }
+.b-fail { background: var(--red-light); color: var(--red); border: 1px solid rgba(176,48,48,0.2); }
+.b-na { background: #f0f0ee; color: var(--muted); }
+.b-critical { background: var(--red); color: white; }
+.b-major { background: var(--accent2-light); color: var(--accent2); border: 1px solid rgba(196,122,58,0.2); }
+.b-minor { background: var(--blue-light); color: var(--blue); border: 1px solid rgba(42,90,154,0.2); }
+.b-info { background: #f0f0ee; color: var(--muted); }
+
+/* STAGE GATE FLOW */
+.stage-flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; overflow: hidden; }
+.sf-step { padding: 1.1rem 0.8rem; border-right: 1px solid var(--border); text-align: center; }
+.sf-step:last-child { border-right: none; }
+.sf-step.sf-active { background: var(--accent-light); border-top: 2px solid var(--accent); }
+.sf-num { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 700; color: var(--border); line-height: 1; margin-bottom: 0.4rem; }
+.sf-active .sf-num { color: var(--accent); }
+.sf-title { font-family: 'DM Mono', monospace; font-size: 0.6rem; font-weight: 500; color: var(--dark); letter-spacing: 0.06em; margin-bottom: 0.2rem; }
+.sf-active .sf-title { color: var(--accent); font-weight: 600; }
+.sf-sub { font-size: 0.57rem; color: var(--muted); line-height: 1.4; }
+
+/* SEVERITY SCALE */
+.severity-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; }
+.sev-cell { padding: 1rem 0.8rem; border-right: 1px solid var(--border); text-align: center; }
+.sev-cell:last-child { border-right: none; }
+.sev-code { font-family: 'DM Mono', monospace; font-size: 0.85rem; font-weight: 500; margin-bottom: 0.3rem; }
+.sev-name { font-size: 0.62rem; font-weight: 600; color: var(--dark); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.2rem; }
+.sev-action { font-size: 0.6rem; color: var(--muted); line-height: 1.4; }
+.s-critical { color: var(--red); } .s-major { color: var(--accent2); } .s-minor { color: var(--blue); } .s-info { color: var(--muted); }
+
+/* RESP MATRIX */
+.resp-grid { width: 100%; border-collapse: collapse; font-size: 0.7rem; margin-bottom: 1.5rem; }
+.resp-grid th { padding: 0.6rem 0.8rem; text-align: left; font-size: 0.58rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: white; background: var(--dark); }
+.resp-grid th:first-child { width: 40%; }
+.resp-grid td { padding: 0.55rem 0.8rem; border-bottom: 1px solid #f0f0ee; color: var(--mid); vertical-align: middle; }
+.resp-grid tr:nth-child(even) td { background: #fafaf8; }
+.resp-grid tr:hover td { background: var(--accent-light); }
+.dot { display: inline-flex; width: 24px; height: 24px; border-radius: 50%; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 0.58rem; font-weight: 500; }
+.d-l { background: var(--accent); color: white; }
+.d-s { background: var(--accent-light); color: var(--accent); border: 1px solid rgba(26,107,90,0.2); }
+.d-r { background: var(--accent2-light); color: var(--accent2); border: 1px solid rgba(196,122,58,0.2); }
+.d-n { background: #f4f4f0; color: var(--light); }
+
+/* TWO COL */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+
+/* CHECKLIST */
+.checklist { border: 1px solid var(--border); }
+.cl-header { background: var(--dark); padding: 0.6rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+.cl-item { display: flex; align-items: center; gap: 0.8rem; padding: 0.55rem 1rem; border-bottom: 1px solid #f0f0ee; font-size: 0.7rem; color: var(--mid); }
+.cl-item:last-child { border-bottom: none; }
+.cl-box { width: 16px; height: 16px; background: var(--accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: white; font-size: 0.55rem; }
+
+/* MISTAKES */
+.mistakes { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); }
+.mistake { display: grid; grid-template-columns: 28px 1fr; gap: 0.8rem; padding: 0.8rem 1rem; border-bottom: 1px solid #f0f0ee; align-items: start; }
+.mistake:last-child { border-bottom: none; }
+.m-num { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 700; color: var(--border); line-height: 1.2; }
+.m-title { font-size: 0.72rem; font-weight: 600; color: var(--dark); margin-bottom: 0.2rem; }
+.m-title.accent { color: var(--accent); }
+.m-desc { font-size: 0.67rem; color: var(--mid); line-height: 1.55; }
+
+/* STATS */
+.stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 1.5rem; }
+.stat-cell { padding: 1.2rem 1rem; border-right: 1px solid var(--border); text-align: center; }
+.stat-cell:last-child { border-right: none; }
+.stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 700; line-height: 1; color: var(--black); margin-bottom: 0.3rem; }
+.stat-num.accent { color: var(--accent); }
+.stat-num.accent2 { color: var(--accent2); }
+.stat-num.red { color: var(--red); }
+.stat-label { font-size: 0.6rem; color: var(--muted); line-height: 1.4; }
+
+/* PAGE FOOTER */
+.page-foot { margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.pf-left { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--light); letter-spacing: 0.1em; }
+.pf-links { display: flex; gap: 1.8rem; }
+.pf-link { font-family: 'Outfit', sans-serif; font-size: 0.6rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.25s; position: relative; }
+.pf-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.25s; }
+.pf-link:hover { color: var(--accent); }
+.pf-link:hover::after { width: 100%; }
+
+@media (max-width: 700px) {
+  body { padding: 0.5rem; }
+  .page-inner { padding: 2rem 1.5rem; }
+  .title-block { grid-template-columns: 1fr; }
+  .pillars, .audit-cats { grid-template-columns: 1fr 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .stat-row, .severity-grid { grid-template-columns: 1fr 1fr; }
+  .stage-flow { grid-template-columns: repeat(3, 1fr); }
+  .article-title { font-size: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ PAGE 1 ═══════════════════ -->
+<div class="page">
+<div class="page-inner">
+
+  <div class="page-topbar">
+    <span class="pt-subject">Model Audit Checklist — BIM Quality at Stage Gates</span>
+    <span class="pt-page">01 / 02</span>
+  </div>
+
+  <div class="title-block">
+    <div>
+      <div class="article-kicker">BIM Quality Assurance · ISO 19650-2 · Stage Gate Governance</div>
+      <h1 class="article-title">Model Audit<br><span>Checklist</span></h1>
+      <p class="article-desc">A practical guide to conducting formal BIM model audits at project stage gates — covering what to check, how to score findings, who is responsible, and what constitutes a pass or fail before information exchange.</p>
+    </div>
+    <div class="title-meta">
+      <span class="meta-pill">ISO 19650-2</span>
+      <span class="meta-pill">QA / QC</span>
+      <span class="meta-pill">2026 Edition</span>
+    </div>
+  </div>
+
+  <!-- DEFINITION -->
+  <div class="def-strip">
+    <div class="def-label">Definition</div>
+    <div class="def-text">A Model Audit Checklist is a <strong>structured quality assurance instrument</strong> used by the BIM Lead or Information Manager to formally assess model compliance prior to each stage gate information exchange — verifying that every information container meets the <strong>BEP standards</strong>, achieves the <strong>required LOD</strong>, and is free of <strong>critical coordination and data failures</strong> before acceptance into the CDE.</div>
+  </div>
+
+  <!-- 4 PILLARS -->
+  <div class="pillars">
+    <div class="pillar p1">
+      <div class="pillar-q">What?</div>
+      <div class="pillar-title">Compliance Check</div>
+      <div class="pillar-desc">Verifies that every model meets BEP commitments — naming, LOD, parameters, geometry, file structure, and CDE metadata — before it is accepted for information exchange.</div>
+    </div>
+    <div class="pillar p2">
+      <div class="pillar-q">When?</div>
+      <div class="pillar-title">Stage Gate Trigger</div>
+      <div class="pillar-desc">Conducted at every major stage gate — SD, DD, CD, and IFC — before the model is elevated from S3 (For Review) to S4 (Approved for Construction) in the CDE.</div>
+    </div>
+    <div class="pillar p3">
+      <div class="pillar-q">Who?</div>
+      <div class="pillar-title">BIM Lead / Info Mgr</div>
+      <div class="pillar-desc">The audit is conducted by the BIM Lead or Information Manager — independent of the authoring team — to ensure objectivity and eliminate self-certification bias.</div>
+    </div>
+    <div class="pillar p4">
+      <div class="pillar-q">Result?</div>
+      <div class="pillar-title">Pass / Fail Decision</div>
+      <div class="pillar-desc">The audit produces a formal Pass, Conditional Pass, or Fail outcome — with a scored finding log that drives mandatory resolution before the model can proceed.</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- AUDIT CATEGORIES -->
+  <div class="sec-eyebrow">Scope</div>
+  <div class="sec-heading">6 Categories Every Model Audit Must Cover</div>
+
+  <div class="audit-cats">
+    <div class="ac-card">
+      <div class="ac-icon">📁</div>
+      <div class="ac-type">File & Naming</div>
+      <div class="ac-desc">Container name compliance with ISO 19650 structure, file format, revision control, and CDE upload metadata.</div>
+    </div>
+    <div class="ac-card">
+      <div class="ac-icon">📐</div>
+      <div class="ac-type">Geometry & LOD</div>
+      <div class="ac-desc">Model geometry accuracy, element completeness, LOD achievement against BEP commitments for the current stage.</div>
+    </div>
+    <div class="ac-card">
+      <div class="ac-icon">🏷️</div>
+      <div class="ac-type">Data & Parameters</div>
+      <div class="ac-desc">Parameter population, property set completeness, LOI achievement, and data consistency across all elements.</div>
+    </div>
+    <div class="ac-card">
+      <div class="ac-icon">🔗</div>
+      <div class="ac-type">Coordination</div>
+      <div class="ac-desc">Open clash count, unresolved critical issues, model origin and shared coordinates, and federation alignment.</div>
+    </div>
+    <div class="ac-card">
+      <div class="ac-icon">⚙️</div>
+      <div class="ac-type">Model Health</div>
+      <div class="ac-desc">File size, purge status, in-place families, workset structure, unused elements, and software version compliance.</div>
+    </div>
+    <div class="ac-card">
+      <div class="ac-icon">🔒</div>
+      <div class="ac-type">CDE Compliance</div>
+      <div class="ac-desc">Suitability code, revision sequence, approval workflow completion, and access permissions within the CDE.</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- MAIN AUDIT TABLE -->
+  <div class="sec-eyebrow">Core Instrument</div>
+  <div class="sec-heading">Sample Model Audit Checklist — Stage Gate Assessment</div>
+
+  <div class="audit-wrap">
+    <div class="audit-title-bar">
+      <strong>Model Audit — ARCH-M-001 · Architectural Shell & Core · DD Stage Gate</strong>
+      <span>Auditor: Information Manager · Rev 01</span>
+    </div>
+    <table class="audit-table">
+      <thead>
+        <tr>
+          <th>Ref</th>
+          <th>Audit Item</th>
+          <th>Requirement</th>
+          <th>Finding</th>
+          <th>Severity</th>
+          <th>Result</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="cat-row">
+          <td colspan="6">§A — File & Naming Compliance</td>
+        </tr>
+        <tr class="hl">
+          <td>A.01</td>
+          <td>Container name structure</td>
+          <td>ISO 19650 — 8 field format</td>
+          <td>All fields present and correctly formatted</td>
+          <td><span class="badge b-info">–</span></td>
+          <td><span class="badge b-pass">Pass</span></td>
+        </tr>
+        <tr>
+          <td>A.02</td>
+          <td>File format</td>
+          <td>RVT 2025 + IFC 2x3</td>
+          <td>RVT correct, IFC export missing</td>
+          <td><span class="badge b-major">Major</span></td>
+          <td><span class="badge b-fail">Fail</span></td>
+        </tr>
+        <tr class="hl">
+          <td>A.03</td>
+          <td>Revision sequence</td>
+          <td>Sequential — no gaps</td>
+          <td>Correctly sequenced P01 → P03</td>
+          <td><span class="badge b-info">–</span></td>
+          <td><span class="badge b-pass">Pass</span></td>
+        </tr>
+        <tr>
+          <td>A.04</td>
+          <td>Suitability code</td>
+          <td>S3 for DD stage review</td>
+          <td>Correctly assigned S3</td>
+          <td><span class="badge b-info">–</span></td>
+          <td><span class="badge b-pass">Pass</span></td>
+        </tr>
+        <tr class="cat-row">
+          <td colspan="6">§B — Geometry & Level of Development</td>
+        </tr>
+        <tr class="hl">
+          <td>B.01</td>
+          <td>LOD achievement vs BEP</td>
+          <td>LOD 300 at DD stage</td>
+          <td>All elements meet LOD 300 — verified</td>
+          <td><span class="badge b-info">–</span></td>
+          <td><span class="badge b-pass">Pass</span></td>
+        </tr>
+        <tr>
+          <td>B.02</td>
+          <td>Shared coordinates & origin</td>
+          <td>Project base point set, survey point linked</td>
+          <td>Survey point not linked to site datum</td>
+          <td><span class="badge b-critical">Critical</span></td>
+          <td><span class="badge b-fail">Fail</span></td>
+        </tr>
+        <tr class="hl">
+          <td>B.03</td>
+          <td>Grid & level alignment</td>
+          <td>Match federated model grids</td>
+          <td>Grids and levels correctly aligned</td>
+          <td><span class="badge b-info">–</span></td>
+          <td><span class="badge b-pass">Pass</span></td>
+        </tr>
+        <tr>
+          <td>B.04</td>
+          <td>Element completeness</td>
+          <td>All zones modelled per scope</td>
+          <td>Staircore 3C missing from scope</td>
+          <td><span class="badge b-major">Major</span></td>
+          <td><span class="badge b-fail">Fail</span></td>
+        </tr>
+        <tr class="cat-row">
+          <td colspan="6">§C — Data & Parameters</td>
+        </tr>
+        <tr class="hl">
+          <td>C.01</td>
+          <td>Parameter population</td>
+          <td>All BEP-defined parameters populated</td>
+          <td>Fire rating parameter missing on 23 doors</td>
+          <td><span class="badge b-major">Major</span></td>
+          <td><span class="badge b-fail">Fail</span></td>
+        </tr>
+        <tr>
+          <td>C.02</td>
+          <td>LOI achievement vs BEP</td>
+          <td>LOI 300 at DD stage</td>
+          <td>LOI met across all checked elements</td>
+          <td><span class="badge b-info">–</span></td>
+          <td><span class="badge b-pass">Pass</span></td>
+        </tr>
+        <tr class="hl">
+          <td>C.03</td>
+          <td>Type naming convention</td>
+          <td>BEP naming standard applied</td>
+          <td>47 elements using non-standard type names</td>
+          <td><span class="badge b-minor">Minor</span></td>
+          <td><span class="badge b-fail">Fail</span></td>
+        </tr>
+        <tr class="cat-row">
+          <td colspan="6">§D — Coordination Status</td>
+        </tr>
+        <tr>
+          <td>D.01</td>
+          <td>Open critical clashes</td>
+          <td>Zero critical clashes at DD gate</td>
+          <td>3 critical clashes remain open (STR interface)</td>
+          <td><span class="badge b-critical">Critical</span></td>
+          <td><span class="badge b-fail">Fail</span></td>
+        </tr>
+        <tr class="hl">
+          <td>D.02</td>
+          <td>Open major clashes</td>
+          <td>All assigned with resolution date</td>
+          <td>12 major clashes — all assigned and dated</td>
+          <td><span class="badge b-info">–</span></td>
+          <td><span class="badge b-pass">Pass</span></td>
+        </tr>
+        <tr class="cat-row">
+          <td colspan="6">§E — Model Health</td>
+        </tr>
+        <tr>
+          <td>E.01</td>
+          <td>File size</td>
+          <td>Below 300MB per BEP</td>
+          <td>File size 187MB — within limit</td>
+          <td><span class="badge b-info">–</span></td>
+          <td><span class="badge b-pass">Pass</span></td>
+        </tr>
+        <tr class="hl">
+          <td>E.02</td>
+          <td>Purge status</td>
+          <td>Unused families and views purged</td>
+          <td>Model not purged — 340MB of unused content</td>
+          <td><span class="badge b-minor">Minor</span></td>
+          <td><span class="badge b-fail">Fail</span></td>
+        </tr>
+        <tr>
+          <td>E.03</td>
+          <td>In-place families</td>
+          <td>Zero in-place families permitted</td>
+          <td>No in-place families found</td>
+          <td><span class="badge b-info">–</span></td>
+          <td><span class="badge b-pass">Pass</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SEVERITY SCALE -->
+  <div class="sec-eyebrow">Finding Classification</div>
+  <div class="sec-heading">Audit Finding Severity Scale</div>
+
+  <div class="severity-grid">
+    <div class="sev-cell">
+      <div class="sev-code s-critical">Critical</div>
+      <div class="sev-name">Stop — Do Not Issue</div>
+      <div class="sev-action">Model cannot proceed to CDE or stage gate. Must be resolved and re-audited before any further action.</div>
+    </div>
+    <div class="sev-cell">
+      <div class="sev-code s-major">Major</div>
+      <div class="sev-name">Conditional Pass</div>
+      <div class="sev-action">Model may be issued S3 for review only. Resolution required before S4 approval. Named owner and date mandatory.</div>
+    </div>
+    <div class="sev-cell">
+      <div class="sev-code s-minor">Minor</div>
+      <div class="sev-name">Pass with Action</div>
+      <div class="sev-action">Model may proceed. Resolution required within agreed timeframe. Logged in audit register for follow-up.</div>
+    </div>
+    <div class="sev-cell">
+      <div class="sev-code s-info">Observation</div>
+      <div class="sev-name">Information Only</div>
+      <div class="sev-action">No action required. Noted for awareness and continuous improvement. Does not affect model status.</div>
+    </div>
+  </div>
+
+  <!-- PAGE FOOTER -->
+  <div class="page-foot">
+    <span class="pf-left">Model Audit Checklist · BIM Quality Governance · 2026</span>
+    <div class="pf-links">
+      <a href="https://beyabhi.github.io/abhinawchaubey/" target="_blank" class="pf-link">About Me</a>
+      <a href="https://beyabhi.github.io/abhinawchaubey/articles.html" target="_blank" class="pf-link">My Articles</a>
+    </div>
+  </div>
+
+</div>
+</div>
+
+
+<!-- ═══════════════════ PAGE 2 ═══════════════════ -->
+<div class="page">
+<div class="page-inner">
+
+  <div class="page-topbar">
+    <span class="pt-subject">Model Audit Checklist — BIM Quality at Stage Gates</span>
+    <span class="pt-page">02 / 02</span>
+  </div>
+
+  <!-- STAGE GATE FLOW -->
+  <div class="sec-eyebrow">When to Audit</div>
+  <div class="sec-heading">Audit Triggers Across Middle East Project Stages</div>
+
+  <div class="stage-flow">
+    <div class="sf-step">
+      <div class="sf-num">SD</div>
+      <div class="sf-title">Schematic Design</div>
+      <div class="sf-sub">Light audit — naming, origin, LOD 200 spot check. Findings logged, not blocking.</div>
+    </div>
+    <div class="sf-step sf-active">
+      <div class="sf-num">DD</div>
+      <div class="sf-title">Design Development</div>
+      <div class="sf-sub">Full audit — all 6 categories. Critical findings block S3 issue. Major = conditional pass.</div>
+    </div>
+    <div class="sf-step sf-active">
+      <div class="sf-num">CD</div>
+      <div class="sf-title">Construction Docs</div>
+      <div class="sf-sub">Full audit + clash verification. Zero critical permitted. All majors must be closed.</div>
+    </div>
+    <div class="sf-step sf-active">
+      <div class="sf-num">IFC</div>
+      <div class="sf-title">Issued for Construction</div>
+      <div class="sf-sub">Final audit — zero findings of any kind permitted. S4 approval conditional on clean audit.</div>
+    </div>
+    <div class="sf-step">
+      <div class="sf-num">AB</div>
+      <div class="sf-title">As-Built</div>
+      <div class="sf-sub">As-built verification audit — model vs installed conditions. Required for asset handover.</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- RESPONSIBILITY MATRIX -->
+  <div class="sec-eyebrow">Accountability</div>
+  <div class="sec-heading">Audit Responsibility Matrix</div>
+
+  <table class="resp-grid">
+    <thead>
+      <tr>
+        <th>Task</th>
+        <th>Information Manager</th>
+        <th>BIM Lead</th>
+        <th>Model Author</th>
+        <th>Client</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Issue audit checklist template</td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-s">S</span></td>
+        <td><span class="dot d-n">–</span></td>
+        <td><span class="dot d-r">R</span></td>
+      </tr>
+      <tr>
+        <td>Conduct formal model audit</td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-n">–</span></td>
+        <td><span class="dot d-n">–</span></td>
+      </tr>
+      <tr>
+        <td>Resolve critical findings</td>
+        <td><span class="dot d-r">R</span></td>
+        <td><span class="dot d-s">S</span></td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-n">–</span></td>
+      </tr>
+      <tr>
+        <td>Verify resolution and re-audit</td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-n">–</span></td>
+        <td><span class="dot d-n">–</span></td>
+      </tr>
+      <tr>
+        <td>Issue Pass / Fail decision</td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-s">S</span></td>
+        <td><span class="dot d-n">–</span></td>
+        <td><span class="dot d-r">R</span></td>
+      </tr>
+      <tr>
+        <td>Approve S4 in CDE after clean audit</td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-s">S</span></td>
+        <td><span class="dot d-n">–</span></td>
+        <td><span class="dot d-l">L</span></td>
+      </tr>
+      <tr>
+        <td>Maintain audit register across project</td>
+        <td><span class="dot d-l">L</span></td>
+        <td><span class="dot d-r">R</span></td>
+        <td><span class="dot d-n">–</span></td>
+        <td><span class="dot d-r">R</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="display:flex;gap:1.5rem;margin-bottom:1.5rem;">
+    <span style="display:flex;align-items:center;gap:0.4rem;font-size:0.6rem;color:var(--muted)"><span class="dot d-l" style="width:16px;height:16px;font-size:0.5rem">L</span> Lead</span>
+    <span style="display:flex;align-items:center;gap:0.4rem;font-size:0.6rem;color:var(--muted)"><span class="dot d-s" style="width:16px;height:16px;font-size:0.5rem">S</span> Support</span>
+    <span style="display:flex;align-items:center;gap:0.4rem;font-size:0.6rem;color:var(--muted)"><span class="dot d-r" style="width:16px;height:16px;font-size:0.5rem">R</span> Review</span>
+    <span style="display:flex;align-items:center;gap:0.4rem;font-size:0.6rem;color:var(--muted)"><span class="dot d-n" style="width:16px;height:16px;font-size:0.5rem">–</span> Not Involved</span>
+  </div>
+
+  <hr class="rule">
+
+  <!-- CHECKLIST + MISTAKES -->
+  <div class="two-col">
+    <div>
+      <div class="sec-eyebrow">Pre-Audit Setup</div>
+      <div class="sec-heading">Audit Preparation Checklist</div>
+      <div class="checklist">
+        <div class="cl-header">Before starting any model audit — verify</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Current BEP version retrieved and referenced</div>
+        <div class="cl-item"><div class="cl-box">✓</div>MPDT confirmed — correct stage and LOD target</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Model downloaded from CDE — correct revision</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Federated model assembled for coordination check</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Previous audit findings reviewed for repeat issues</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Clash detection run — results available</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Audit checklist template prepared and dated</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Auditor confirmed — independent of authoring team</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Stage gate deadline confirmed with programme</div>
+        <div class="cl-item"><div class="cl-box">✓</div>Resolution deadline agreed with author before audit</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sec-eyebrow">Common Errors</div>
+      <div class="sec-heading">5 Audit Mistakes to Avoid</div>
+      <div class="mistakes">
+        <div class="mistake">
+          <div class="m-num">1</div>
+          <div>
+            <div class="m-title accent">Author auditing their own model</div>
+            <div class="m-desc">Self-certification is not an audit. The auditor must be independent of the authoring team — the BIM Lead or Information Manager, never the model author reviewing their own work.</div>
+          </div>
+        </div>
+        <div class="mistake">
+          <div class="m-num">2</div>
+          <div>
+            <div class="m-title">No severity classification on findings</div>
+            <div class="m-desc">An audit report that lists findings without Critical / Major / Minor classification provides no basis for the pass/fail decision. Every finding must be scored before the report is issued.</div>
+          </div>
+        </div>
+        <div class="mistake">
+          <div class="m-num">3</div>
+          <div>
+            <div class="m-title">Auditing at S4 — not before</div>
+            <div class="m-desc">Auditing after S4 approval is too late — the model is already accepted. The audit must occur at S3 (For Review) stage, before approval is granted. Not after.</div>
+          </div>
+        </div>
+        <div class="mistake">
+          <div class="m-num">4</div>
+          <div>
+            <div class="m-title">Findings issued with no resolution deadline</div>
+            <div class="m-desc">Every finding must carry a named owner and a resolution date. An audit report without deadlines generates awareness without accountability — findings are never closed.</div>
+          </div>
+        </div>
+        <div class="mistake">
+          <div class="m-num">5</div>
+          <div>
+            <div class="m-title">Re-audit skipped after critical finding resolution</div>
+            <div class="m-desc">When a critical finding is resolved, the model must be re-audited before S4 approval. Accepting the author's word that it is fixed — without re-checking — defeats the purpose of the audit process entirely.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- STATS -->
+  <div class="sec-eyebrow">Key Numbers</div>
+  <div class="stat-row">
+    <div class="stat-cell">
+      <div class="stat-num accent">6</div>
+      <div class="stat-label">Audit categories every model must pass before stage gate acceptance</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num red">0</div>
+      <div class="stat-label">Critical findings permitted before S4 IFC approval is granted</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num accent2">4</div>
+      <div class="stat-label">Severity levels — Critical, Major, Minor, Observation</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">↓35%</div>
+      <div class="stat-label">Reduction in post-IFC RFIs with consistent stage gate auditing</div>
+    </div>
+  </div>
+
+  <!-- PAGE FOOTER -->
+  <div class="page-foot">
+    <span class="pf-left">Model Audit Checklist · BIM Quality Governance · 2026</span>
+    <div class="pf-links">
+      <a href="https://beyabhi.github.io/abhinawchaubey/" target="_blank" class="pf-link">About Me</a>
+      <a href="https://beyabhi.github.io/abhinawchaubey/articles.html" target="_blank" class="pf-link">My Articles</a>
+    </div>
+  </div>
+
+</div>
+</div>
+
+</body>
+</html>
